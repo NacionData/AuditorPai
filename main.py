@@ -15,7 +15,7 @@ from engine.detector import detectar_tipo_archivo
 from engine.validator_dosis import validar_dosis
 from engine.validator_movimiento import validar_movimiento
 from engine.validator_extranjeros import validar_extranjeros
-from engine.ai_auditor import generar_dictamen_auditoria
+from engine.ai_auditor import generar_dictamen_auditoria, test_gemini_connection
 from engine.consolidator import consolidar_departamento
 from engine.auth import autenticar_usuario, verificar_token, cerrar_sesion
 from engine.drive_sync import sincronizar_radicado_drive, sincronizar_consolidados_drive, obtener_estado_drive
@@ -88,6 +88,10 @@ def api_logout(token: str = Form(None)):
 @app.get("/api/drive/estado")
 def api_drive_estado():
     return obtener_estado_drive()
+
+@app.get("/api/ia/estado")
+def api_ia_estado():
+    return test_gemini_connection()
 
 @app.get("/api/estado/{mes}")
 def api_estado(mes: str, ano: str = "2026"):

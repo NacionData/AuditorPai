@@ -37,16 +37,20 @@ def generar_dictamen_auditoria(municipio, mes, res_dosis, res_mov, res_ext=None)
     # Verificamos si hay clave de Gemini API configurada
     api_key = os.environ.get("GEMINI_API_KEY") or os.environ.get("GOOGLE_API_KEY")
     dictamen_ia = None
+    modelo_usado = None
 
     if api_key and (errores_totales or advertencias_totales):
         try:
-            dictamen_ia = _consultar_gemini(api_key, municipio, mes, errores_totales, advertencias_totales)
-        except Exception:
+            dictamen_ia, modelo_usado = _consultar_gemini(api_key, municipio, mes, errores_totales, advertencias_totales)
+        except Exception as e:
+            print(f"[AI Auditor] Error consultando Gemini: {e}")
             dictamen_ia = None
+            modelo_usado = None
 
     # Si no hay API key o falló la conexión remota, usamos el motor pedagógico local
     if not dictamen_ia:
         dictamen_ia = _generar_dictamen_local(municipio, mes, errores_totales, advertencias_totales, res_dosis, res_mov)
+        modelo_usado = "Motor Local Risaralda"
 
     return {
         "estado": estado,
@@ -58,6 +62,8 @@ def generar_dictamen_auditoria(municipio, mes, res_dosis, res_mov, res_ext=None)
         "errores_detallados": errores_totales,
         "advertencias_detalladas": advertencias_totales,
         "dictamen_pedagogico": dictamen_ia,
+        "motor_ia": modelo_usado,
+        "usando_gemini": bool(modelo_usado and "gemini" in modelo_usado.lower()),
         "metricas": {
             "dosis_aplicadas_nacionales": res_dosis.get("total_dosis_mes", 0) if res_dosis else 0,
             "dosis_movimiento_total": res_mov.get("total_dosis_aplicadas", 0) if res_mov else 0,
@@ -95,10 +101,63 @@ def _generar_dictamen_local(municipio, mes, errores, advertencias, res_dosis, re
 
     return "\n".join(lineas)
 
-def _consultar_gemini(api_key, municipio, mes, errores, advertencias):
-    modelo = os.environ.get("GEMINI_MODEL", "gemini-1.5-pro")
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/{modelo}:generateContent?key={api_key}"
+def _obtener_candidatos_modelos():
+    """Genera lista ordenada de modelos compatibles según la API activa."""
+    candidatos = []
+    env_model = os.environ.get("GEMINI_MODEL")
+    if env_model:
+        candidatos.append(env_model.strip())
     
+    # Modelos recomendados y activos en orden de prioridad
+    defaults = [
+        "gemini-3.6-flash",
+        "gemini-flash-latest",
+        "gemini-2.5-flash-lite",
+        "gemini-2.5-pro",
+        "gemini-pro-latest",
+        "gemini-1.5-pro",
+        "gemini-1.5-flash"
+    ]
+    for d in defaults:
+        if d not in candidatos:
+            candidatos.append(d)
+    return candidatos
+
+def test_gemini_connection():
+    """Prueba rápida de conectividad con la API de Gemini."""
+    api_key = os.environ.get("GEMINI_API_KEY") or os.environ.get("GOOGLE_API_KEY")
+    if not api_key:
+        return {"activo": False, "mensaje": "Clave GEMINI_API_KEY no configurada", "modelo": None}
+
+    candidatos = _obtener_candidatos_modelos()
+    ultimo_error = None
+
+    for modelo in candidatos:
+        url = f"https://generativelanguage.googleapis.com/v1beta/models/{modelo}:generateContent?key={api_key}"
+        data = json.dumps({
+            "contents": [{"parts": [{"text": "Ping institucional PAI Risaralda. Responde solo OK."}]}],
+            "generationConfig": {
+                "temperature": 0.1,
+                "maxOutputTokens": 20,
+                "thinkingConfig": {"thinkingBudget": 0}
+            }
+        }).encode("utf-8")
+        req = urllib.request.Request(url, data=data, headers={"Content-Type": "application/json"})
+        try:
+            with urllib.request.urlopen(req, timeout=8) as resp:
+                if resp.status == 200:
+                    return {
+                        "activo": True,
+                        "mensaje": "Conexión exitosa con Google Gemini",
+                        "modelo": modelo
+                    }
+        except Exception as e:
+            ultimo_error = str(e)
+            continue
+
+    return {"activo": False, "mensaje": f"Error conectando con modelos: {ultimo_error}", "modelo": None}
+
+def _consultar_gemini(api_key, municipio, mes, errores, advertencias):
     prompt = f"""
 Eres el Coordinador Médico de Auditoría del Programa Ampliado de Inmunizaciones (PAI) de la Secretaría de Salud Departamental de Risaralda, Colombia.
 
@@ -121,11 +180,25 @@ Instrucciones para tu dictamen:
         "contents": [{"parts": [{"text": prompt}]}],
         "generationConfig": {
             "temperature": 0.2,
-            "maxOutputTokens": 1000
+            "maxOutputTokens": 2048,
+            "thinkingConfig": {"thinkingBudget": 0}
         }
     }).encode("utf-8")
-    
-    req = urllib.request.Request(url, data=data, headers={"Content-Type": "application/json"})
-    with urllib.request.urlopen(req, timeout=20) as resp:
-        res_json = json.loads(resp.read().decode("utf-8"))
-        return res_json["candidates"][0]["content"]["parts"][0]["text"]
+
+    candidatos = _obtener_candidatos_modelos()
+    ultimo_error = None
+
+    for modelo in candidatos:
+        url = f"https://generativelanguage.googleapis.com/v1beta/models/{modelo}:generateContent?key={api_key}"
+        req = urllib.request.Request(url, data=data, headers={"Content-Type": "application/json"})
+        try:
+            with urllib.request.urlopen(req, timeout=25) as resp:
+                res_json = json.loads(resp.read().decode("utf-8"))
+                texto = res_json["candidates"][0]["content"]["parts"][0]["text"]
+                return texto, modelo
+        except Exception as e:
+            ultimo_error = e
+            print(f"[AI Auditor] Modelo {modelo} falló: {e}. Probando siguiente candidato...")
+            continue
+
+    raise RuntimeError(f"No fue posible consultar ningún modelo de Gemini. Último error: {ultimo_error}")

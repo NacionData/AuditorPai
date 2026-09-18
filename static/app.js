@@ -6,6 +6,7 @@ let usuarioSesion = null;
 
 document.addEventListener('DOMContentLoaded', () => {
   verificarSesionInicial();
+  verificarEstadoIA();
   configurarDropzone();
 });
 
@@ -28,6 +29,31 @@ function verificarSesionInicial() {
     inicializarVistaMunicipal();
   } catch (e) {
     mostrarModalLogin();
+  }
+}
+
+async function verificarEstadoIA() {
+  try {
+    const res = await fetch('/api/ia/estado');
+    if (res.ok) {
+      const data = await res.json();
+      const badge = document.getElementById('ia-status-badge');
+      const text = document.getElementById('ia-status-text');
+      if (badge && text) {
+        badge.classList.remove('hidden');
+        if (data.activo) {
+          text.textContent = `✨ Gemini IA: Conectado`;
+          badge.title = `Conectado a Google Gemini (${data.modelo})`;
+        } else {
+          badge.classList.remove('bg-indigo-50', 'border-indigo-200', 'text-indigo-900');
+          badge.classList.add('bg-slate-100', 'border-slate-300', 'text-slate-700');
+          badge.innerHTML = `<span class="w-2.5 h-2.5 rounded-full bg-slate-500"></span><span>IA Local</span>`;
+          badge.title = data.mensaje || "Motor pedagógico local";
+        }
+      }
+    }
+  } catch (e) {
+    console.warn("Estado IA:", e);
   }
 }
 
@@ -313,13 +339,18 @@ function renderizarResultadosAuditoria(data) {
       </div>
 
       <!-- Dictamen Pedagógico de IA -->
-      <div class="bg-white border-2 ${aprobado ? 'border-emerald-300' : 'border-rose-300'} rounded-2xl p-6 space-y-3 shadow-sm">
-        <div class="flex items-center gap-2 text-xs font-black uppercase tracking-wider ${aprobado ? 'text-emerald-900' : 'text-rose-900'}">
-          <svg class="w-5 h-5 text-indigo-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-          <span>Dictamen del Asistente PAI Risaralda (IA)</span>
+      <div class="bg-white border-2 ${aprobado ? 'border-emerald-300' : 'border-rose-300'} rounded-2xl p-6 space-y-4 shadow-sm">
+        <div class="flex items-center justify-between flex-wrap gap-2 pb-2 border-b border-slate-200">
+          <div class="flex items-center gap-2 text-xs font-black uppercase tracking-wider ${aprobado ? 'text-emerald-900' : 'text-rose-900'}">
+            <svg class="w-5 h-5 text-indigo-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+            <span>Dictamen del Asistente PAI Risaralda</span>
+          </div>
+          <span class="text-xs font-black px-3 py-1 rounded-full border ${resAud.usando_gemini ? 'bg-indigo-100 border-indigo-300 text-indigo-950' : 'bg-slate-100 border-slate-300 text-slate-800'}">
+            ${resAud.usando_gemini ? '✨ ' + (resAud.motor_ia || 'Gemini IA') : '🤖 ' + (resAud.motor_ia || 'Motor Local')}
+          </span>
         </div>
-        <div class="text-sm font-bold text-slate-800 leading-relaxed space-y-2 whitespace-pre-line bg-slate-50 p-4 rounded-xl border border-slate-200">
-          ${resAud.dictamen_pedagogico}
+        <div class="dictamen-contenido text-sm font-medium text-slate-900 leading-relaxed bg-slate-50 p-5 rounded-2xl border border-slate-200">
+          ${(window.marked && window.marked.parse) ? marked.parse(resAud.dictamen_pedagogico) : resAud.dictamen_pedagogico.replace(/\n/g, '<br>')}
         </div>
       </div>
 

@@ -5,8 +5,34 @@ let filtroActual = 'todos';
 
 document.addEventListener('DOMContentLoaded', () => {
   verificarSesionAdmin();
+  verificarEstadoIA();
   cargarTableroDepartamental();
 });
+
+async function verificarEstadoIA() {
+  try {
+    const res = await fetch('/api/ia/estado');
+    if (res.ok) {
+      const data = await res.json();
+      const badge = document.getElementById('ia-status-badge');
+      const text = document.getElementById('ia-status-text');
+      if (badge && text) {
+        badge.classList.remove('hidden');
+        if (data.activo) {
+          text.textContent = `✨ Gemini IA: Conectado`;
+          badge.title = `Conectado a Google Gemini (${data.modelo})`;
+        } else {
+          badge.classList.remove('bg-indigo-50', 'border-indigo-200', 'text-indigo-900');
+          badge.classList.add('bg-slate-100', 'border-slate-300', 'text-slate-700');
+          badge.innerHTML = `<span class="w-2.5 h-2.5 rounded-full bg-slate-500"></span><span>IA Local</span>`;
+          badge.title = data.mensaje || "Motor pedagógico local";
+        }
+      }
+    }
+  } catch (e) {
+    console.warn("Estado IA:", e);
+  }
+}
 
 function verificarSesionAdmin() {
   const token = sessionStorage.getItem('pai_token');

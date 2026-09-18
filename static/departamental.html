@@ -6,6 +6,8 @@
   <title>Tablero Departamental PAI Risaralda — Gobernación</title>
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Marked.js para renderizar dictamen pedagógico en Markdown limpio -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -38,6 +40,11 @@
 
       <!-- Controles de Administrador -->
       <div class="flex items-center gap-3">
+        <div id="ia-status-badge" class="hidden sm:flex items-center gap-1.5 px-3 py-2 rounded-xl bg-indigo-50 border-2 border-indigo-200 text-xs font-black text-indigo-900 shadow-sm" title="Motor de IA Google Gemini">
+          <span class="w-2.5 h-2.5 rounded-full bg-indigo-600 animate-pulse"></span>
+          <span id="ia-status-text">Gemini IA</span>
+        </div>
+
         <div class="px-3.5 py-2 rounded-xl bg-slate-100 border-2 border-slate-300 text-xs font-black text-slate-900 flex items-center gap-2">
           <span class="w-2.5 h-2.5 rounded-full bg-emerald-600"></span>
           <span>risaraldapaiweb@gmail.com</span>
