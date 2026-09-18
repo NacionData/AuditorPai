@@ -96,23 +96,36 @@ def _generar_dictamen_local(municipio, mes, errores, advertencias, res_dosis, re
     return "\n".join(lineas)
 
 def _consultar_gemini(api_key, municipio, mes, errores, advertencias):
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={api_key}"
+    modelo = os.environ.get("GEMINI_MODEL", "gemini-1.5-pro")
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/{modelo}:generateContent?key={api_key}"
+    
     prompt = f"""
-Eres el auditor experto del Programa Ampliado de Inmunizaciones (PAI) de la Secretaría de Salud de Risaralda, Colombia.
-El municipio de {municipio} cargó sus reportes mensuales de {mes}.
-Se detectaron los siguientes errores técnicos y observaciones:
+Eres el Coordinador Médico de Auditoría del Programa Ampliado de Inmunizaciones (PAI) de la Secretaría de Salud Departamental de Risaralda, Colombia.
 
-ERRORES CRÍTICOS:
+El municipio de {municipio} ha cargado sus 3 informes oficiales de vacunación correspondientes a {mes} 2026 (Dosis Aplicadas, Movimiento de Biológicos y Extranjeros).
+El motor de validación matemática estricta ha detectado las siguientes inconsistencias frente a la normatividad PAI (Ley 2406 de 2024 y Lineamientos Oficiales MinSalud 2026):
+
+INCONSISTENCIAS CRÍTICAS ENCONTRADAS:
 {json.dumps(errores, indent=2, ensure_ascii=False)}
 
-OBSERVACIONES / ADVERTENCIAS:
-{json.dumps(advertencias[:6], indent=2, ensure_ascii=False)}
+OBSERVACIONES DE TRAZABILIDAD Y LOTES:
+{json.dumps(advertencias[:8], indent=2, ensure_ascii=False)}
 
-Escribe una respuesta corta, cordial, pedagógica y muy clara dirigida al coordinador/digitador de vacunación del municipio.
-Explícale exactamente qué celdas o vacunas tienen problema y cómo corregirlas paso a paso antes de que su informe pueda ser radicado. Usa formato Markdown con viñetas claras.
+Instrucciones para tu dictamen:
+1. Redacta un dictamen oficial, empático, altamente pedagógico y constructivo dirigido al personal de salud y coordinadores de vacunación de {municipio}.
+2. Explica con absoluta claridad la causa de cada descuadre (ej: diferencia entre sumas de género y régimen, descuadre de saldos frente al cierre del mes anterior en Kardex, o causas de pérdida inválidas).
+3. Brinda una guía paso a paso con viñetas indicando exactamente qué celdas o columnas deben ajustar en sus archivos de Excel para que su informe quede 100% aprobado y puedan radicar.
+4. Mantén un tono institucional, cordial, motivador y profesional en formato Markdown limpio.
 """
-    data = json.dumps({"contents": [{"parts": [{"text": prompt}]}]}).encode("utf-8")
+    data = json.dumps({
+        "contents": [{"parts": [{"text": prompt}]}],
+        "generationConfig": {
+            "temperature": 0.2,
+            "maxOutputTokens": 1000
+        }
+    }).encode("utf-8")
+    
     req = urllib.request.Request(url, data=data, headers={"Content-Type": "application/json"})
-    with urllib.request.urlopen(req, timeout=10) as resp:
+    with urllib.request.urlopen(req, timeout=20) as resp:
         res_json = json.loads(resp.read().decode("utf-8"))
         return res_json["candidates"][0]["content"]["parts"][0]["text"]
