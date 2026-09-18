@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portal Municipal PAI Risaralda — Radicación Oficial</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body class="bg-slate-100 text-slate-800 min-h-screen font-sans antialiased selection:bg-emerald-600 selection:text-white pb-12">
+
+  <!-- ========================================================================= -->
+  <!-- MODAL / PANTALLA DE INICIO DE SESIÓN MUNICIPAL                            -->
+  <!-- ========================================================================= -->
+  <div id="modal-login" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div class="bg-white border-2 border-slate-300 rounded-3xl max-w-md w-full p-6 md:p-8 space-y-6 shadow-2xl relative">
+      
+      <!-- Detalle superior de color corporativo -->
+      <div class="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-emerald-600 via-teal-600 to-amber-500 rounded-t-3xl"></div>
+
+      <div class="text-center space-y-2 pt-2">
+        <div class="w-16 h-16 rounded-2xl bg-emerald-700 text-white flex items-center justify-center mx-auto shadow-md">
+          <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="m18 2 4 4m-3-1 2 2m-4.5 1.5 2 2L6 20H2v-4l12.5-12.5ZM9 8l4 4m-4.5.5L7 14m4.5-1.5L10 14"/>
+          </svg>
+        </div>
+        <h2 class="text-2xl font-black text-slate-900">Acceso al Sistema PAI</h2>
+        <p class="text-xs font-bold text-slate-600">Gobernación de Risaralda • Secretaría de Salud Departamental</p>
+      </div>
+
+      <form id="form-login" onsubmit="ejecutarLogin(event)" class="space-y-4">
+        <div>
+          <label class="block text-xs font-black uppercase text-slate-800 mb-1.5">Usuario Asignado</label>
+          <div class="relative">
+            <input type="text" id="login-usuario" required placeholder="ej: mun_pereira o admin_risaralda" class="w-full bg-slate-50 border-2 border-slate-300 rounded-xl px-4 py-3 text-sm font-bold text-slate-900 focus:outline-none focus:border-emerald-600 focus:bg-white transition">
+            <div class="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-black uppercase text-slate-800 mb-1.5">Contraseña</label>
+          <div class="relative">
+            <input type="password" id="login-password" required placeholder="••••••••" class="w-full bg-slate-50 border-2 border-slate-300 rounded-xl px-4 py-3 text-sm font-bold text-slate-900 focus:outline-none focus:border-emerald-600 focus:bg-white transition">
+            <div class="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+            </div>
+          </div>
+        </div>
+
+        <div id="login-error" class="hidden p-3 rounded-xl bg-rose-100 border border-rose-300 text-xs font-bold text-rose-900"></div>
+
+        <button type="submit" id="btn-login" class="w-full py-3.5 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-black text-sm shadow-md transition flex items-center justify-center gap-2">
+          <span>Ingresar a la Plataforma</span>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+        </button>
+      </form>
+
+      <!-- Botones de Acceso Rápido para Pruebas / Demostración -->
+      <div class="pt-4 border-t-2 border-slate-200 text-center space-y-2">
+        <span class="text-[11px] font-black uppercase tracking-wider text-slate-500">Acceso Rápido de Prueba:</span>
+        <div class="flex flex-wrap justify-center gap-2">
+          <button onclick="autocompletarLogin('mun_pereira', 'PaiPereira2026*')" class="px-3 py-1.5 rounded-lg bg-emerald-50 hover:bg-emerald-100 text-emerald-900 border border-emerald-300 text-xs font-bold transition">
+            🏥 Pereira
+          </button>
+          <button onclick="autocompletarLogin('mun_dosquebradas', 'PaiDosquebradas2026*')" class="px-3 py-1.5 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-900 border border-blue-300 text-xs font-bold transition">
+            🏥 Dosquebradas
+          </button>
+          <button onclick="autocompletarLogin('admin_risaralda', 'Risaralda2026*')" class="px-3 py-1.5 rounded-lg bg-indigo-50 hover:bg-indigo-100 text-indigo-900 border border-indigo-300 text-xs font-bold transition">
+            🏛️ Gobernación (Admin)
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- BARRA DE NAVEGACIÓN INSTITUCIONAL MUNICIPAL                               -->
+  <!-- ========================================================================= -->
+  <header class="bg-white border-b-2 border-slate-300 sticky top-0 z-40 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      
+      <div class="flex items-center gap-4">
+        <div class="w-12 h-12 rounded-2xl bg-emerald-700 text-white flex items-center justify-center font-black shadow-md flex-shrink-0">
+          <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="m18 2 4 4m-3-1 2 2m-4.5 1.5 2 2L6 20H2v-4l12.5-12.5ZM9 8l4 4m-4.5.5L7 14m4.5-1.5L10 14"/>
+          </svg>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h1 class="text-lg font-black text-slate-900">PAI Risaralda</h1>
+            <span class="text-xs bg-emerald-100 text-emerald-900 font-extrabold px-2.5 py-0.5 rounded-full border border-emerald-300">Portal Municipal</span>
+          </div>
+          <p class="text-xs font-bold text-slate-600">Gobernación de Risaralda • Secretaría de Salud Departamental</p>
+        </div>
+      </div>
+
+      <!-- Información del Usuario Autenticado -->
+      <div class="flex items-center gap-3">
+        <div id="usuario-badge" class="px-4 py-2 rounded-xl bg-slate-100 border-2 border-slate-300 flex items-center gap-2.5 text-xs font-black text-slate-900">
+          <span class="w-2.5 h-2.5 rounded-full bg-emerald-600"></span>
+          <span id="label-municipio-activo">Cargando sesión...</span>
+        </div>
+        
+        <button onclick="cerrarSesionUsuario()" class="px-3.5 py-2 rounded-xl bg-slate-200 hover:bg-slate-300 text-slate-800 text-xs font-extrabold transition flex items-center gap-1.5" title="Cerrar Sesión">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+          <span>Salir</span>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- ========================================================================= -->
+  <!-- CONTENIDO PRINCIPAL: PORTAL DE CARGA Y AUTO-AUDITORÍA MUNICIPAL           -->
+  <!-- ========================================================================= -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+    
+    <!-- Banner Informativo Institucional -->
+    <div class="bg-white border-2 border-slate-300 rounded-3xl p-6 md:p-8 shadow-sm relative overflow-hidden">
+      <div class="relative z-10 max-w-3xl">
+        <span class="text-xs font-black uppercase tracking-wider text-emerald-800 bg-emerald-100 border border-emerald-300 px-3 py-1 rounded-full">
+          Radicación Mensual Oficial
+        </span>
+        <h2 class="text-2xl md:text-3xl font-black text-slate-950 mt-2">
+          Carga y Auto-Auditoría de Informes de Vacunación
+        </h2>
+        <p class="text-slate-700 text-sm font-bold mt-1.5 leading-relaxed">
+          Sube los 3 archivos de tu municipio (<strong class="text-slate-950">Dosis Aplicadas, Movimiento de Biológicos y Extranjeros</strong>). El sistema verificará en segundos la coherencia matemática de género, régimen, pertenencia étnica y saldos de lotes antes de radicar ante el departamento.
+        </p>
+      </div>
+    </div>
+
+    <!-- Grid de Selección y Carga -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      
+      <!-- Columna 1: Configuración de Radicación (4 cols) -->
+      <div class="lg:col-span-4 bg-white border-2 border-slate-300 rounded-3xl p-6 space-y-6 shadow-sm h-fit">
+        
+        <div class="flex items-center gap-3.5 pb-4 border-b-2 border-slate-200">
+          <div class="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-800 border-2 border-emerald-300 flex items-center justify-center font-black">
+            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.2"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+          </div>
+          <div>
+            <span class="text-xs font-black tracking-wider text-emerald-800 uppercase">Paso 1</span>
+            <h3 class="text-base font-black text-slate-900">Datos de Radicación</h3>
+          </div>
+        </div>
+
+        <!-- Municipio Fijo Asignado -->
+        <div class="space-y-2">
+          <label class="block text-xs font-black uppercase text-slate-800">Municipio que reporta</label>
+          <div class="relative">
+            <select id="select-municipio" class="w-full bg-slate-50 border-2 border-slate-300 rounded-xl px-4 py-3 text-sm text-slate-900 font-black appearance-none" disabled>
+              <option value="">Cargando municipio...</option>
+            </select>
+            <div class="absolute right-3.5 top-1/2 -translate-y-1/2 text-emerald-700 font-bold text-xs flex items-center gap-1">
+              <span>🔒 Fijado</span>
+            </div>
+          </div>
+          <p class="text-[11px] font-bold text-slate-500">Asignado automáticamente por tu usuario institucional.</p>
+        </div>
+
+        <!-- Mes y Año -->
+        <div class="grid grid-cols-2 gap-3">
+          <div class="space-y-2">
+            <label class="block text-xs font-black uppercase text-slate-800">Mes a Reportar</label>
+            <select id="select-mes" class="w-full bg-slate-50 border-2 border-slate-300 rounded-xl px-3 py-2.5 text-sm text-slate-900 font-black focus:outline-none focus:border-emerald-600 transition">
+              <option value="ENERO">Enero</option>
+              <option value="FEBRERO">Febrero</option>
+              <option value="MARZO">Marzo</option>
+              <option value="ABRIL">Abril</option>
+              <option value="MAYO">Mayo</option>
+              <option value="JUNIO">Junio</option>
+              <option value="JULIO">Julio</option>
+              <option value="AGOSTO" selected>Agosto</option>
+              <option value="SEPTIEMBRE">Septiembre</option>
+              <option value="OCTUBRE">Octubre</option>
+              <option value="NOVIEMBRE">Noviembre</option>
+              <option value="DICIEMBRE">Diciembre</option>
+            </select>
+          </div>
+
+          <div class="space-y-2">
+            <label class="block text-xs font-black uppercase text-slate-800">Año</label>
+            <input type="text" id="input-ano" value="2026" readonly class="w-full bg-slate-50 border-2 border-slate-300 rounded-xl px-3 py-2.5 text-sm text-slate-900 font-mono font-black text-center">
+          </div>
+        </div>
+
+        <!-- Conexión a Google Drive -->
+        <div class="p-4 rounded-2xl bg-emerald-50 border-2 border-emerald-300 text-xs font-bold text-slate-800 space-y-2">
+          <div class="flex items-center gap-2 text-emerald-900 font-black uppercase">
+            <svg class="w-5 h-5 text-emerald-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/></svg>
+            <span>Almacenamiento Departamental</span>
+          </div>
+          <p class="text-slate-700 leading-relaxed">
+            Al radicar, tus 3 informes y el comprobante oficial se sincronizan automáticamente en el Google Drive de la Secretaría (<strong class="text-slate-900">risaraldapaiweb@gmail.com</strong>).
+          </p>
+        </div>
+
+      </div>
+
+      <!-- Columna 2: Zona de Carga y Resultados (8 cols) -->
+      <div class="lg:col-span-8 space-y-6">
+        
+        <!-- Dropzone de Archivos -->
+        <div class="bg-white border-2 border-slate-300 rounded-3xl p-6 md:p-8 space-y-6 shadow-sm">
+          <div class="flex items-center justify-between pb-4 border-b-2 border-slate-200">
+            <div class="flex items-center gap-3.5">
+              <div class="w-12 h-12 rounded-2xl bg-blue-100 text-blue-800 border-2 border-blue-300 flex items-center justify-center font-black">
+                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.2"><path stroke-linecap="round" stroke-linejoin="round" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/></svg>
+              </div>
+              <div>
+                <span class="text-xs font-black tracking-wider text-blue-800 uppercase">Paso 2</span>
+                <h3 class="text-base font-black text-slate-900">Cargar Archivos de Vacunación</h3>
+              </div>
+            </div>
+            <span class="text-xs px-3.5 py-1 rounded-full bg-slate-100 border-2 border-slate-300 text-slate-800 font-mono font-bold">3 Informes Requeridos</span>
+          </div>
+
+          <!-- Dropzone Grande -->
+          <div id="dropzone" class="border-3 border-dashed border-slate-300 hover:border-emerald-600 rounded-3xl p-8 text-center bg-slate-50/80 hover:bg-emerald-50/50 transition cursor-pointer relative group">
+            <input type="file" id="file-input" multiple accept=".xlsx,.xlsm,.xls" class="absolute inset-0 opacity-0 cursor-pointer w-full h-full">
+            
+            <div class="w-24 h-24 mx-auto mb-4 rounded-3xl bg-emerald-100 text-emerald-800 border-2 border-emerald-300 flex items-center justify-center shadow-md group-hover:scale-105 transition-transform">
+              <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+              </svg>
+            </div>
+
+            <h4 class="text-lg font-black text-slate-900">Haz clic para seleccionar o arrastra aquí tus archivos</h4>
+            <p class="text-sm font-bold text-slate-600 mt-1">Puedes subir los 3 informes al mismo tiempo (.xlsx o .xlsm)</p>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3.5 mt-6 max-w-xl mx-auto text-left">
+              <div class="p-3 rounded-xl bg-white border border-slate-300 shadow-sm flex items-center gap-2.5">
+                <span class="w-3 h-3 rounded-full bg-emerald-500"></span>
+                <span class="text-xs font-black text-slate-900">Dosis Aplicadas</span>
+              </div>
+              <div class="p-3 rounded-xl bg-white border border-slate-300 shadow-sm flex items-center gap-2.5">
+                <span class="w-3 h-3 rounded-full bg-blue-500"></span>
+                <span class="text-xs font-black text-slate-900">Movimiento (MB)</span>
+              </div>
+              <div class="p-3 rounded-xl bg-white border border-slate-300 shadow-sm flex items-center gap-2.5">
+                <span class="w-3 h-3 rounded-full bg-amber-500"></span>
+                <span class="text-xs font-black text-slate-900">Extranjeros</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Lista de Archivos Seleccionados -->
+          <div id="file-list-container" class="hidden space-y-2 pt-2">
+            <h4 class="text-xs font-black text-slate-700 uppercase tracking-wider">Archivos preparados para auditar:</h4>
+            <div id="file-list" class="space-y-2"></div>
+          </div>
+
+          <!-- Botón de Auditoría -->
+          <button id="btn-auditar" onclick="ejecutarAuditoria()" disabled class="w-full py-4 px-6 rounded-2xl font-black text-base bg-emerald-700 hover:bg-emerald-800 disabled:bg-slate-200 disabled:text-slate-400 disabled:cursor-not-allowed text-white shadow-lg shadow-emerald-700/20 transition flex items-center justify-center gap-3">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+            <span>Auditar Informes con IA</span>
+          </button>
+        </div>
+
+        <!-- Spinner de Carga -->
+        <div id="audit-loading" class="hidden bg-white border-2 border-slate-300 rounded-3xl p-8 text-center space-y-3 shadow-sm">
+          <div class="w-12 h-12 border-4 border-emerald-600 border-t-transparent rounded-full animate-spin mx-auto"></div>
+          <p class="text-base font-black text-slate-900">El motor de IA está auditando tus archivos...</p>
+          <p class="text-xs font-bold text-slate-500">Comprobando balance de inventarios, lotes y sumas demográficas.</p>
+        </div>
+
+        <!-- Resultados de la Auditoría -->
+        <div id="audit-results" class="hidden space-y-4"></div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- ========================================================================= -->
+  <!-- MODAL COMPROBANTE OFICIAL DE RADICACIÓN                                   -->
+  <!-- ========================================================================= -->
+  <div id="modal-radicado" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white border-2 border-slate-300 rounded-3xl max-w-lg w-full p-6 md:p-8 space-y-6 shadow-2xl relative">
+      <div class="text-center space-y-2">
+        <div class="w-16 h-16 rounded-2xl bg-emerald-100 text-emerald-800 border-2 border-emerald-300 flex items-center justify-center mx-auto shadow-md">
+          <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        </div>
+        <h3 class="text-xl font-black text-slate-900">Comprobante Oficial de Radicación PAI</h3>
+        <p class="text-xs font-bold text-slate-600">Secretaría de Salud Departamental de Risaralda</p>
+      </div>
+
+      <div id="recibo-detalle" class="bg-slate-50 border-2 border-slate-200 rounded-2xl p-5 space-y-2.5 text-xs font-mono font-bold text-slate-800">
+        <!-- Rellenado por JS -->
+      </div>
+
+      <div class="flex gap-3">
+        <button onclick="cerrarModalRadicado()" class="w-full py-3 px-4 rounded-xl bg-slate-200 hover:bg-slate-300 text-slate-900 text-xs font-black transition">
+          Cerrar
+        </button>
+        <button onclick="window.print()" class="w-full py-3 px-4 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-black shadow-md transition flex items-center justify-center gap-2">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>
+          <span>Imprimir Comprobante</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,108 @@
+/* styles.css - Sistema de Diseño Institucional PAI Risaralda (Claro Clínico Pro) */
+
+:root {
+  --bg-main: #f1f5f9;         /* Slate 100 */
+  --bg-surface: #ffffff;      /* Blanco Puro */
+  --bg-card: #f8fafc;         /* Slate 50 */
+  --border-color: #cbd5e1;    /* Slate 300 */
+  --border-strong: #94a3b8;   /* Slate 400 */
+  
+  --text-main: #0f172a;       /* Slate 900 */
+  --text-body: #1e293b;       /* Slate 800 */
+  --text-muted: #334155;      /* Slate 700 */
+  --text-subtle: #475569;     /* Slate 600 */
+
+  --primary: #047857;         /* Verde Esmeralda 700 */
+  --primary-hover: #065f46;   /* Emerald 800 */
+  --primary-bg: #ecfdf5;
+  --primary-border: #86efac;
+
+  --accent-blue: #1d4ed8;     /* Azul Zafiro 700 */
+  --accent-blue-hover: #1e40af;
+  --accent-blue-bg: #eff6ff;
+
+  --accent-amber: #b45309;    /* Ámbar 700 */
+  --accent-amber-bg: #fffbeb;
+
+  --accent-rose: #be123c;     /* Rojo Clínico 700 */
+  --accent-rose-bg: #fff1f2;
+
+  --card-shadow: 0 4px 14px -2px rgba(15, 23, 42, 0.08), 0 2px 6px -1px rgba(15, 23, 42, 0.04);
+  --card-shadow-lg: 0 10px 25px -3px rgba(15, 23, 42, 0.12), 0 4px 6px -2px rgba(15, 23, 42, 0.05);
+}
+
+body {
+  background-color: var(--bg-main);
+  color: var(--text-body);
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Dropzone dragover states */
+.dropzone-dragover {
+  border-color: #047857 !important;
+  background-color: #ecfdf5 !important;
+  transform: scale(1.01);
+}
+
+/* Sombras y elevaciones clínicas */
+.clinic-card {
+  background-color: var(--bg-surface);
+  border: 2px solid var(--border-color);
+  border-radius: 1.5rem;
+  box-shadow: var(--card-shadow);
+  transition: all 0.2s ease;
+}
+
+.clinic-card:hover {
+  border-color: var(--border-strong);
+  box-shadow: var(--card-shadow-lg);
+}
+
+/* Badges e Insignias de Alto Contraste */
+.badge-aprobado {
+  background-color: #dcfce7;
+  color: #065f46;
+  border: 1.5px solid #86efac;
+  font-weight: 800;
+}
+
+.badge-inconsistencia {
+  background-color: #fee2e2;
+  color: #991b1b;
+  border: 1.5px solid #fca5a5;
+  font-weight: 800;
+}
+
+.badge-pendiente {
+  background-color: #fef3c7;
+  color: #92400e;
+  border: 1.5px solid #fde68a;
+  font-weight: 800;
+}
+
+/* Custom Scrollbar Hospitalario */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 9999px;
+  border: 2px solid #f1f5f9;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Animación sutil de pulso */
+@keyframes pulse-soft {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+.animate-pulse-soft {
+  animation: pulse-soft 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}

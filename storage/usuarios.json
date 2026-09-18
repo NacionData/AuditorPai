@@ -1,0 +1,137 @@
+{
+  "admin_risaralda": {
+    "usuario": "admin_risaralda",
+    "nombre": "Administrador PAI Departamental",
+    "rol": "admin",
+    "municipio": null,
+    "dane": null,
+    "password_hash": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3",
+    "clave_inicial": "Risaralda2026*"
+  },
+  "mun_pereira": {
+    "usuario": "mun_pereira",
+    "nombre": "Coordinación PAI Pereira",
+    "rol": "municipio",
+    "municipio": "PEREIRA",
+    "dane": "66001",
+    "password_hash": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3",
+    "clave_inicial": "PaiPereira2026*"
+  },
+  "mun_dosquebradas": {
+    "usuario": "mun_dosquebradas",
+    "nombre": "Coordinación PAI Dosquebradas",
+    "rol": "municipio",
+    "municipio": "DOSQUEBRADAS",
+    "dane": "66170",
+    "password_hash": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3",
+    "clave_inicial": "PaiDosquebradas2026*"
+  },
+  "mun_santarosa": {
+    "usuario": "mun_santarosa",
+    "nombre": "Coordinación PAI Santa Rosa de Cabal",
+    "rol": "municipio",
+    "municipio": "SANTA ROSA DE CABAL",
+    "dane": "66682",
+    "password_hash": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3",
+    "clave_inicial": "PaiSantaRosa2026*"
+  },
+  "mun_lavirginia": {
+    "usuario": "mun_lavirginia",
+    "nombre": "Coordinación PAI La Virginia",
+    "rol": "municipio",
+    "municipio": "LA VIRGINIA",
+    "dane": "66400",
+    "password_hash": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3",
+    "clave_inicial": "PaiLaVirginia2026*"
+  },
+  "mun_belen": {
+    "usuario": "mun_belen",
+    "nombre": "Coordinación PAI Belén de Umbría",
+    "rol": "municipio",
+    "municipio": "BELEN DE UMBRIA",
+    "dane": "66088",
+    "password_hash": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3",
+    "clave_inicial": "PaiBelen2026*"
+  },
+  "mun_apia": {
+    "usuario": "mun_apia",
+    "nombre": "Coordinación PAI Apía",
+    "rol": "municipio",
+    "municipio": "APIA",
+    "dane": "66045",
+    "password_hash": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3",
+    "clave_inicial": "PaiApia2026*"
+  },
+  "mun_balboa": {
+    "usuario": "mun_balboa",
+    "nombre": "Coordinación PAI Balboa",
+    "rol": "municipio",
+    "municipio": "BALBOA",
+    "dane": "66075",
+    "password_hash": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3",
+    "clave_inicial": "PaiBalboa2026*"
+  },
+  "mun_guatica": {
+    "usuario": "mun_guatica",
+    "nombre": "Coordinación PAI Guática",
+    "rol": "municipio",
+    "municipio": "GUATICA",
+    "dane": "66318",
+    "password_hash": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3",
+    "clave_inicial": "PaiGuatica2026*"
+  },
+  "mun_lacelia": {
+    "usuario": "mun_lacelia",
+    "nombre": "Coordinación PAI La Celia",
+    "rol": "municipio",
+    "municipio": "LA CELIA",
+    "dane": "66383",
+    "password_hash": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3",
+    "clave_inicial": "PaiLaCelia2026*"
+  },
+  "mun_marsella": {
+    "usuario": "mun_marsella",
+    "nombre": "Coordinación PAI Marsella",
+    "rol": "municipio",
+    "municipio": "MARSELLA",
+    "dane": "66440",
+    "password_hash": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3",
+    "clave_inicial": "PaiMarsella2026*"
+  },
+  "mun_mistrato": {
+    "usuario": "mun_mistrato",
+    "nombre": "Coordinación PAI Mistrató",
+    "rol": "municipio",
+    "municipio": "MISTRATO",
+    "dane": "66456",
+    "password_hash": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3",
+    "clave_inicial": "PaiMistrato2026*"
+  },
+  "mun_pueblorico": {
+    "usuario": "mun_pueblorico",
+    "nombre": "Coordinación PAI Pueblo Rico",
+    "rol": "municipio",
+    "municipio": "PUEBLO RICO",
+    "dane": "66572",
+    "password_hash": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3",
+    "clave_inicial": "PaiPuebloRico2026*"
+  },
+  "mun_quinchia": {
+    "usuario": "mun_quinchia",
+    "nombre": "Coordinación PAI Quinchía",
+    "rol": "municipio",
+    "municipio": "QUINCHIA",
+    "dane": "66594",
+    "password_hash": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3",
+    "clave_inicial": "PaiQuinchia2026*"
+  },
+  "mun_santuario": {
+    "usuario": "mun_santuario",
+    "nombre": "Coordinación PAI Santuario",
+    "rol": "municipio",
+    "municipio": "SANTUARIO",
+    "dane": "66687",
+    "password_hash": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3",
+    "clave_inicial": "PaiSantuario2026*"
+  }
+}

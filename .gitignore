@@ -1,0 +1,24 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+
+# Temporales y respaldos
+storage/temp/*
+!storage/temp/.gitkeep
+storage/google_drive_cloud_sync/
+*.zip
+*.tar.gz
+
+# Archivos de entorno y credenciales sensibles
+.env
+storage/google_drive_credentials.json
+
+# Sistema Operativo
+.DS_Store
+Thumbs.db

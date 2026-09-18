@@ -1,0 +1,272 @@
+[
+  {
+    "lote": "0374MA082",
+    "insumo": "Vacuna de BCG (Bacilo de Calmette y Guérin) Liofilizada",
+    "laboratorio": "Serum",
+    "vencimiento": "31/01/2027"
+  },
+  {
+    "lote": "0375MA027",
+    "insumo": "",
+    "laboratorio": "Serum",
+    "vencimiento": "30/06/2027"
+  },
+  {
+    "lote": "“VERDADERO” INDICA QUE LA CANTIDAD POR LOTE, COINCIDE CON EL SALDO QUE INICIA AL MES SIGUIENTE. \"FALSO\" NO COINICIDE.",
+    "insumo": "",
+    "laboratorio": "",
+    "vencimiento": ""
+  },
+  {
+    "lote": "0324L013A",
+    "insumo": "Vacuna de Hepatitis B Recombinante Pediátrica - Liquida",
+    "laboratorio": "Serum",
+    "vencimiento": "30/11/2027"
+  },
+  {
+    "lote": "0324L013B",
+    "insumo": "",
+    "laboratorio": "Serum",
+    "vencimiento": "30/11/2027"
+  },
+  {
+    "lote": "0325Q010B",
+    "insumo": "",
+    "laboratorio": "Sinovac",
+    "vencimiento": "25/04/2028"
+  },
+  {
+    "lote": "0325Q010C",
+    "insumo": "",
+    "laboratorio": "Serum",
+    "vencimiento": "31/03/2028"
+  },
+  {
+    "lote": "0345L003B",
+    "insumo": "Vacuna de Hepatitis B Recombinante Adultos - Liquida",
+    "laboratorio": "Serum",
+    "vencimiento": "31/12/2027"
+  },
+  {
+    "lote": "2526003A",
+    "insumo": "Vacuna de Poliovirus Inactiva IPV - Liquida",
+    "laboratorio": "Bilthoven Biologicals BV",
+    "vencimiento": "12/06/2028"
+  },
+  {
+    "lote": "2522006A",
+    "insumo": "",
+    "laboratorio": "Bilthoven Biologicals BV",
+    "vencimiento": "25/02/2028"
+  },
+  {
+    "lote": "MB202602003",
+    "insumo": "",
+    "laboratorio": "Sinovac",
+    "vencimiento": "02/02/2028"
+  },
+  {
+    "lote": "2855X002C",
+    "insumo": "Vacuna de Difteria - Tos ferina (Celula completa) - Tétanos - Hepatitis B - Haemophilus influenzae tipo B (DTwP-HepB-Hib) PENTAVALENTE PEDIÁTRICA - Liquida",
+    "laboratorio": "Serum",
+    "vencimiento": "30/06/2027"
+  },
+  {
+    "lote": "2855X001A",
+    "insumo": "",
+    "laboratorio": "Serum",
+    "vencimiento": "30/06/2027"
+  },
+  {
+    "lote": "2855X008E",
+    "insumo": "",
+    "laboratorio": "Serum",
+    "vencimiento": "31/08/2027"
+  },
+  {
+    "lote": "Y3C49",
+    "insumo": "Vacuna de Difteria - Tétanos - Tos ferina acelular - Poliovirus inactivado - Hepatitis B - Haemophilus influenzae tipo B (DTaP-IPV-HepB-Hib (HEXAVALENTE ACELULAR) - Liquida",
+    "laboratorio": "Sanofi Pasteur",
+    "vencimiento": "29/02/2028"
+  },
+  {
+    "lote": "2825Q005A",
+    "insumo": "Vacuna de Difteria, Tétano y Tosferina (DPT)- Liquida",
+    "laboratorio": "Serum",
+    "vencimiento": "28/02/2027"
+  },
+  {
+    "lote": "2825X014A",
+    "insumo": "",
+    "laboratorio": "Serum",
+    "vencimiento": "30/09/2027"
+  },
+  {
+    "lote": "4CA34C1",
+    "insumo": "Vacuna de Difteria-Tétanos-Tos ferina acelular Pertussis (DTaP) Pediátrica - Liquida",
+    "laboratorio": "Sanofi Pasteur",
+    "vencimiento": "31/05/2027"
+  },
+  {
+    "lote": "4CA03C1",
+    "insumo": "",
+    "laboratorio": "Sanofi Pasteur",
+    "vencimiento": ""
+  },
+  {
+    "lote": "AROLE487AA",
+    "insumo": "Vacuna de Rotavirus Liquida (administración oral)",
+    "laboratorio": "Glaxo SmithKline",
+    "vencimiento": "31/01/2028"
+  },
+  {
+    "lote": "LK3156",
+    "insumo": "Vacuna Antineumocócica Conjugada (13-valente) PCV13 - Liquida",
+    "laboratorio": "PFIZER",
+    "vencimiento": "31/05/2027"
+  },
+  {
+    "lote": "LR6371",
+    "insumo": "",
+    "laboratorio": "PFIZER",
+    "vencimiento": "30/09/2027"
+  },
+  {
+    "lote": "ND3068",
+    "insumo": "",
+    "laboratorio": "PFIZER",
+    "vencimiento": "31/07/2028"
+  },
+  {
+    "lote": "0133N146B",
+    "insumo": "Vacuna de Sarampión, Rubeola y Paperas (SRP) (Cepa Leningrado-Zagreb) Liofilizado - Vial x 01 dosis - TRIPLE VIRAL",
+    "laboratorio": "Serum",
+    "vencimiento": "30/09/2026"
+  },
+  {
+    "lote": "0134N093A",
+    "insumo": "",
+    "laboratorio": "Serum",
+    "vencimiento": "30/04/2027"
+  },
+  {
+    "lote": "0134N096A",
+    "insumo": "",
+    "laboratorio": "Serum",
+    "vencimiento": "30/04/2027"
+  },
+  {
+    "lote": "0135AB117",
+    "insumo": "",
+    "laboratorio": "Serum",
+    "vencimiento": "31/12/2027"
+  },
+  {
+    "lote": "Y3D32",
+    "insumo": "Vacuna de Fiebre Amarilla (Antiamarilica) Liofilizada",
+    "laboratorio": "Sanofi Pasteur",
+    "vencimiento": "30/04/2027"
+  },
+  {
+    "lote": "Y3H33",
+    "insumo": "",
+    "laboratorio": "Sanofi Pasteur",
+    "vencimiento": "31/08/2027"
+  },
+  {
+    "lote": "515",
+    "insumo": "",
+    "laboratorio": "",
+    "vencimiento": "30/11/2027"
+  },
+  {
+    "lote": "AB202404013",
+    "insumo": "Vacuna de Hepatitis A Pediátrica - Liquida",
+    "laboratorio": "Sinovac",
+    "vencimiento": "21/10/2027"
+  },
+  {
+    "lote": "AB202410043",
+    "insumo": "",
+    "laboratorio": "Sinovac",
+    "vencimiento": "25/04/2028"
+  },
+  {
+    "lote": "B202411048",
+    "insumo": "",
+    "laboratorio": "Sinovac",
+    "vencimiento": "03/05/2028"
+  },
+  {
+    "lote": "BB202506051",
+    "insumo": "Vacuna de Varicela Cepa OKA Liofilizada - Vial x 01 dosis",
+    "laboratorio": "Sinovac",
+    "vencimiento": "12/06/2027"
+  },
+  {
+    "lote": "BB202506052",
+    "insumo": "",
+    "laboratorio": "Sinovac",
+    "vencimiento": "16/06/2027"
+  },
+  {
+    "lote": "B202507054",
+    "insumo": "",
+    "laboratorio": "Sinovac",
+    "vencimiento": "05/07/2027"
+  },
+  {
+    "lote": "2335L013D",
+    "insumo": "",
+    "laboratorio": "Serum",
+    "vencimiento": "30/04/2028"
+  },
+  {
+    "lote": "AROLE419AA",
+    "insumo": "Vacuna de Rotavirus Liquida (administración oral)",
+    "laboratorio": "Glaxo SmithKline",
+    "vencimiento": "30/09/2027"
+  },
+  {
+    "lote": "0126N030",
+    "insumo": "Vacuna de Sarampión Rubeola (SR) Liofilizada - Vial x 01 dosis -DOBLE VIRAL",
+    "laboratorio": "Serum",
+    "vencimiento": "2028-07-31"
+  },
+  {
+    "lote": "2334L016E",
+    "insumo": "Vacuna de Tétanos y difteria (Td) Adulto (Toxoide Diftérico) - Liquida",
+    "laboratorio": "Serum",
+    "vencimiento": "31/03/2027"
+  },
+  {
+    "lote": "0374MA071",
+    "insumo": "Vacuna de BCG (Bacilo de Calmette y Guérin) Liofilizada",
+    "laboratorio": "Serum",
+    "vencimiento": "31/12/2026"
+  },
+  {
+    "lote": "0374MA072",
+    "insumo": "",
+    "laboratorio": "Serum",
+    "vencimiento": "31/12/2026"
+  },
+  {
+    "lote": "AROLE197AB",
+    "insumo": "Vacuna de Rotavirus Liquida (administración oral)",
+    "laboratorio": "Glaxo SmithKline",
+    "vencimiento": "28/02/2027"
+  },
+  {
+    "lote": "AROLE203AC",
+    "insumo": "",
+    "laboratorio": "Glaxo SmithKline",
+    "vencimiento": "31/03/2027"
+  },
+  {
+    "lote": "AB202403009",
+    "insumo": "Vacuna de Hepatitis A Pediátrica - Liquida",
+    "laboratorio": "Sinovac",
+    "vencimiento": "04/09/2027"
+  }
+]

@@ -1,0 +1,86 @@
+[
+  {
+    "id": "001",
+    "dane": "66001",
+    "nombre": "PEREIRA",
+    "subdirector": "E.S.E. Salud Pereira / IPS"
+  },
+  {
+    "id": "045",
+    "dane": "66045",
+    "nombre": "APIA",
+    "subdirector": "Hospital San Vicente de Paúl"
+  },
+  {
+    "id": "075",
+    "dane": "66075",
+    "nombre": "BALBOA",
+    "subdirector": "Hospital Cristo Rey"
+  },
+  {
+    "id": "088",
+    "dane": "66088",
+    "nombre": "BELEN DE UMBRIA",
+    "subdirector": "Hospital San José"
+  },
+  {
+    "id": "170",
+    "dane": "66170",
+    "nombre": "DOSQUEBRADAS",
+    "subdirector": "E.S.E. Santa Mónica / IPS"
+  },
+  {
+    "id": "318",
+    "dane": "66318",
+    "nombre": "GUATICA",
+    "subdirector": "Hospital Santa Ana"
+  },
+  {
+    "id": "383",
+    "dane": "66383",
+    "nombre": "LA CELIA",
+    "subdirector": "Hospital San José"
+  },
+  {
+    "id": "400",
+    "dane": "66400",
+    "nombre": "LA VIRGINIA",
+    "subdirector": "Hospital San Pedro y San Pablo"
+  },
+  {
+    "id": "440",
+    "dane": "66440",
+    "nombre": "MARSELLA",
+    "subdirector": "Hospital San José"
+  },
+  {
+    "id": "456",
+    "dane": "66456",
+    "nombre": "MISTRATO",
+    "subdirector": "Hospital San Vicente de Paúl"
+  },
+  {
+    "id": "572",
+    "dane": "66572",
+    "nombre": "PUEBLO RICO",
+    "subdirector": "Hospital San Rafael"
+  },
+  {
+    "id": "594",
+    "dane": "66594",
+    "nombre": "QUINCHIA",
+    "subdirector": "Hospital Nazaret"
+  },
+  {
+    "id": "682",
+    "dane": "66682",
+    "nombre": "SANTA ROSA DE CABAL",
+    "subdirector": "Hospital San Vicente de Paúl"
+  },
+  {
+    "id": "687",
+    "dane": "66687",
+    "nombre": "SANTUARIO",
+    "subdirector": "Hospital San Vicente de Paúl"
+  }
+]

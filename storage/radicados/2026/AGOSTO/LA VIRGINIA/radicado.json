@@ -1,0 +1,18 @@
+{
+  "numero_radicado": "RAD-RIS-2026-AGO-F3DB54",
+  "municipio": "LA VIRGINIA",
+  "mes": "AGOSTO",
+  "ano": "2026",
+  "fecha": "2026-09-16 11:32:32",
+  "archivos": {
+    "DOSIS": "C:\\Users\\alexi\\OneDrive\\Documents\\YoRobot\\Agente Informes Pai - Antigravity\\sistema_pai_risaralda\\storage\\radicados\\2026\\AGOSTO\\LA VIRGINIA\\DOSIS_1.MUNICIPIOS Plantilla de reporte mensual de dosis_aplicadas_PAI_AGOSTO_2026(10072026).xlsx",
+    "MOVIMIENTO": "C:\\Users\\alexi\\OneDrive\\Documents\\YoRobot\\Agente Informes Pai - Antigravity\\sistema_pai_risaralda\\storage\\radicados\\2026\\AGOSTO\\LA VIRGINIA\\MOVIMIENTO_La Virginia Movimiento de biologico Agosto.xlsx",
+    "EXTRANJEROS": "C:\\Users\\alexi\\OneDrive\\Documents\\YoRobot\\Agente Informes Pai - Antigravity\\sistema_pai_risaralda\\storage\\radicados\\2026\\AGOSTO\\LA VIRGINIA\\EXTRANJEROS_2.La Virginia-Plantilla Reporte de Vacunados Países Fronterizos y Otros_Agosto(11-02-2026).xlsx"
+  },
+  "metricas": {
+    "dosis_aplicadas_nacionales": 215,
+    "dosis_movimiento_total": 1104,
+    "dosis_perdidas_total": 262,
+    "vacunados_extranjeros": 0
+  }
+}
