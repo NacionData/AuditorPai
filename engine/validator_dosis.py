@@ -96,6 +96,30 @@ def validar_dosis(filepath, mes_evaluar="AGOSTO", municipio_nombre=None):
             nombre_completo = f"{curr_vacuna} ({detalle})" if detalle else (curr_vacuna or f"Columna {c_idx}")
             col_nombres[c_idx] = re.sub(r'\s+', ' ', nombre_completo).strip()
 
+        # 1.1 Verificación de Vigencia y Estructura Oficial 2026
+        ano_detectado = None
+        for r_check in range(1, 6):
+            for c_check in range(1, 10):
+                val_check = get_val(r_check, c_check)
+                if val_check:
+                    val_str = str(val_check).upper()
+                    match_ano = re.search(r'\b(202[0-5])\b', val_str)
+                    if match_ano:
+                        ano_detectado = int(match_ano.group(1))
+                        break
+            if ano_detectado:
+                break
+
+        tiene_hexavalente = any("HEXAVALENTE" in str(col_nombres.get(c, "")).upper() for c in col_nombres)
+
+        if (ano_detectado and ano_detectado < 2026) or (not tiene_hexavalente and len(col_nombres) > 15):
+            resultado["valido"] = False
+            resultado["errores"].append({
+                "tipo": "PLANTILLA_DESACTUALIZADA",
+                "mensaje": f"PLANTILLA DESACTUALIZADA: El archivo subido corresponde a una vigencia anterior ({ano_detectado or 'previa a 2026'}). MinSalud modificó la estructura oficial para 2026 incorporando el nuevo esquema (Hexavalente, VSR) y columnas reestructuradas. Por favor descarga y diligencia la Plantilla Oficial 2026 en blanco desde el botón superior."
+            })
+            return resultado
+
         # 2. Localizar el bloque de filas del mes
         mes_idx = MESES_ORDEN.index(mes_evaluar) if mes_evaluar in MESES_ORDEN else 7
         fila_teorica = 9 + (mes_idx * 19)

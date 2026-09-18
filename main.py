@@ -36,6 +36,7 @@ STORAGE_DIR = os.path.join(BASE_DIR, "storage")
 TEMP_DIR = os.path.join(BASE_DIR, "storage", "temp")
 RADICADOS_DIR = os.path.join(BASE_DIR, "storage", "radicados")
 CONSOLIDADOS_DIR = os.path.join(BASE_DIR, "storage", "consolidados")
+TEMPLATES_DIR = os.path.join(BASE_DIR, "templates_base")
 
 os.makedirs(STATIC_DIR, exist_ok=True)
 os.makedirs(TEMP_DIR, exist_ok=True)
@@ -366,6 +367,26 @@ def api_descargar(tipo: str, mes: str, ano: str = "2026"):
         raise HTTPException(status_code=404, detail=f"El archivo {target_name} aún no ha sido generado.")
 
     return FileResponse(fpath, filename=target_name)
+
+# Endpoint público para que los municipios descarguen las plantillas oficiales 2026 en blanco
+@app.get("/api/plantillas-base/{tipo}")
+def api_descargar_plantilla_base(tipo: str):
+    f_map = {
+        "dosis": ("Plantilla_Dosis_Base.xlsx", "Plantilla_Dosis_Aplicadas_2026_OFICIAL_EN_BLANCO.xlsx"),
+        "movimiento": ("Plantilla_Movimiento_Base.xlsm", "Movimiento_PAI_2026_OFICIAL_EN_BLANCO.xlsm"),
+        "extranjeros": ("Plantilla_Extranjeros_Base.xlsx", "Extranjeros_PAI_2026_OFICIAL_EN_BLANCO.xlsx")
+    }
+    
+    entry = f_map.get(tipo.lower())
+    if not entry:
+        raise HTTPException(status_code=400, detail="Tipo de plantilla inválido. Opciones: dosis, movimiento, extranjeros.")
+        
+    source_name, download_name = entry
+    fpath = os.path.join(TEMPLATES_DIR, source_name)
+    if not os.path.exists(fpath):
+        raise HTTPException(status_code=404, detail="Plantilla base no encontrada en el servidor.")
+        
+    return FileResponse(fpath, filename=download_name)
 
 # Endpoints de Inspección y Descarga para el Administrador Departamental
 @app.get("/api/admin/inspeccionar/{municipio}/{mes}")
