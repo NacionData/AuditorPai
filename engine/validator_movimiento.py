@@ -13,6 +13,7 @@ import os
 import json
 import re
 from datetime import datetime, date
+from engine.cruce_deposito import auditar_cruce_deposito
 
 MESES_ORDEN = [
     "ENERO", "FEBRERO", "MARZO", "ABRIL", "MAYO", "JUNIO",
@@ -243,7 +244,7 @@ def validar_movimiento(filepath, mes_evaluar="AGOSTO", municipio_nombre=None, an
     municipio_nombre = normalizar(municipio_nombre) if municipio_nombre else "DESCONOCIDO"
 
     lotes_maestros = cargar_lotes_google_sheet()
-    entregas_deposito = cargar_entregas_deposito(municipio_nombre, mes_evaluar)
+    items_recibidos_acopio = {}
 
     resultado = {
         "valido": True,
@@ -336,6 +337,9 @@ def validar_movimiento(filepath, mes_evaluar="AGOSTO", municipio_nombre=None, an
 
             resultado["total_dosis_aplicadas"] += tot_aplicadas
             resultado["total_dosis_perdidas"] += dosis_perdidas
+
+            if ent_acopio > 0:
+                items_recibidos_acopio[insumo_raw] = ent_acopio
 
             if "JERINGA" not in insumo_norm and "CARNET" not in insumo_norm and "DILUYENTE" not in insumo_norm:
                 dosis_colombianos_por_vacuna[insumo_raw] = dosis_colombianos_por_vacuna.get(insumo_raw, 0) + dosis_col
@@ -473,25 +477,9 @@ def validar_movimiento(filepath, mes_evaluar="AGOSTO", municipio_nombre=None, an
                 })
 
             # =================================================================
-            # REGLA 3: CRUCE CON ENTREGAS DEL CENTRO DE ACOPIO (Google Sheets)
+            # REGLA 3: CRUCE CON ENTREGAS DEL CENTRO DE ACOPIO (Kardex)
+            # (Se audita exhaustivamente al cierre del ciclo con cruce_deposito)
             # =================================================================
-            if entregas_deposito:
-                despachado_deposito = None
-                for vac_k, cant_dep in entregas_deposito.items():
-                    if vac_k in insumo_norm or insumo_norm in vac_k:
-                        despachado_deposito = cant_dep
-                        break
-
-                if despachado_deposito is not None and ent_acopio != despachado_deposito:
-                    dif = abs(ent_acopio - despachado_deposito)
-                    resultado["advertencias"].append({
-                        "regla": "REGLA_3_CRUCE_DEPOSITO",
-                        "insumo": insumo_raw,
-                        "recibido_municipio": ent_acopio,
-                        "despachado_deposito": despachado_deposito,
-                        "diferencia": dif,
-                        "mensaje": f"[Regla 3] En '{insumo_raw}': El municipio reportó haber recibido {ent_acopio} dosis del Centro de Acopio, pero en el Kardex oficial del Depósito Departamental figuran despachadas {despachado_deposito} dosis. Diferencia: {dif} dosis."
-                    })
 
             # =================================================================
             # REGLA 4: VALIDACIÓN DE LOTES CONTRA HOJA 'LOTES' (Google Sheets)
@@ -640,6 +628,18 @@ def validar_movimiento(filepath, mes_evaluar="AGOSTO", municipio_nombre=None, an
                         "diferencia": dif,
                         "mensaje": f"[Diluyentes] En '{nombre_bio}': Se utilizaron {dosis_dil} diluyentes para {dosis_vac} dosis de vacuna aplicadas (+{dif} diluyentes consumidos por rotura, descarte o merma). Registro válido."
                     })
+
+        # =================================================================
+        # REGLA 3: AUDITORÍA EXHAUSTIVA DE CRUCE CON KARDEX DE ENTREGAS
+        # =================================================================
+        cruce_dep = auditar_cruce_deposito(municipio_nombre, mes_evaluar, ano, items_recibidos_acopio)
+        resultado["cruce_deposito"] = cruce_dep
+        if cruce_dep.get("alertas"):
+            resultado["advertencias"].extend(cruce_dep["alertas"])
+        if cruce_dep.get("resumen"):
+            res_resumen = cruce_dep["resumen"]
+            if res_resumen.get("biologicos_total", 0) > 0:
+                resultado["metricas_reglas"]["regla3_cruce_deposito"] = (res_resumen["biologicos_exactos"] == res_resumen["biologicos_total"])
 
         resultado["dosis_colombianos_por_vacuna"] = dosis_colombianos_por_vacuna
         resultado["total_dosis_colombianos_biologicos"] = total_dosis_colombianos_biologicos

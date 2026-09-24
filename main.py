@@ -196,6 +196,9 @@ async def api_auditar(
         if cruce_colombianos and cruce_colombianos.get("alertas"):
             res_mov["advertencias"].extend(cruce_colombianos["alertas"])
 
+    # 2.6 Cruce Oficial Regla 3: Despachado Depósito Departamental vs Recibido Municipio
+    cruce_deposito = res_mov.get("cruce_deposito") if res_mov else None
+
     # 3. Generar Dictamen y Retroalimentación con IA
     dictamen = generar_dictamen_auditoria(municipio, mes, res_dosis, res_mov, res_ext)
 
@@ -209,6 +212,7 @@ async def api_auditar(
         "archivos": archivos_clasificados,
         "dictamen": dictamen,
         "cruce_colombianos": cruce_colombianos,
+        "cruce_deposito": cruce_deposito,
         "detalle_dosis": res_dosis,
         "detalle_movimiento": res_mov,
         "detalle_extranjeros": res_ext
@@ -231,6 +235,7 @@ async def api_auditar(
         "detalle_movimiento": res_mov,
         "detalle_extranjeros": res_ext,
         "cruce_colombianos": cruce_colombianos,
+        "cruce_deposito": cruce_deposito,
         "puede_radicar": dictamen["aprobado"]
     }
 
@@ -281,6 +286,7 @@ async def api_radicar(session_id: str = Form(...)):
         "metricas": meta["dictamen"]["metricas"],
         "dictamen": meta.get("dictamen"),
         "cruce_colombianos": meta.get("cruce_colombianos"),
+        "cruce_deposito": meta.get("cruce_deposito"),
         "simultaneidad": (meta.get("detalle_dosis") or {}).get("resumen_coherencia", {}).get("informe_simultaneidad", []),
         "detalle_auditoria": {
             "dosis": meta.get("detalle_dosis"),
@@ -438,6 +444,8 @@ def api_admin_inspeccionar(municipio: str, mes: str, ano: str = "2026"):
             r_e = validar_extranjeros(f_ext, mes_evaluar=mes, municipio_nombre=municipio) if f_ext and os.path.exists(f_ext) else None
             if r_d and r_m:
                 recibo["cruce_colombianos"] = auditar_cruce_colombianos(r_d, r_m)
+            if r_m and "cruce_deposito" in r_m:
+                recibo["cruce_deposito"] = r_m["cruce_deposito"]
             if r_d:
                 recibo["simultaneidad"] = r_d.get("resumen_coherencia", {}).get("informe_simultaneidad", [])
             recibo["dictamen"] = generar_dictamen_auditoria(municipio, mes, r_d, r_m, r_e)
@@ -448,6 +456,20 @@ def api_admin_inspeccionar(municipio: str, mes: str, ano: str = "2026"):
             }
         except Exception as e_insp:
             print(f"[Admin Inspeccionar] Fallo al enriquecer radicado en vivo: {e_insp}")
+
+    if "cruce_deposito" not in recibo:
+        mov_det = recibo.get("detalle_auditoria", {}).get("movimiento")
+        if mov_det and "cruce_deposito" in mov_det:
+            recibo["cruce_deposito"] = mov_det["cruce_deposito"]
+        elif recibo.get("archivos", {}).get("MOVIMIENTO"):
+            try:
+                f_mov = recibo["archivos"]["MOVIMIENTO"]
+                if os.path.exists(f_mov):
+                    r_m = validar_movimiento(f_mov, mes_evaluar=mes, municipio_nombre=municipio, ano=ano)
+                    if r_m and "cruce_deposito" in r_m:
+                        recibo["cruce_deposito"] = r_m["cruce_deposito"]
+            except Exception as e_cd:
+                print(f"[Admin Inspeccionar] Fallo al extraer cruce_deposito: {e_cd}")
 
     # Identificar enlaces de descarga individuales de los archivos subidos por el municipio
     archivos_descargables = {}
