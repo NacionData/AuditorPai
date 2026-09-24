@@ -252,8 +252,11 @@ def validar_movimiento(filepath, mes_evaluar="AGOSTO", municipio_nombre=None, an
         saldos_previos_oficiales = obtener_saldos_mes_anterior_oficial(municipio_nombre, mes_evaluar, ano, wb_actual=wb)
 
         ws = wb[target_sheet]
-        rows_data = list(ws.iter_rows(min_row=1, max_row=240, min_col=1, max_col=45, values_only=True))
+        rows_data = list(ws.iter_rows(min_row=1, max_row=380, min_col=1, max_col=45, values_only=True))
         wb.close()
+
+        vacunas_liofilizadas = {}
+        diluyentes_totales = {}
 
         def get_c(r, c):
             if 1 <= r <= len(rows_data):
@@ -296,6 +299,33 @@ def validar_movimiento(filepath, mes_evaluar="AGOSTO", municipio_nombre=None, an
             resultado["total_dosis_aplicadas"] += tot_aplicadas
             resultado["total_dosis_perdidas"] += dosis_perdidas
 
+            # Clasificación de biológicos liofilizados y sus diluyentes para control de reconstitución
+            es_diluyente = "DILUYENTE" in insumo_norm
+            for tipo_bio, patron in [
+                ("BCG", "BCG"),
+                ("TRIPLE_VIRAL_SRP", "SARAMPION RUBEOLA Y PAPERAS"),
+                ("DOBLE_VIRAL_SR", "SARAMPION RUBEOLA"),
+                ("FIEBRE_AMARILLA", "FIEBRE AMARILLA"),
+                ("VARICELA", "VARICELA"),
+                ("VRS", "SINCITIAL"),
+                ("DENGUE", "DENGUE"),
+                ("ANTIRRABICA", "ANTIRRABICA"),
+                ("MENINGOCOCO", "MENINGOCOCO")
+            ]:
+                if patron in insumo_norm:
+                    if tipo_bio == "DOBLE_VIRAL_SR" and "PAPERAS" in insumo_norm:
+                        continue
+                    if tipo_bio == "TRIPLE_VIRAL_SRP" and "PAPERAS" not in insumo_norm and "SRP" not in insumo_norm and "TRIPLE" not in insumo_norm:
+                        continue
+                    if tipo_bio == "ANTIRRABICA" and ("INMUNOGLOBULINA" in insumo_norm or "SUERO" in insumo_norm):
+                        continue
+
+                    if es_diluyente:
+                        diluyentes_totales[tipo_bio] = diluyentes_totales.get(tipo_bio, 0) + tot_aplicadas
+                    else:
+                        vacunas_liofilizadas[tipo_bio] = vacunas_liofilizadas.get(tipo_bio, 0) + tot_aplicadas
+                    break
+
             # =================================================================
             # REGLA 1: CONTINUIDAD INTERMENSUAL (vs Archivo Oficial Previo)
             # =================================================================
@@ -326,6 +356,10 @@ def validar_movimiento(filepath, mes_evaluar="AGOSTO", municipio_nombre=None, an
             # =================================================================
             # REGLA 2: ESTRUCTURA DE 5 CELDAS DE LOTES + FILA DE CONTROL (VERDADERO)
             # =================================================================
+            if "CARNET" in insumo_norm:
+                r += 6
+                continue
+
             # Cada biológico tiene exactamente 5 celdas para lotes: filas r a r+4 (slots 0 a 4)
             dosis_lotes_manual = 0
             lotes_item_encontrados = []
@@ -375,7 +409,7 @@ def validar_movimiento(filepath, mes_evaluar="AGOSTO", municipio_nombre=None, an
 
             # Validar coincidencia de la suma manual de los 5 slots contra el saldo siguiente
             # Y verificar que la celda de control oficial responda VERDADERO
-            if dosis_lotes_manual != saldo_esperado or (saldo_esperado > 0 and not es_verdadero):
+            if dosis_lotes_manual != saldo_esperado:
                 dif = abs(dosis_lotes_manual - saldo_esperado)
                 resultado["errores"].append({
                     "regla": "REGLA_2_COHERENCIA_LOTES",
@@ -385,10 +419,16 @@ def validar_movimiento(filepath, mes_evaluar="AGOSTO", municipio_nombre=None, an
                     "suma_lotes_5_celdas": dosis_lotes_manual,
                     "celda_control_oficial": str(celda_control_val),
                     "diferencia": dif,
-                    "mensaje": f"[Regla 2] En '{insumo_raw}': La suma de las 5 celdas de lotes ({dosis_lotes_manual}) no coincide con el Saldo que inicia el mes siguiente ({saldo_esperado}). La celda de validación arrojó '{celda_control_val}'. Descuadre: {dif} dosis."
+                    "mensaje": f"[Regla 2] En '{insumo_raw}': La suma de las 5 celdas de lotes ({dosis_lotes_manual}) no coincide con el Saldo que inicia el mes siguiente ({saldo_esperado}). Descuadre: {dif} dosis."
                 })
                 resultado["valido"] = False
                 resultado["metricas_reglas"]["regla2_flag_verdadero"] = False
+            elif saldo_esperado > 0 and not es_verdadero and "JERINGA" not in insumo_norm and "CARNET" not in insumo_norm:
+                resultado["advertencias"].append({
+                    "regla": "REGLA_2_COHERENCIA_LOTES",
+                    "insumo": insumo_raw,
+                    "mensaje": f"[Regla 2] En '{insumo_raw}': La celda de validación oficial en Col M no arrojó VERDADERO, aunque la suma de lotes coincide ({saldo_esperado})."
+                })
 
             # =================================================================
             # REGLA 3: CRUCE CON ENTREGAS DEL CENTRO DE ACOPIO (Google Sheets)
@@ -454,22 +494,28 @@ def validar_movimiento(filepath, mes_evaluar="AGOSTO", municipio_nombre=None, an
             p_decision = safe_num(get_c(r, 39)) or 0
             p_robo = safe_num(get_c(r, 40)) or 0
 
-            # 5.1: Vómito franco exclusivo para vacunas orales
+            # 5.1: Vómito franco en vacunas inyectables (Alerta preventiva, no bloqueante)
             es_oral = any(v in insumo_norm for v in VACUNAS_ORALES)
             if p_vomito > 0 and not es_oral:
-                resultado["errores"].append({
+                resultado["advertencias"].append({
                     "regla": "REGLA_5_RACIONALIDAD_PERDIDAS",
                     "insumo": insumo_raw,
                     "causa": "Vómito Franco",
                     "dosis": p_vomito,
-                    "mensaje": f"[Regla 5] En '{insumo_raw}': Se reportaron {p_vomito} dosis perdidas por 'Vómito Franco', pero este biológico se administra por vía inyectable. El vómito solo aplica para vacunas orales (Rotavirus / Polio oral)."
+                    "mensaje": f"[Regla 5] En '{insumo_raw}': Se reportaron {p_vomito} dosis en 'Vómito Franco'. Se sugiere verificar ya que este biológico es inyectable (el vómito franco es propio de vacunas orales como Rotavirus). (Informativo, no bloquea radicación)."
                 })
-                resultado["valido"] = False
-                resultado["metricas_reglas"]["regla5_racionalidad_perdidas"] = False
 
-            # 5.2: Factor abierto exclusivo para multidosis
+            # 5.2: Factor abierto en Rotavirus o monodosis (Alerta preventiva, no bloqueante)
             es_multidosis = any(v in insumo_norm for v in VACUNAS_MULTIDOSIS)
-            if p_fa_tot > 0 and not es_multidosis and "JERINGA" not in insumo_norm and "DILUYENTE" not in insumo_norm:
+            if "ROTAVIRUS" in insumo_norm and p_fa_tot > 0:
+                resultado["advertencias"].append({
+                    "regla": "REGLA_5_RACIONALIDAD_PERDIDAS",
+                    "insumo": insumo_raw,
+                    "causa": "Política de Frasco Abierto",
+                    "dosis": p_fa_tot,
+                    "mensaje": f"[Rotavirus] En '{insumo_raw}': Se registraron {p_fa_tot} dosis en 'Política de Frasco Abierto'. Recuerda que Rotavirus se presenta en tubos orales unidosis, por lo que las pérdidas habituales corresponden a vómito franco, rotura o descarte. (Informativo, no bloquea radicación)."
+                })
+            elif p_fa_tot > 0 and not es_multidosis and "JERINGA" not in insumo_norm and "DILUYENTE" not in insumo_norm:
                 resultado["advertencias"].append({
                     "regla": "REGLA_5_RACIONALIDAD_PERDIDAS",
                     "insumo": insumo_raw,
@@ -496,6 +542,48 @@ def validar_movimiento(filepath, mes_evaluar="AGOSTO", municipio_nombre=None, an
 
             # Avanzamos exactamente al siguiente ítem biológico (bloque de 6 filas: 5 slots + 1 fila check)
             r += 6
+
+        # =================================================================
+        # REGLA 6: RECONSTITUCIÓN DE BIOLÓGICOS LIOFILIZADOS VS DILUYENTES
+        # La cantidad de diluyentes utilizados debe ser IGUAL O SUPERIOR
+        # a las dosis de vacunas aplicadas/utilizadas.
+        # =================================================================
+        nombres_amigables = {
+            "BCG": "Vacuna BCG",
+            "TRIPLE_VIRAL_SRP": "Triple Viral (SRP)",
+            "DOBLE_VIRAL_SR": "Doble Viral (SR)",
+            "FIEBRE_AMARILLA": "Fiebre Amarilla",
+            "VARICELA": "Varicela",
+            "VRS": "Virus Sincitial Respiratorio (VRS)",
+            "DENGUE": "Dengue",
+            "ANTIRRABICA": "Antirrábica Humana",
+            "MENINGOCOCO": "Meningococo"
+        }
+        for tipo_bio, dosis_vac in vacunas_liofilizadas.items():
+            if dosis_vac > 0:
+                dosis_dil = diluyentes_totales.get(tipo_bio, 0)
+                nombre_bio = nombres_amigables.get(tipo_bio, tipo_bio)
+                if dosis_dil < dosis_vac:
+                    dif = dosis_vac - dosis_dil
+                    resultado["errores"].append({
+                        "regla": "REGLA_6_DILUYENTES_INSUFICIENTES",
+                        "biologico": nombre_bio,
+                        "dosis_vacuna": dosis_vac,
+                        "dosis_diluyente": dosis_dil,
+                        "diferencia": dif,
+                        "mensaje": f"[Diluyentes] En '{nombre_bio}': Se reportaron {dosis_vac} dosis de vacuna aplicadas/utilizadas, pero solo {dosis_dil} diluyentes utilizados. La cantidad de diluyente utilizado debe ser igual o superior a las dosis reconstituidas (faltan {dif} diluyentes)."
+                    })
+                    resultado["valido"] = False
+                elif dosis_dil > dosis_vac:
+                    dif = dosis_dil - dosis_vac
+                    resultado["advertencias"].append({
+                        "regla": "REGLA_6_DILUYENTES_SUPERIOR",
+                        "biologico": nombre_bio,
+                        "dosis_vacuna": dosis_vac,
+                        "dosis_diluyente": dosis_dil,
+                        "diferencia": dif,
+                        "mensaje": f"[Diluyentes] En '{nombre_bio}': Se utilizaron {dosis_dil} diluyentes para {dosis_vac} dosis de vacuna aplicadas (+{dif} diluyentes consumidos por rotura, descarte o merma). Registro válido."
+                    })
 
     except Exception as e:
         resultado["valido"] = False

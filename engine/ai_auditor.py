@@ -93,11 +93,21 @@ def _generar_dictamen_local(municipio, mes, errores, advertencias, res_dosis, re
         lineas.append("• En Movimiento de Biológicos, verifica que el Saldo que inicia el mes siguiente sea exactamente igual a: *Saldo Anterior + Entradas - Salidas - Pérdidas*, y que la suma de lotes coincida con ese saldo.")
 
     if advertencias:
-        lineas.append(f"\nℹ️ **Observaciones preventivas ({len(advertencias)}):**\n")
-        for idx, adv in enumerate(advertencias[:8], 1):
-            lineas.append(f"• {adv}")
-        if len(advertencias) > 8:
-            lineas.append(f"• ... y {len(advertencias) - 8} observaciones adicionales de lotes o fechas.")
+        simul_adv = [a for a in advertencias if "Simultaneidad" in a]
+        otras_adv = [a for a in advertencias if "Simultaneidad" not in a]
+
+        if simul_adv:
+            lineas.append("\n📊 **Análisis Pedagógico de Simultaneidad del Esquema (Oportunidades de Vacunación):**")
+            lineas.append("*(Estas observaciones son informativas para el seguimiento en campo y no bloquean la radicación)*\n")
+            for sa in simul_adv:
+                lineas.append(f"• {sa}")
+
+        if otras_adv:
+            lineas.append(f"\nℹ️ **Observaciones preventivas de lotes y diluyentes ({len(otras_adv)}):**\n")
+            for idx, adv in enumerate(otras_adv[:8], 1):
+                lineas.append(f"• {adv}")
+            if len(otras_adv) > 8:
+                lineas.append(f"• ... y {len(otras_adv) - 8} observaciones adicionales de trazabilidad.")
 
     return "\n".join(lineas)
 
@@ -162,19 +172,21 @@ def _consultar_gemini(api_key, municipio, mes, errores, advertencias):
 Eres el Coordinador Médico de Auditoría del Programa Ampliado de Inmunizaciones (PAI) de la Secretaría de Salud Departamental de Risaralda, Colombia.
 
 El municipio de {municipio} ha cargado sus 3 informes oficiales de vacunación correspondientes a {mes} 2026 (Dosis Aplicadas, Movimiento de Biológicos y Extranjeros).
-El motor de validación matemática estricta ha detectado las siguientes inconsistencias frente a la normatividad PAI (Ley 2406 de 2024 y Lineamientos Oficiales MinSalud 2026):
+El motor de validación matemática y de coherencia biológica ha analizado los datos frente a los Lineamientos Oficiales del Esquema Nacional de Vacunación (Actualización MinSalud Julio 2026):
 
-INCONSISTENCIAS CRÍTICAS ENCONTRADAS:
+INCONSISTENCIAS CRÍTICAS ENCONTRADAS (Bloquean radicación):
 {json.dumps(errores, indent=2, ensure_ascii=False)}
 
-OBSERVACIONES DE TRAZABILIDAD Y LOTES:
-{json.dumps(advertencias[:8], indent=2, ensure_ascii=False)}
+OBSERVACIONES DE SIMULTANEIDAD DEL ESQUEMA, LOTES Y DILUYENTES (Informativas, NO impiden la radicación):
+{json.dumps(advertencias[:12], indent=2, ensure_ascii=False)}
 
-Instrucciones para tu dictamen:
+Instrucciones para tu dictamen institucional:
 1. Redacta un dictamen oficial, empático, altamente pedagógico y constructivo dirigido al personal de salud y coordinadores de vacunación de {municipio}.
-2. Explica con absoluta claridad la causa de cada descuadre (ej: diferencia entre sumas de género y régimen, descuadre de saldos frente al cierre del mes anterior en Kardex, o causas de pérdida inválidas).
-3. Brinda una guía paso a paso con viñetas indicando exactamente qué celdas o columnas deben ajustar en sus archivos de Excel para que su informe quede 100% aprobado y puedan radicar.
-4. Mantén un tono institucional, cordial, motivador y profesional en formato Markdown limpio.
+2. Si existen inconsistencias críticas, explica con absoluta claridad la causa de cada descuadre y qué celdas o columnas deben ajustar en sus archivos de Excel para radicar.
+3. Si el informe está aprobado para radicar pero tiene observaciones de simultaneidad (desfases en cohortes de 2m, 4m, 6m, 12m, 18m, 5a) o diluyentes:
+   - Destaca que el informe es VÁLIDO y PUEDE SER RADICADO.
+   - Brinda un análisis pedagógico sobre las oportunidades de vacunación observadas en las cohortes, aconsejando estrategias de búsqueda activa y seguimiento en campo para garantizar esquemas completos.
+4. Mantén un tono institucional, cordial, motivador y profesional en formato Markdown estructurado con títulos claros.
 """
     data = json.dumps({
         "contents": [{"parts": [{"text": prompt}]}],

@@ -68,13 +68,15 @@ def validar_dosis(filepath, mes_evaluar="AGOSTO", municipio_nombre=None):
 
         ws = wb["1_PLANTILLA_MENSUAL"]
 
-        # Carga en memoria
+        # Carga en memoria de las 541 columnas oficiales MinSalud 2026
         max_r = 260
-        max_c = 150
+        max_c = 541
         grid = []
         for row in ws.iter_rows(min_row=1, max_row=max_r, min_col=1, max_col=max_c, values_only=True):
             grid.append(row)
         wb.close()
+
+        dosis_por_columna = {}
 
         def get_val(r, c):
             if 1 <= r <= len(grid):
@@ -149,6 +151,14 @@ def validar_dosis(filepath, mes_evaluar="AGOSTO", municipio_nombre=None):
         formulas_alteradas = 0
 
         for col_idx in range(5, max_c + 1):
+            # Omitir columnas auxiliares de metadatos o resúmenes de plantilla
+            v7_raw = str(get_val(7, col_idx) or "").upper()
+            v8_raw = str(get_val(8, col_idx) or "").upper()
+            if "CODEPCOMURE" in v7_raw or "TOTAL DOSIS" in v8_raw or "DOSIS APLICADAS POR BIOLOGICOS" in v7_raw:
+                continue
+            if col_idx in [474, 475, 520, 521, 524]:
+                continue
+
             col_letter = openpyxl.utils.get_column_letter(col_idx)
             vacuna_nombre = col_nombres.get(col_idx, f"Columna {col_letter}")
 
@@ -236,6 +246,7 @@ def validar_dosis(filepath, mes_evaluar="AGOSTO", municipio_nombre=None):
             real_sum_etnicos = v_indigena + v_rom + v_raizal + v_palenquero + v_afro + v_sin_etnia
 
             total_dosis_acumulado += real_sum_genero
+            dosis_por_columna[col_idx] = real_sum_genero
 
             # 3. Detección de Fórmulas Adulteradas / Sobreescritas
             # Si el municipio alteró la celda de total escribiendo un número que no es la suma real:
@@ -308,6 +319,102 @@ def validar_dosis(filepath, mes_evaluar="AGOSTO", municipio_nombre=None):
         resultado["resumen_coherencia"]["columnas_evaluadas"] = columnas_evaluadas
         resultado["resumen_coherencia"]["columnas_con_errores"] = columnas_con_error
         resultado["resumen_coherencia"]["formulas_adulteradas"] = formulas_alteradas
+
+        # =================================================================
+        # 5. INFORME DE ANÁLISIS DE SIMULTANEIDAD DEL ESQUEMA NACIONAL
+        # Evaluación pedagógica de las 6 cohortes clave sin bloquear radicación.
+        # =================================================================
+        def get_d(col):
+            return dosis_por_columna.get(col, 0)
+
+        cohortes = [
+            {
+                "nombre": "Cohorte de 2 Meses",
+                "biologicos": [
+                    {"nombre": "Pentavalente 1ª + Hexavalente 1ª", "dosis": get_d(102) + get_d(99)},
+                    {"nombre": "Antipolio VIP 1ª", "dosis": get_d(67)},
+                    {"nombre": "Rotavirus 1ª", "dosis": get_d(157)},
+                    {"nombre": "Neumococo 1ª", "dosis": get_d(159)}
+                ]
+            },
+            {
+                "nombre": "Cohorte de 4 Meses",
+                "biologicos": [
+                    {"nombre": "Pentavalente 2ª + Hexavalente 2ª", "dosis": get_d(103) + get_d(100)},
+                    {"nombre": "Antipolio VIP 2ª", "dosis": get_d(68)},
+                    {"nombre": "Rotavirus 2ª", "dosis": get_d(158)},
+                    {"nombre": "Neumococo 2ª", "dosis": get_d(160)}
+                ]
+            },
+            {
+                "nombre": "Cohorte de 6 Meses",
+                "biologicos": [
+                    {"nombre": "Pentavalente 3ª + Hexavalente 3ª", "dosis": get_d(104) + get_d(101)},
+                    {"nombre": "Antipolio VIP 3ª", "dosis": get_d(69)},
+                    {"nombre": "Influenza Pediátrica 1ª", "dosis": get_d(354)}
+                ]
+            },
+            {
+                "nombre": "Cohorte de 12 Meses (1 Año)",
+                "biologicos": [
+                    {"nombre": "Triple Viral (SRP) 1ª", "dosis": get_d(165)},
+                    {"nombre": "Varicela 1ª", "dosis": get_d(264)},
+                    {"nombre": "Neumococo Refuerzo", "dosis": get_d(161)},
+                    {"nombre": "Hepatitis A Única", "dosis": get_d(251)}
+                ]
+            },
+            {
+                "nombre": "Cohorte de 18 Meses (1 Año y Medio)",
+                "biologicos": [
+                    {"nombre": "Pentavalente 1er Refuerzo", "dosis": get_d(105)},
+                    {"nombre": "Antipolio VIP 1er Refuerzo", "dosis": get_d(85)},
+                    {"nombre": "Triple Viral (SRP) 2ª", "dosis": get_d(175)}
+                ]
+            },
+            {
+                "nombre": "Cohorte de 5 Años",
+                "biologicos": [
+                    {"nombre": "DPT 2º Refuerzo", "dosis": get_d(125)},
+                    {"nombre": "Antipolio VIP 2º Refuerzo", "dosis": get_d(90)},
+                    {"nombre": "Varicela Refuerzo", "dosis": get_d(276)}
+                ]
+            }
+        ]
+
+        informe_simultaneidad = []
+        for c_info in cohortes:
+            nombre_coh = c_info["nombre"]
+            bios = c_info["biologicos"]
+            dosis_valores = [b["dosis"] for b in bios]
+            
+            # Solo analizamos si hay actividad en la cohorte
+            if any(d > 0 for d in dosis_valores):
+                resumen_bios = ", ".join([f"{b['nombre']} ({b['dosis']})" for b in bios])
+                max_d = max(dosis_valores)
+                min_d = min(dosis_valores)
+                
+                if max_d == min_d:
+                    estado_sim = "OPTIMO"
+                    msg = f"Simultaneidad 100% óptima: {resumen_bios}."
+                else:
+                    estado_sim = "OPORTUNIDAD_OBSERVADA"
+                    dif = max_d - min_d
+                    msg = f"Desfase observado: {resumen_bios} (diferencia de {dif} dosis entre biológicos)."
+                    # Agregamos como advertencia informativa (NO BLOQUEA RADICACIÓN)
+                    resultado["advertencias"].append({
+                        "tipo": "SIMULTANEIDAD_INFORMATIVA",
+                        "cohorte": nombre_coh,
+                        "mensaje": f"[Simultaneidad - {nombre_coh}] {resumen_bios}. Desfase observado de {dif} dosis entre biológicos. Se sugiere verificar oportunidades de vacunación o diferimientos clínicos (Informativo, no bloquea radicación)."
+                    })
+                
+                informe_simultaneidad.append({
+                    "cohorte": nombre_coh,
+                    "estado": estado_sim,
+                    "biologicos": bios,
+                    "resumen": msg
+                })
+
+        resultado["resumen_coherencia"]["informe_simultaneidad"] = informe_simultaneidad
 
     except Exception as e:
         resultado["valido"] = False
