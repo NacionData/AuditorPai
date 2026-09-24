@@ -281,6 +281,173 @@ function renderizarResultadosAuditoria(data) {
   const resAud = data.resumen_auditoria;
   const aprobado = data.puede_radicar;
 
+  const dDosis = data.detalle_dosis || {};
+  const dMov = data.detalle_movimiento || {};
+  const dExt = data.detalle_extranjeros || {};
+  const cruce = data.cruce_colombianos;
+  const sim = (dDosis.resumen_coherencia && dDosis.resumen_coherencia.informe_simultaneidad) ? dDosis.resumen_coherencia.informe_simultaneidad : [];
+
+  // 1. Checklist de Reglas
+  const reglas = [
+    {
+      nombre: "Regla de Oro Demográfica PAI (541 Columnas)",
+      archivo: "Dosis Aplicadas",
+      ok: dDosis.resumen_coherencia ? (dDosis.resumen_coherencia.coincidencia_genero_regimen && dDosis.resumen_coherencia.coincidencia_genero_etnico) : true,
+      desc: "Suma(Género) == Suma(Régimen) == Suma(Pertenencia Étnica)"
+    },
+    {
+      nombre: "Recálculo Anti-Adulteración de Fórmulas",
+      archivo: "Dosis Aplicadas",
+      ok: dDosis.resumen_coherencia ? (dDosis.resumen_coherencia.formulas_adulteradas === 0) : true,
+      desc: "Comprobación fila por fila contra fórmulas alteradas o sobreescritas"
+    },
+    {
+      nombre: "Continuidad Intermensual de Saldos (Regla 1)",
+      archivo: "Movimiento Biológicos",
+      ok: dMov.metricas_reglas ? dMov.metricas_reglas.regla1_continuidad_saldos : true,
+      desc: "Saldo Anterior mes actual == Saldo Siguiente mes anterior oficial"
+    },
+    {
+      nombre: "Coherencia de 5 Lotes vs Saldo Siguiente (Regla 2)",
+      archivo: "Movimiento Biológicos",
+      ok: dMov.metricas_reglas ? dMov.metricas_reglas.regla2_flag_verdadero : true,
+      desc: "Suma de dosis en las 5 celdas de lotes == Saldo Siguiente (Col N = Col M)"
+    },
+    {
+      nombre: "Catálogo Maestro de Lotes Oficiales (Regla 4)",
+      archivo: "Movimiento Biológicos",
+      ok: dMov.metricas_reglas ? dMov.metricas_reglas.regla4_lotes_oficiales : true,
+      desc: "Lotes registrados contra el catálogo maestro del Depósito de Risaralda"
+    },
+    {
+      nombre: "Diluyentes en Liofilizados (Regla 6)",
+      archivo: "Movimiento Biológicos",
+      ok: !(dMov.errores || []).some(e => e.regla === 'REGLA_6_DILUYENTES_INSUFICIENTES'),
+      desc: "Diluyentes utilizados >= Vacunas reconstituidas utilizadas"
+    },
+    {
+      nombre: "Racionalidad de 11 Causas de Pérdida (Regla 5)",
+      archivo: "Movimiento Biológicos",
+      ok: dMov.metricas_reglas ? dMov.metricas_reglas.regla5_racionalidad_perdidas : true,
+      desc: "Suma de 11 causas == Total Pérdidas reportadas"
+    },
+    {
+      nombre: "Coherencia Matricial en Países Fronterizos",
+      archivo: "Vacunados Extranjeros",
+      ok: !(dExt.errores || []).some(e => e.tipo === 'DESCUADRE_EXTRANJEROS'),
+      desc: "Total Género == Total Régimen en las 6 hojas de países migrantes"
+    }
+  ];
+
+  let htmlReglas = `
+    <div class="rounded-2xl border-2 border-slate-200 overflow-hidden shadow-sm bg-white">
+      <div class="bg-slate-100 px-4 py-2.5 border-b border-slate-200 flex items-center justify-between">
+        <span class="text-xs font-black uppercase text-slate-800 tracking-wider">📋 Checklist de Reglas de Auditoría Auditadas</span>
+        <span class="text-[11px] font-bold text-slate-600">${reglas.filter(r => r.ok).length}/${reglas.length} Reglas Cumplidas</span>
+      </div>
+      <div class="divide-y divide-slate-100 text-xs">
+  `;
+
+  reglas.forEach(r => {
+    htmlReglas += `
+      <div class="p-3 flex items-center justify-between gap-3 hover:bg-slate-50 transition">
+        <div class="space-y-0.5">
+          <div class="font-bold text-slate-900 flex items-center gap-2">
+            <span>${r.nombre}</span>
+            <span class="text-[10px] font-mono font-normal text-slate-500 bg-slate-100 px-1.5 py-0.2 rounded border border-slate-200">${r.archivo}</span>
+          </div>
+          <div class="text-[11px] text-slate-600">${r.desc}</div>
+        </div>
+        <div>
+          <span class="px-2.5 py-1 rounded-full text-[11px] font-black flex items-center gap-1 ${r.ok ? 'bg-emerald-100 text-emerald-900 border border-emerald-300' : 'bg-rose-100 text-rose-900 border border-rose-300'}">
+            ${r.ok ? '✓ CUMPLE' : '✕ BLOQUEA'}
+          </span>
+        </div>
+      </div>
+    `;
+  });
+  htmlReglas += `</div></div>`;
+
+  // 2. Tabla Comparativa Cruzada (Dosis Aplicadas a Colombianos vs Movimiento Colombianos)
+  let htmlCruce = '';
+  if (cruce && cruce.tabla_comparativa && cruce.tabla_comparativa.length > 0) {
+    htmlCruce = `
+      <div class="rounded-2xl border-2 border-slate-200 overflow-hidden shadow-sm bg-white">
+        <div class="bg-slate-100 px-4 py-2.5 border-b border-slate-200 flex items-center justify-between">
+          <span class="text-xs font-black uppercase text-slate-800 tracking-wider">⚖️ Comparación Cruzada: Dosis Aplicadas (Plantilla) vs Movimiento (Colombianos)</span>
+          <span class="text-[11px] font-bold text-slate-600">${cruce.coincidencias_exactas} Coincidencias • ${cruce.discrepancias_observadas} Diferencias (${cruce.porcentaje_coincidencia}%)</span>
+        </div>
+        <div class="max-h-60 overflow-y-auto">
+          <table class="w-full text-left text-xs">
+            <thead class="bg-slate-50 text-[10px] uppercase font-black text-slate-600 border-b border-slate-200 sticky top-0">
+              <tr>
+                <th class="p-2.5 pl-4">Biológico</th>
+                <th class="p-2.5 text-right">Dosis Plantilla</th>
+                <th class="p-2.5 text-right">Dosis Movimiento</th>
+                <th class="p-2.5 text-right">Diferencia</th>
+                <th class="p-2.5 pr-4 text-center">Estado</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100 font-medium text-slate-800">
+    `;
+
+    cruce.tabla_comparativa.forEach(f => {
+      const esMatch = f.diferencia === 0;
+      htmlCruce += `
+        <tr class="hover:bg-slate-50 transition">
+          <td class="p-2.5 pl-4 font-bold text-slate-900">${f.biologico}</td>
+          <td class="p-2.5 text-right font-mono font-bold">${f.dosis_plantilla.toLocaleString()}</td>
+          <td class="p-2.5 text-right font-mono font-bold">${f.dosis_movimiento.toLocaleString()}</td>
+          <td class="p-2.5 text-right font-mono font-black ${esMatch ? 'text-emerald-700' : 'text-amber-700'}">${f.diferencia > 0 ? '+' + f.diferencia : f.diferencia}</td>
+          <td class="p-2.5 pr-4 text-center">
+            <span class="text-[10px] font-black px-2 py-0.5 rounded-full ${esMatch ? 'bg-emerald-100 text-emerald-900 border border-emerald-300' : 'bg-amber-100 text-amber-900 border border-amber-300'}">
+              ${esMatch ? '✓ Exacta' : '⚠️ ' + f.diferencia}
+            </span>
+          </td>
+        </tr>
+      `;
+    });
+
+    htmlCruce += `
+            </tbody>
+          </table>
+        </div>
+      </div>
+    `;
+  }
+
+  // 3. Reporte de Oportunidades y Simultaneidad (6 Cohortes)
+  let htmlSimultaneidad = '';
+  if (sim && sim.length > 0) {
+    htmlSimultaneidad = `
+      <div class="rounded-2xl border-2 border-indigo-200 overflow-hidden shadow-sm bg-white">
+        <div class="bg-indigo-50 px-4 py-2.5 border-b border-indigo-200 flex items-center justify-between">
+          <span class="text-xs font-black uppercase text-indigo-950 tracking-wider">🎯 Informe de Oportunidades y Simultaneidad del Esquema (6 Cohortes)</span>
+          <span class="text-[11px] font-bold text-indigo-800">Oportunidades de Vacunación</span>
+        </div>
+        <div class="p-4 grid grid-cols-1 md:grid-cols-2 gap-3">
+    `;
+
+    sim.forEach(c => {
+      const esOpt = c.estado === 'OPTIMO';
+      const listaBios = (c.biologicos || []).map(b => `<span class="font-bold">${b.nombre}:</span> <span class="font-mono text-indigo-950 font-black">${b.dosis}</span>`).join(' • ');
+      htmlSimultaneidad += `
+        <div class="p-3.5 rounded-xl border-2 ${esOpt ? 'border-emerald-200 bg-emerald-50/50' : 'border-amber-200 bg-amber-50/50'} space-y-1.5 text-xs">
+          <div class="flex items-center justify-between">
+            <span class="font-black text-slate-900">${c.cohorte}</span>
+            <span class="text-[10px] font-black px-2 py-0.5 rounded-full ${esOpt ? 'bg-emerald-200 text-emerald-950' : 'bg-amber-200 text-amber-950'}">
+              ${esOpt ? '✓ 100% ÓPTIMA' : '⚠️ DESFASE OBSERVADO'}
+            </span>
+          </div>
+          <div class="text-[11px] text-slate-700">${listaBios}</div>
+          <div class="text-[10px] font-bold ${esOpt ? 'text-emerald-800' : 'text-amber-800'} pt-1 border-t border-slate-200/60">${c.resumen}</div>
+        </div>
+      `;
+    });
+
+    htmlSimultaneidad += `</div></div>`;
+  }
+
   let html = `
     <div class="rounded-3xl border-2 p-6 md:p-8 space-y-6 shadow-sm ${aprobado ? 'bg-emerald-50/90 border-emerald-400' : 'bg-rose-50/90 border-rose-400'}">
       
@@ -291,10 +458,10 @@ function renderizarResultadosAuditoria(data) {
           </div>
           <div>
             <span class="text-xs font-black uppercase tracking-wider px-3 py-0.5 rounded-full ${aprobado ? 'bg-emerald-200 border border-emerald-400 text-emerald-950' : 'bg-rose-200 border border-rose-400 text-rose-950'}">
-              ${aprobado ? 'Dictamen: Aprobado' : 'Inconsistencias Detectadas'}
+              ${aprobado ? 'Dictamen: Aprobado' : 'Inconsistencias Críticas Detectadas'}
             </span>
             <h3 class="text-xl font-black text-slate-950 mt-1">
-              ${aprobado ? '¡INFORME 100% AUDITADO Y LISTO PARA RADICAR!' : 'INFORME REQUIERE CORRECCIONES'}
+              ${aprobado ? '¡INFORME 100% AUDITADO Y LISTO PARA RADICAR!' : 'INFORME BLOQUEADO: REQUIERE CORRECCIONES'}
             </h3>
             <p class="text-xs font-bold text-slate-700 mt-0.5">
               ${data.municipio} • Reporte Oficial de ${data.mes} ${data.ano || '2026'}
@@ -309,7 +476,7 @@ function renderizarResultadosAuditoria(data) {
           </button>
         ` : `
           <div class="px-4 py-2.5 rounded-xl bg-rose-200 border-2 border-rose-400 text-rose-950 text-xs font-black flex items-center gap-2">
-            <span>🔒 Bloqueado para Radicación</span>
+            <span>🔒 Radicación Bloqueada hasta Corregir Errores</span>
           </div>
         `}
       </div>
@@ -337,6 +504,15 @@ function renderizarResultadosAuditoria(data) {
           <div class="text-xs text-blue-800 font-extrabold mt-0.5">6 Países Validados</div>
         </div>
       </div>
+
+      <!-- Checklist de Reglas -->
+      ${htmlReglas}
+
+      <!-- Cruce Comparativo Dosis vs Movimiento -->
+      ${htmlCruce}
+
+      <!-- Reporte de Simultaneidad del Esquema -->
+      ${htmlSimultaneidad}
 
       <!-- Dictamen Pedagógico de IA -->
       <div class="bg-white border-2 ${aprobado ? 'border-emerald-300' : 'border-rose-300'} rounded-2xl p-6 space-y-4 shadow-sm">

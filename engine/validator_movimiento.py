@@ -60,30 +60,66 @@ def safe_num(val):
 def cargar_lotes_google_sheet():
     base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     fpath = os.path.join(base_dir, "storage", "catalogos", "deposito_risaralda.xlsx")
+    json_path = os.path.join(base_dir, "storage", "catalogos", "lotes_maestros.json")
     lotes_dict = {}
 
-    if not os.path.exists(fpath):
-        return lotes_dict
+    def registrar_lote(lote_raw, insumo="", fv="", lab=""):
+        if not lote_raw:
+            return
+        lote_str = str(lote_raw).strip().upper()
+        if lote_str.endswith(".0"):
+            lote_str = lote_str[:-2]
+        if not lote_str or len(lote_str) < 2:
+            return
+        meta = {
+            "insumo": str(insumo).strip() if insumo else "",
+            "vencimiento": str(fv)[:10] if fv else "",
+            "laboratorio": str(lab).strip() if lab else ""
+        }
+        lotes_dict[lote_str] = meta
+        # Registrar variantes comunes (guión, barra, sin sufijo)
+        for sep in ["/", "-"]:
+            if sep in lote_str:
+                base_part = lote_str.split(sep)[0].strip()
+                if len(base_part) >= 3 and base_part not in lotes_dict:
+                    lotes_dict[base_part] = meta
+        # Variante alfanumérica pura
+        clean_alnum = re.sub(r'[^A-Z0-9]', '', lote_str)
+        if clean_alnum and clean_alnum not in lotes_dict:
+            lotes_dict[clean_alnum] = meta
 
-    try:
-        wb = openpyxl.load_workbook(fpath, data_only=True, read_only=True)
-        if "Lotes" in wb.sheetnames:
-            ws = wb["Lotes"]
-            for row in ws.iter_rows(min_row=2, max_row=500, min_col=1, max_col=11, values_only=True):
-                insumo = row[1]
-                lote = row[7]   # Col 8
-                fv = row[8]     # Col 9
-                lab = row[9]    # Col 10
-                if lote and str(lote).strip():
-                    lote_clean = str(lote).strip().upper()
-                    lotes_dict[lote_clean] = {
-                        "insumo": str(insumo).strip() if insumo else "",
-                        "vencimiento": str(fv)[:10] if fv else "",
-                        "laboratorio": str(lab).strip() if lab else ""
-                    }
-        wb.close()
-    except Exception as e:
-        print(f"Error cargando lotes de Google Sheet: {e}")
+    # 1. Cargar desde JSON si existe
+    if os.path.exists(json_path):
+        try:
+            with open(json_path, "r", encoding="utf-8") as jf:
+                items = json.load(jf)
+                if isinstance(items, list):
+                    for it in items:
+                        if isinstance(it, dict) and it.get("lote"):
+                            registrar_lote(it.get("lote"), it.get("insumo", ""), it.get("vencimiento", ""), it.get("laboratorio", ""))
+                elif isinstance(items, dict):
+                    for k, v in items.items():
+                        registrar_lote(k, v.get("insumo", "") if isinstance(v, dict) else "", v.get("vencimiento", "") if isinstance(v, dict) else "", v.get("laboratorio", "") if isinstance(v, dict) else "")
+        except Exception as ej:
+            print(f"Error cargando lotes_maestros.json: {ej}")
+
+    # 2. Cargar desde libro Excel del Depósito
+    if os.path.exists(fpath):
+        try:
+            wb = openpyxl.load_workbook(fpath, data_only=True, read_only=True)
+            for sname in ["Lotes", "Inventario Real", "Vencimientos", "Conteos Aleatorios"]:
+                if sname in wb.sheetnames:
+                    ws = wb[sname]
+                    for row in ws.iter_rows(min_row=2, max_row=600, min_col=1, max_col=12, values_only=True):
+                        insumo = row[1] if len(row) > 1 else ""
+                        lote = row[7] if len(row) > 7 else (row[6] if len(row) > 6 else "")
+                        fv = row[8] if len(row) > 8 else ""
+                        lab = row[9] if len(row) > 9 else ""
+                        if lote:
+                            registrar_lote(lote, insumo, fv, lab)
+            wb.close()
+        except Exception as e:
+            print(f"Error cargando lotes de Google Sheet: {e}")
 
     return lotes_dict
 
@@ -257,6 +293,8 @@ def validar_movimiento(filepath, mes_evaluar="AGOSTO", municipio_nombre=None, an
 
         vacunas_liofilizadas = {}
         diluyentes_totales = {}
+        dosis_colombianos_por_vacuna = {}
+        total_dosis_colombianos_biologicos = 0
 
         def get_c(r, c):
             if 1 <= r <= len(rows_data):
@@ -298,6 +336,10 @@ def validar_movimiento(filepath, mes_evaluar="AGOSTO", municipio_nombre=None, an
 
             resultado["total_dosis_aplicadas"] += tot_aplicadas
             resultado["total_dosis_perdidas"] += dosis_perdidas
+
+            if "JERINGA" not in insumo_norm and "CARNET" not in insumo_norm and "DILUYENTE" not in insumo_norm:
+                dosis_colombianos_por_vacuna[insumo_raw] = dosis_colombianos_por_vacuna.get(insumo_raw, 0) + dosis_col
+                total_dosis_colombianos_biologicos += dosis_col
 
             # Clasificación de biológicos liofilizados y sus diluyentes para control de reconstitución
             es_diluyente = "DILUYENTE" in insumo_norm
@@ -469,13 +511,27 @@ def validar_movimiento(filepath, mes_evaluar="AGOSTO", municipio_nombre=None, an
                     })
                     resultado["valido"] = False
                 else:
-                    if lotes_maestros and lote_code not in lotes_maestros:
-                        resultado["advertencias"].append({
+                    lote_encontrado = (lote_code in lotes_maestros)
+                    if not lote_encontrado:
+                        for variante in [
+                            lote_code.split('/')[0],
+                            lote_code.split('-')[0],
+                            lote_code.replace('.0', ''),
+                            re.sub(r'[^A-Z0-9]', '', lote_code)
+                        ]:
+                            if variante in lotes_maestros:
+                                lote_encontrado = True
+                                break
+
+                    if lotes_maestros and not lote_encontrado:
+                        resultado["errores"].append({
                             "regla": "REGLA_4_LOTE_NO_CATALOGADO",
                             "insumo": insumo_raw,
                             "lote": lote_code,
-                            "mensaje": f"[Regla 4] En '{insumo_raw}': El lote '{lote_code}' no figura en el catálogo maestro oficial del Depósito de Risaralda. Por favor verificar."
+                            "mensaje": f"[Regla 4 - Lote Inválido] En '{insumo_raw}': El lote '{lote_code}' NO figura en el catálogo maestro oficial del Depósito Departamental de Risaralda. Por directriz de auditoría, no es posible radicar informes con lotes no autorizados o erróneos. Por favor verificar y corregir el lote oficial entregado."
                         })
+                        resultado["valido"] = False
+                        resultado["metricas_reglas"]["regla4_lotes_oficiales"] = False
 
             # =================================================================
             # REGLA 5: RACIONALIDAD BIOLÓGICA DE PÉRDIDAS
@@ -584,6 +640,9 @@ def validar_movimiento(filepath, mes_evaluar="AGOSTO", municipio_nombre=None, an
                         "diferencia": dif,
                         "mensaje": f"[Diluyentes] En '{nombre_bio}': Se utilizaron {dosis_dil} diluyentes para {dosis_vac} dosis de vacuna aplicadas (+{dif} diluyentes consumidos por rotura, descarte o merma). Registro válido."
                     })
+
+        resultado["dosis_colombianos_por_vacuna"] = dosis_colombianos_por_vacuna
+        resultado["total_dosis_colombianos_biologicos"] = total_dosis_colombianos_biologicos
 
     except Exception as e:
         resultado["valido"] = False

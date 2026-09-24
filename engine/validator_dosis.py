@@ -87,6 +87,7 @@ def validar_dosis(filepath, mes_evaluar="AGOSTO", municipio_nombre=None):
 
         # 1. Leer encabezados de vacunas
         col_nombres = {}
+        col_familias = {}
         curr_vacuna = ""
         for c_idx in range(5, max_c + 1):
             v6 = get_val(6, c_idx)
@@ -94,6 +95,7 @@ def validar_dosis(filepath, mes_evaluar="AGOSTO", municipio_nombre=None):
             v8 = get_val(8, c_idx)
             if v6:
                 curr_vacuna = str(v6).strip()
+            col_familias[c_idx] = curr_vacuna
             detalle = " - ".join([str(p).strip() for p in [v7, v8] if p and str(p).strip()])
             nombre_completo = f"{curr_vacuna} ({detalle})" if detalle else (curr_vacuna or f"Columna {c_idx}")
             col_nombres[c_idx] = re.sub(r'\s+', ' ', nombre_completo).strip()
@@ -149,6 +151,7 @@ def validar_dosis(filepath, mes_evaluar="AGOSTO", municipio_nombre=None):
         columnas_evaluadas = 0
         columnas_con_error = 0
         formulas_alteradas = 0
+        vacunas_agrupadas = {}
 
         for col_idx in range(5, max_c + 1):
             # Omitir columnas auxiliares de metadatos o resúmenes de plantilla
@@ -247,6 +250,9 @@ def validar_dosis(filepath, mes_evaluar="AGOSTO", municipio_nombre=None):
 
             total_dosis_acumulado += real_sum_genero
             dosis_por_columna[col_idx] = real_sum_genero
+            fam_vacuna = col_familias.get(col_idx, "")
+            if fam_vacuna:
+                vacunas_agrupadas[fam_vacuna] = vacunas_agrupadas.get(fam_vacuna, 0) + real_sum_genero
 
             # 3. Detección de Fórmulas Adulteradas / Sobreescritas
             # Si el municipio alteró la celda de total escribiendo un número que no es la suma real:
@@ -316,6 +322,7 @@ def validar_dosis(filepath, mes_evaluar="AGOSTO", municipio_nombre=None):
                 columnas_con_error += 1
 
         resultado["total_dosis_mes"] = total_dosis_acumulado
+        resultado["dosis_agrupadas_vacuna"] = vacunas_agrupadas
         resultado["resumen_coherencia"]["columnas_evaluadas"] = columnas_evaluadas
         resultado["resumen_coherencia"]["columnas_con_errores"] = columnas_con_error
         resultado["resumen_coherencia"]["formulas_adulteradas"] = formulas_alteradas

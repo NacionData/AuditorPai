@@ -15,6 +15,7 @@ from engine.detector import detectar_tipo_archivo
 from engine.validator_dosis import validar_dosis
 from engine.validator_movimiento import validar_movimiento
 from engine.validator_extranjeros import validar_extranjeros
+from engine.cruce_colombianos import auditar_cruce_colombianos
 from engine.ai_auditor import generar_dictamen_auditoria, test_gemini_connection
 from engine.consolidator import consolidar_departamento
 from engine.auth import autenticar_usuario, verificar_token, cerrar_sesion
@@ -188,6 +189,13 @@ async def api_auditar(
     if archivos_clasificados["EXTRANJEROS"]:
         res_ext = validar_extranjeros(archivos_clasificados["EXTRANJEROS"], mes_evaluar=mes, municipio_nombre=municipio)
 
+    # 2.5 Comparación Cruzada: Dosis Aplicadas a Colombianos vs Movimiento Colombianos
+    cruce_colombianos = None
+    if res_dosis and res_mov:
+        cruce_colombianos = auditar_cruce_colombianos(res_dosis, res_mov)
+        if cruce_colombianos and cruce_colombianos.get("alertas"):
+            res_mov["advertencias"].extend(cruce_colombianos["alertas"])
+
     # 3. Generar Dictamen y Retroalimentación con IA
     dictamen = generar_dictamen_auditoria(municipio, mes, res_dosis, res_mov, res_ext)
 
@@ -199,7 +207,11 @@ async def api_auditar(
         "mes": mes,
         "ano": ano,
         "archivos": archivos_clasificados,
-        "dictamen": dictamen
+        "dictamen": dictamen,
+        "cruce_colombianos": cruce_colombianos,
+        "detalle_dosis": res_dosis,
+        "detalle_movimiento": res_mov,
+        "detalle_extranjeros": res_ext
     }
     with open(os.path.join(upload_tmp, "session_meta.json"), "w", encoding="utf-8") as f:
         json.dump(meta_session, f, indent=2, ensure_ascii=False)
@@ -218,6 +230,7 @@ async def api_auditar(
         "detalle_dosis": res_dosis,
         "detalle_movimiento": res_mov,
         "detalle_extranjeros": res_ext,
+        "cruce_colombianos": cruce_colombianos,
         "puede_radicar": dictamen["aprobado"]
     }
 
@@ -257,7 +270,7 @@ async def api_radicar(session_id: str = Form(...)):
             shutil.copy2(p, dest)
             archivos_radicados[clave] = dest
 
-    # Guardar recibo
+    # Guardar recibo completo con auditoría detallada
     recibo = {
         "numero_radicado": num_radicado,
         "municipio": municipio,
@@ -265,7 +278,15 @@ async def api_radicar(session_id: str = Form(...)):
         "ano": ano,
         "fecha": fecha_rad,
         "archivos": archivos_radicados,
-        "metricas": meta["dictamen"]["metricas"]
+        "metricas": meta["dictamen"]["metricas"],
+        "dictamen": meta.get("dictamen"),
+        "cruce_colombianos": meta.get("cruce_colombianos"),
+        "simultaneidad": (meta.get("detalle_dosis") or {}).get("resumen_coherencia", {}).get("informe_simultaneidad", []),
+        "detalle_auditoria": {
+            "dosis": meta.get("detalle_dosis"),
+            "movimiento": meta.get("detalle_movimiento"),
+            "extranjeros": meta.get("detalle_extranjeros")
+        }
     }
 
     # Sincronización automática a Google Drive (risaraldapaiweb@gmail.com)
@@ -405,6 +426,28 @@ def api_admin_inspeccionar(municipio: str, mes: str, ano: str = "2026"):
 
     with open(receipt_file, "r", encoding="utf-8") as f:
         recibo = json.load(f)
+
+    # Si el radicado es previo o no tiene el informe detallado, calcular en vivo
+    if "cruce_colombianos" not in recibo and recibo.get("archivos", {}).get("DOSIS") and recibo.get("archivos", {}).get("MOVIMIENTO"):
+        try:
+            f_dos = recibo["archivos"]["DOSIS"]
+            f_mov = recibo["archivos"]["MOVIMIENTO"]
+            f_ext = recibo["archivos"].get("EXTRANJEROS")
+            r_d = validar_dosis(f_dos, mes_evaluar=mes, municipio_nombre=municipio) if os.path.exists(f_dos) else None
+            r_m = validar_movimiento(f_mov, mes_evaluar=mes, municipio_nombre=municipio) if os.path.exists(f_mov) else None
+            r_e = validar_extranjeros(f_ext, mes_evaluar=mes, municipio_nombre=municipio) if f_ext and os.path.exists(f_ext) else None
+            if r_d and r_m:
+                recibo["cruce_colombianos"] = auditar_cruce_colombianos(r_d, r_m)
+            if r_d:
+                recibo["simultaneidad"] = r_d.get("resumen_coherencia", {}).get("informe_simultaneidad", [])
+            recibo["dictamen"] = generar_dictamen_auditoria(municipio, mes, r_d, r_m, r_e)
+            recibo["detalle_auditoria"] = {
+                "dosis": r_d,
+                "movimiento": r_m,
+                "extranjeros": r_e
+            }
+        except Exception as e_insp:
+            print(f"[Admin Inspeccionar] Fallo al enriquecer radicado en vivo: {e_insp}")
 
     # Identificar enlaces de descarga individuales de los archivos subidos por el municipio
     archivos_descargables = {}

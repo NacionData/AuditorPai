@@ -188,12 +188,188 @@ async function inspeccionarMunicipio(municipio) {
     const rec = data.recibo;
     const desc = data.descargas_archivos;
 
+    // Construir secciones del informe detallado
+    const cruce = rec.cruce_colombianos;
+    const sim = rec.simultaneidad || [];
+    const detAud = rec.detalle_auditoria || {};
+    const dDosis = detAud.dosis || {};
+    const dMov = detAud.movimiento || {};
+    const dExt = detAud.extranjeros || {};
+
+    // 1. Evaluar estado de cada regla para el checklist institucional
+    const reglas = [
+      {
+        nombre: "Regla de Oro Demográfica PAI (541 Cols)",
+        archivo: "Dosis Aplicadas",
+        ok: dDosis.resumen_coherencia ? (dDosis.resumen_coherencia.coincidencia_genero_regimen && dDosis.resumen_coherencia.coincidencia_genero_etnico) : true,
+        desc: "Suma(Género) == Suma(Régimen) == Suma(Pertenencia Étnica)"
+      },
+      {
+        nombre: "Recálculo Anti-Adulteración de Fórmulas",
+        archivo: "Dosis Aplicadas",
+        ok: dDosis.resumen_coherencia ? (dDosis.resumen_coherencia.formulas_adulteradas === 0) : true,
+        desc: "Verificación independiente sin confiar en celdas de total sobreescritas"
+      },
+      {
+        nombre: "Continuidad Intermensual de Saldos (Regla 1)",
+        archivo: "Movimiento Biológicos",
+        ok: dMov.metricas_reglas ? dMov.metricas_reglas.regla1_continuidad_saldos : true,
+        desc: "Saldo Anterior mes actual == Saldo Cierre del mes anterior archivado"
+      },
+      {
+        nombre: "Coherencia de 5 Lotes vs Saldo Siguiente (Regla 2)",
+        archivo: "Movimiento Biológicos",
+        ok: dMov.metricas_reglas ? dMov.metricas_reglas.regla2_flag_verdadero : true,
+        desc: "Suma de dosis en las 5 celdas de lotes == Saldo Siguiente (Col N = Col M)"
+      },
+      {
+        nombre: "Catálogo Maestro de Lotes Oficiales (Regla 4)",
+        archivo: "Movimiento Biológicos",
+        ok: dMov.metricas_reglas ? dMov.metricas_reglas.regla4_lotes_oficiales : true,
+        desc: "Validación de lotes contra los 361 lotes activos del Depósito Departamental"
+      },
+      {
+        nombre: "Diluyentes en Liofilizados (Regla 6)",
+        archivo: "Movimiento Biológicos",
+        ok: !(dMov.errores || []).some(e => e.regla === 'REGLA_6_DILUYENTES_INSUFICIENTES'),
+        desc: "Diluyentes utilizados >= Vacunas reconstituidas utilizadas"
+      },
+      {
+        nombre: "Racionalidad de 11 Causas de Pérdida (Regla 5)",
+        archivo: "Movimiento Biológicos",
+        ok: dMov.metricas_reglas ? dMov.metricas_reglas.regla5_racionalidad_perdidas : true,
+        desc: "Suma de 11 causas == Total Pérdidas reportadas"
+      },
+      {
+        nombre: "Coherencia Matricial en Países Fronterizos",
+        archivo: "Vacunados Extranjeros",
+        ok: !(dExt.errores || []).some(e => e.tipo === 'DESCUADRE_EXTRANJEROS'),
+        desc: "Total Género == Total Régimen en las 6 hojas de países migrantes"
+      }
+    ];
+
+    let htmlReglas = `
+      <div class="rounded-2xl border-2 border-slate-200 overflow-hidden shadow-sm">
+        <div class="bg-slate-100 px-4 py-2.5 border-b border-slate-200 flex items-center justify-between">
+          <span class="text-xs font-black uppercase text-slate-800 tracking-wider">📋 Checklist Institucional de Reglas Auditadas</span>
+          <span class="text-[11px] font-bold text-slate-600">${reglas.filter(r => r.ok).length}/${reglas.length} Reglas Cumplidas</span>
+        </div>
+        <div class="divide-y divide-slate-100 text-xs">
+    `;
+
+    reglas.forEach(r => {
+      htmlReglas += `
+        <div class="p-3 flex items-center justify-between gap-3 bg-white hover:bg-slate-50 transition">
+          <div class="space-y-0.5">
+            <div class="font-bold text-slate-900 flex items-center gap-2">
+              <span>${r.nombre}</span>
+              <span class="text-[10px] font-mono font-normal text-slate-500 bg-slate-100 px-1.5 py-0.2 rounded border border-slate-200">${r.archivo}</span>
+            </div>
+            <div class="text-[11px] text-slate-600">${r.desc}</div>
+          </div>
+          <div>
+            <span class="px-2.5 py-1 rounded-full text-[11px] font-black flex items-center gap-1 ${r.ok ? 'bg-emerald-100 text-emerald-900 border border-emerald-300' : 'bg-rose-100 text-rose-900 border border-rose-300'}">
+              ${r.ok ? '✓ CUMPLE' : '✕ INCONSISTENCIA'}
+            </span>
+          </div>
+        </div>
+      `;
+    });
+    htmlReglas += `</div></div>`;
+
+    // 2. Reporte de Simultaneidad del Esquema Nacional (6 Cohortes Clave)
+    let htmlSimultaneidad = '';
+    if (sim && sim.length > 0) {
+      htmlSimultaneidad = `
+        <div class="rounded-2xl border-2 border-indigo-200 overflow-hidden shadow-sm">
+          <div class="bg-indigo-50 px-4 py-2.5 border-b border-indigo-200 flex items-center justify-between">
+            <span class="text-xs font-black uppercase text-indigo-950 tracking-wider">🎯 Informe de Oportunidades y Simultaneidad del Esquema (6 Cohortes)</span>
+            <span class="text-[11px] font-bold text-indigo-800">Evaluación de Oportunidad Clínica</span>
+          </div>
+          <div class="p-4 bg-white grid grid-cols-1 md:grid-cols-2 gap-3">
+      `;
+
+      sim.forEach(c => {
+        const esOpt = c.estado === 'OPTIMO';
+        const listaBios = (c.biologicos || []).map(b => `<span class="font-bold">${b.nombre}:</span> <span class="font-mono text-indigo-950 font-black">${b.dosis}</span>`).join(' • ');
+        htmlSimultaneidad += `
+          <div class="p-3.5 rounded-xl border-2 ${esOpt ? 'border-emerald-200 bg-emerald-50/50' : 'border-amber-200 bg-amber-50/50'} space-y-1.5 text-xs">
+            <div class="flex items-center justify-between">
+              <span class="font-black text-slate-900">${c.cohorte}</span>
+              <span class="text-[10px] font-black px-2 py-0.5 rounded-full ${esOpt ? 'bg-emerald-200 text-emerald-950' : 'bg-amber-200 text-amber-950'}">
+                ${esOpt ? '✓ 100% ÓPTIMA' : '⚠️ DESFASE OBSERVADO'}
+              </span>
+            </div>
+            <div class="text-[11px] text-slate-700">${listaBios}</div>
+            <div class="text-[10px] font-bold ${esOpt ? 'text-emerald-800' : 'text-amber-800'} pt-1 border-t border-slate-200/60">${c.resumen}</div>
+          </div>
+        `;
+      });
+
+      htmlSimultaneidad += `</div></div>`;
+    }
+
+    // 3. Tabla Comparativa Cruzada (Dosis Aplicadas a Colombianos vs Movimiento Colombianos)
+    let htmlCruce = '';
+    if (cruce && cruce.tabla_comparativa && cruce.tabla_comparativa.length > 0) {
+      htmlCruce = `
+        <div class="rounded-2xl border-2 border-slate-200 overflow-hidden shadow-sm">
+          <div class="bg-slate-100 px-4 py-2.5 border-b border-slate-200 flex items-center justify-between">
+            <span class="text-xs font-black uppercase text-slate-800 tracking-wider">⚖️ Cruce Comparativo: Dosis Aplicadas (Plantilla) vs Movimiento (Colombianos)</span>
+            <span class="text-[11px] font-bold text-slate-600">${cruce.coincidencias_exactas} Coincidencias • ${cruce.discrepancias_observadas} Diferencias (${cruce.porcentaje_coincidencia}%)</span>
+          </div>
+          <div class="max-h-60 overflow-y-auto">
+            <table class="w-full text-left text-xs">
+              <thead class="bg-slate-50 text-[10px] uppercase font-black text-slate-600 border-b border-slate-200 sticky top-0">
+                <tr>
+                  <th class="p-2.5 pl-4">Biológico</th>
+                  <th class="p-2.5 text-right">Dosis Plantilla</th>
+                  <th class="p-2.5 text-right">Dosis Movimiento</th>
+                  <th class="p-2.5 text-right">Diferencia</th>
+                  <th class="p-2.5 pr-4 text-center">Estado</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-100 font-medium text-slate-800">
+      `;
+
+      cruce.tabla_comparativa.forEach(f => {
+        const esMatch = f.diferencia === 0;
+        htmlCruce += `
+          <tr class="hover:bg-slate-50 transition">
+            <td class="p-2.5 pl-4 font-bold text-slate-900">${f.biologico}</td>
+            <td class="p-2.5 text-right font-mono font-bold">${f.dosis_plantilla.toLocaleString()}</td>
+            <td class="p-2.5 text-right font-mono font-bold">${f.dosis_movimiento.toLocaleString()}</td>
+            <td class="p-2.5 text-right font-mono font-black ${esMatch ? 'text-emerald-700' : 'text-amber-700'}">${f.diferencia > 0 ? '+' + f.diferencia : f.diferencia}</td>
+            <td class="p-2.5 pr-4 text-center">
+              <span class="text-[10px] font-black px-2 py-0.5 rounded-full ${esMatch ? 'bg-emerald-100 text-emerald-900 border border-emerald-300' : 'bg-amber-100 text-amber-900 border border-amber-300'}">
+                ${esMatch ? '✓ Exacta' : '⚠️ ' + f.diferencia}
+              </span>
+            </td>
+          </tr>
+        `;
+      });
+
+      htmlCruce += `
+              </tbody>
+            </table>
+          </div>
+        </div>
+      `;
+    }
+
+    // 4. Dictamen del Asistente IA
+    const dictamenTexto = (rec.dictamen && rec.dictamen.dictamen_pedagogico) ? rec.dictamen.dictamen_pedagogico : '';
+    const motorIa = (rec.dictamen && rec.dictamen.motor_ia) ? rec.dictamen.motor_ia : 'Tutor PAI';
+
     contenido.innerHTML = `
-      <div class="space-y-4">
+      <div class="space-y-5">
         
         <!-- Tarjeta de Recibo -->
-        <div class="p-4 rounded-2xl bg-emerald-50 border-2 border-emerald-300 text-xs font-mono font-bold space-y-1.5">
-          <div class="text-emerald-950 font-black text-sm">RADICADO OFICIAL: ${rec.numero_radicado}</div>
+        <div class="p-4 rounded-2xl bg-emerald-50 border-2 border-emerald-300 text-xs font-mono font-bold space-y-1.5 shadow-sm">
+          <div class="flex items-center justify-between">
+            <span class="text-emerald-950 font-black text-sm">RADICADO OFICIAL: ${rec.numero_radicado}</span>
+            <span class="bg-emerald-200 text-emerald-950 px-2.5 py-0.5 rounded-full text-[10px] font-black border border-emerald-400">✓ AUDITADO Y APROBADO</span>
+          </div>
           <div class="text-slate-700">Fecha y Hora de Entrega: ${rec.fecha}</div>
           <div class="text-indigo-900">Google Drive: Sincronizado a ${rec.google_drive ? rec.google_drive.correo : 'risaraldapaiweb@gmail.com'}</div>
           <div class="text-[10px] text-slate-500">Carpeta: ${rec.google_drive ? rec.google_drive.carpeta : 'PAI_RISARALDA_2026/' + mes + '/' + municipio}</div>
@@ -201,23 +377,48 @@ async function inspeccionarMunicipio(municipio) {
 
         <!-- Métricas Auditadas -->
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
-          <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+          <div class="p-3 bg-white rounded-xl border-2 border-slate-200 shadow-sm">
             <div class="text-[10px] font-black uppercase text-slate-500">Dosis Aplicadas</div>
             <div class="text-lg font-black text-slate-900">${rec.metricas.dosis_aplicadas_nacionales.toLocaleString()}</div>
           </div>
-          <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+          <div class="p-3 bg-white rounded-xl border-2 border-slate-200 shadow-sm">
             <div class="text-[10px] font-black uppercase text-slate-500">Dosis Movimiento</div>
             <div class="text-lg font-black text-slate-900">${rec.metricas.dosis_movimiento_total.toLocaleString()}</div>
           </div>
-          <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+          <div class="p-3 bg-white rounded-xl border-2 border-slate-200 shadow-sm">
             <div class="text-[10px] font-black uppercase text-slate-500">Pérdidas Lotes</div>
             <div class="text-lg font-black text-amber-800">${rec.metricas.dosis_perdidas_total.toLocaleString()}</div>
           </div>
-          <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+          <div class="p-3 bg-white rounded-xl border-2 border-slate-200 shadow-sm">
             <div class="text-[10px] font-black uppercase text-slate-500">Extranjeros</div>
             <div class="text-lg font-black text-blue-900">${rec.metricas.vacunados_extranjeros.toLocaleString()}</div>
           </div>
         </div>
+
+        <!-- Checklist Institucional de Reglas -->
+        ${htmlReglas}
+
+        <!-- Reporte de Simultaneidad del Esquema -->
+        ${htmlSimultaneidad}
+
+        <!-- Cruce Dosis Aplicadas vs Movimiento -->
+        ${htmlCruce}
+
+        <!-- Dictamen del Asistente IA -->
+        ${dictamenTexto ? `
+          <div class="bg-slate-50 border-2 border-slate-200 rounded-2xl p-5 space-y-2.5 shadow-sm">
+            <div class="flex items-center justify-between border-b border-slate-200 pb-2">
+              <span class="text-xs font-black uppercase text-indigo-950 flex items-center gap-1.5">
+                <svg class="w-4 h-4 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                <span>Dictamen del Asistente PAI Risaralda</span>
+              </span>
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-white border border-slate-300 text-slate-700">🤖 ${motorIa}</span>
+            </div>
+            <div class="text-xs text-slate-800 leading-relaxed font-medium">
+              ${(window.marked && window.marked.parse) ? marked.parse(dictamenTexto) : dictamenTexto.replace(/\n/g, '<br>')}
+            </div>
+          </div>
+        ` : ''}
 
         <!-- Descargas de Archivos Originales Subidos por el Municipio -->
         <div class="space-y-2 pt-2 border-t-2 border-slate-100">
