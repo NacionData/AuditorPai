@@ -20,9 +20,12 @@ Pereira, Dosquebradas, Santa Rosa de Cabal, La Virginia, Belén de Umbría, Apí
 3. Vacunados Extranjeros:
    - Coherencia matricial de las 6 hojas de países contra dosis aplicadas a extranjeros.
 
-## 3. Arquitectura del Proyecto
-- main.py: Servidor FastAPI en http://localhost:8000
-- engine/: Validadores, agente IA y consolidador MinSalud.
-- templates_base/: Plantillas oficiales MinSalud en blanco.
-- storage/: Catálogos, radicados municipales y consolidados finales.
-- static/: Portal web del municipio y Tablero Departamental.
+## 3. Arquitectura y Enlaces del Proyecto
+- **Portal Municipal en Producción:** [https://auditorpai-informes.up.railway.app](https://auditorpai-informes.up.railway.app)
+- **Tablero Departamental (Gobernación):** [https://auditorpai-informes.up.railway.app/departamental](https://auditorpai-informes.up.railway.app/departamental)
+- **Servidor Local:** FastAPI en `http://localhost:8000`
+- **engine/**: Validadores matemáticos, agente IA (Gemini) y consolidador MinSalud.
+- **templates_base/**: Plantillas oficiales MinSalud 2026 en blanco.
+- **storage/**: Catálogos, radicados municipales y consolidados finales.
+- **static/**: Portal web del municipio y Tablero Departamental (Claro Clínico Pro).
+
