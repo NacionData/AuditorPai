@@ -73,17 +73,22 @@ REGLAS_MAPEO = [
     ("DIL_VARICELA", "Diluyente Varicela", "Diluyente", [["VARICELA"]], [["VARICELA"]]),
     ("DIL_ANTIRRABICA", "Diluyente Antirrábica", "Diluyente", [["ANTIRRABICA"]], [["ANTIRRABICA"]]),
     # Insumos y Jeringas
-    ("INS_JERINGA_22G", "Jeringa 22G", "Insumo", [["22G"]], [["22G"]]),
-    ("INS_JERINGA_23G", "Jeringa 23G", "Insumo", [["23G"]], [["23G"]]),
-    ("INS_JERINGA_25G", "Jeringa 25G", "Insumo", [["25G"]], [["25G"]]),
-    ("INS_CARNE_FA", "Carné Internacional FA", "Insumo", [["CARNE", "INTERNACIONAL"]], [["CARNE", "INTERNACIONAL"]]),
+    ("INS_JERINGA_26G", "Jeringa 26G x 3/8 Auto Descartable (0.05 ml BCG)", "Insumo", [["26G"], ["26", "G"], ["26", "38"]], [["26G"], ["26", "G"], ["26", "38"], ["005", "26"]]),
+    ("INS_JERINGA_27G", "Jeringa 27G x 3/8 Auto Descartable (0.1 ml)", "Insumo", [["27G"], ["27", "G"], ["27", "38"]], [["27G"], ["27", "G"], ["27", "38"], ["01", "27"]]),
+    ("INS_JERINGA_25G", "Jeringa 25G x 5/8 Auto Descartable (0.5 ml)", "Insumo", [["25G"], ["25", "G"]], [["25G"], ["25", "G"]]),
+    ("INS_JERINGA_23G", "Jeringa 23G x 1 Auto Descartable / Convencional", "Insumo", [["23G"], ["23", "G"]], [["23G"], ["23", "G"]]),
+    ("INS_JERINGA_22G", "Jeringa 22G x 1 1/2 Auto Descartable / Convencional", "Insumo", [["22G"], ["22", "G"]], [["22G"], ["22", "G"]]),
+    ("INS_CARNE_FA", "Carné Internacional Fiebre Amarilla", "Insumo", [["CARNE", "INTERNACIONAL"], ["CERTIFICADO", "INTERNACIONAL"], ["CARNET", "INTERNACIONAL"]], [["CARNE", "INTERNACIONAL"], ["CERTIFICADO", "INTERNACIONAL"], ["CARNET", "INTERNACIONAL"]]),
+    ("INS_CARNET_INFANTIL", "Carné de Vacunación Infantil", "Insumo", [["INFANTIL"]], [["INFANTIL"]]),
+    ("INS_CARNET_ADULTOS", "Carné de Vacunación Adultos", "Insumo", [["ADULTO"]], [["ADULTO"]]),
+    ("INS_CARNET_COVID", "Carné / Certificado Covid-19", "Insumo", [["COVID"]], [["COVID"]]),
 ]
 
 def clasificar_item(texto, origen="kardex"):
     t_norm = normalizar_cadena(texto)
     es_dil = "DILUYENTE" in t_norm
-    es_carne = "CARNE" in t_norm or "TARJETA" in t_norm
-    es_jeringa = "JERINGA" in t_norm
+    es_carne = "CARNE" in t_norm or "TARJETA" in t_norm or "CERTIFICADO" in t_norm or "CARNET" in t_norm
+    es_jeringa = "JERINGA" in t_norm or "AGUJA" in t_norm
 
     for clave, nombre_vis, grupo, opts_k, opts_m in REGLAS_MAPEO:
         if grupo == "Biológico" and (es_dil or es_carne or es_jeringa):
@@ -106,6 +111,31 @@ def clasificar_item(texto, origen="kardex"):
         for req_words in opts:
             if all(w in t_norm for w in req_words):
                 return clave, nombre_vis, grupo
+
+    # Normalizador semántico secundario para jeringas e insumos (por especificación técnica de aguja/calibre)
+    if es_jeringa:
+        if "26G" in t_norm or ("26" in t_norm and ("38" in t_norm or "005" in t_norm or "AD" in t_norm)):
+            return "INS_JERINGA_26G", "Jeringa 26G x 3/8 Auto Descartable (0.05 ml BCG)", "Insumo"
+        if "27G" in t_norm or ("27" in t_norm and ("38" in t_norm or "01" in t_norm)):
+            return "INS_JERINGA_27G", "Jeringa 27G x 3/8 Auto Descartable (0.1 ml)", "Insumo"
+        if "25G" in t_norm or ("25" in t_norm and ("58" in t_norm or "05" in t_norm)):
+            return "INS_JERINGA_25G", "Jeringa 25G x 5/8 Auto Descartable (0.5 ml)", "Insumo"
+        if "23G" in t_norm or ("23" in t_norm and ("1" in t_norm or "CONVENCIONAL" in t_norm)):
+            return "INS_JERINGA_23G", "Jeringa 23G x 1 Auto Descartable / Convencional", "Insumo"
+        if "22G" in t_norm or ("22" in t_norm and "1" in t_norm):
+            return "INS_JERINGA_22G", "Jeringa 22G x 1 1/2 Auto Descartable / Convencional", "Insumo"
+        return f"INS_JERINGA_{t_norm[:15]}", texto, "Insumo"
+
+    if es_carne:
+        if "INFANTIL" in t_norm or "NINO" in t_norm:
+            return "INS_CARNET_INFANTIL", "Carné de Vacunación Infantil", "Insumo"
+        if "ADULTO" in t_norm:
+            return "INS_CARNET_ADULTOS", "Carné de Vacunación Adultos", "Insumo"
+        if "COVID" in t_norm:
+            return "INS_CARNET_COVID", "Carné / Certificado Covid-19", "Insumo"
+        if "INTERNACIONAL" in t_norm or "FA" in t_norm or "FIEBRE" in t_norm:
+            return "INS_CARNE_FA", "Carné Internacional Fiebre Amarilla", "Insumo"
+        return "INS_CARNET_GENERICO", "Carné de Vacunación", "Insumo"
 
     return None, texto, "Otros"
 

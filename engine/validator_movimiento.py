@@ -483,43 +483,47 @@ def validar_movimiento(filepath, mes_evaluar="AGOSTO", municipio_nombre=None, an
 
             # =================================================================
             # REGLA 4: VALIDACIÓN DE LOTES CONTRA HOJA 'LOTES' (Google Sheets)
+            # Solo aplica a biológicos (vacunas). Los insumos médicos (jeringas, carnés, agujas)
+            # son dispositivos médicos con lotes industriales libres y no deben ser bloqueados.
             # =================================================================
-            for lote_info in lotes_item_encontrados:
-                lote_code = lote_info["lote"]
-                lab_info = lote_info["lab"]
-                fv_info = lote_info["fv"]
-                slot_num = lote_info["slot"]
-                f_slot = lote_info["fila"]
+            es_insumo_medico = any(x in insumo_norm for x in ["JERINGA", "AGUJA", "CARNET", "CARNE", "DISPOSITIVO", "INSUMO"])
+            if not es_insumo_medico:
+                for lote_info in lotes_item_encontrados:
+                    lote_code = lote_info["lote"]
+                    lab_info = lote_info["lab"]
+                    fv_info = lote_info["fv"]
+                    slot_num = lote_info["slot"]
+                    f_slot = lote_info["fila"]
 
-                if not lote_code:
-                    resultado["errores"].append({
-                        "regla": "REGLA_4_LOTE_FALTANTE",
-                        "insumo": insumo_raw,
-                        "mensaje": f"[Regla 4] En '{insumo_raw}' (Fila {f_slot}, Celda lote {slot_num}): Hay {lote_info['dosis']} dosis asignadas pero la celda de No. Lote está en blanco."
-                    })
-                    resultado["valido"] = False
-                else:
-                    lote_encontrado = (lote_code in lotes_maestros)
-                    if not lote_encontrado:
-                        for variante in [
-                            lote_code.split('/')[0],
-                            lote_code.split('-')[0],
-                            lote_code.replace('.0', ''),
-                            re.sub(r'[^A-Z0-9]', '', lote_code)
-                        ]:
-                            if variante in lotes_maestros:
-                                lote_encontrado = True
-                                break
-
-                    if lotes_maestros and not lote_encontrado:
+                    if not lote_code:
                         resultado["errores"].append({
-                            "regla": "REGLA_4_LOTE_NO_CATALOGADO",
+                            "regla": "REGLA_4_LOTE_FALTANTE",
                             "insumo": insumo_raw,
-                            "lote": lote_code,
-                            "mensaje": f"[Regla 4 - Lote Inválido] En '{insumo_raw}': El lote '{lote_code}' NO figura en el catálogo maestro oficial del Depósito Departamental de Risaralda. Por directriz de auditoría, no es posible radicar informes con lotes no autorizados o erróneos. Por favor verificar y corregir el lote oficial entregado."
+                            "mensaje": f"[Regla 4] En '{insumo_raw}' (Fila {f_slot}, Celda lote {slot_num}): Hay {lote_info['dosis']} dosis asignadas pero la celda de No. Lote está en blanco."
                         })
                         resultado["valido"] = False
-                        resultado["metricas_reglas"]["regla4_lotes_oficiales"] = False
+                    else:
+                        lote_encontrado = (lote_code in lotes_maestros)
+                        if not lote_encontrado:
+                            for variante in [
+                                lote_code.split('/')[0],
+                                lote_code.split('-')[0],
+                                lote_code.replace('.0', ''),
+                                re.sub(r'[^A-Z0-9]', '', lote_code)
+                            ]:
+                                if variante in lotes_maestros:
+                                    lote_encontrado = True
+                                    break
+
+                        if lotes_maestros and not lote_encontrado:
+                            resultado["errores"].append({
+                                "regla": "REGLA_4_LOTE_NO_CATALOGADO",
+                                "insumo": insumo_raw,
+                                "lote": lote_code,
+                                "mensaje": f"[Regla 4 - Lote Inválido] En '{insumo_raw}': El lote '{lote_code}' NO figura en el catálogo maestro oficial del Depósito Departamental de Risaralda. Por directriz de auditoría, no es posible radicar informes con lotes no autorizados o erróneos. Por favor verificar y corregir el lote oficial entregado."
+                            })
+                            resultado["valido"] = False
+                            resultado["metricas_reglas"]["regla4_lotes_oficiales"] = False
 
             # =================================================================
             # REGLA 5: RACIONALIDAD BIOLÓGICA DE PÉRDIDAS
