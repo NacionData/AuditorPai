@@ -88,9 +88,9 @@ def _generar_dictamen_local(municipio, mes, errores, advertencias, res_dosis, re
         lineas.append(f"\n⚠️ **Se detectaron {len(errores)} inconsistencias críticas que deben corregirse antes de radicar:**\n")
         for idx, err in enumerate(errores, 1):
             lineas.append(f"{idx}. {err}")
-        lineas.append("\n💡 **Instrucciones para corregir:**")
+        lineas.append("\n💡 **Instrucciones oficiales para corregir:**")
         lineas.append("• En la plantilla de Dosis Aplicadas, asegúrate de que la cantidad total de dosis por género coincida exactamente con la suma por régimen (contributivo, subsidiado, etc.) y pertenencia étnica.")
-        lineas.append("• En Movimiento de Biológicos, verifica que el Saldo que inicia el mes siguiente sea exactamente igual a: *Saldo Anterior + Entradas - Salidas - Pérdidas*, y que la suma de lotes coincida con ese saldo.")
+        lineas.append("• En Movimiento de Biológicos, verifique el inventario físico en sus equipos de frío y las actas de entrega/remisiones del Depósito Departamental. Recuerde que las fórmulas de las plantillas oficiales MinSalud están protegidas y no deben ser modificadas ni sobreescritas bajo ninguna circunstancia. Si tras verificar los conteos físicos persiste una diferencia frente al Kardex oficial del Depósito Departamental, comuníquese inmediatamente con el Referente Departamental de Vacunación del PAI Risaralda para realizar la respectiva conciliación administrativa.")
 
     if advertencias:
         simul_adv = [a for a in advertencias if "Simultaneidad" in a]
@@ -180,19 +180,21 @@ INCONSISTENCIAS CRÍTICAS ENCONTRADAS (Bloquean radicación):
 OBSERVACIONES DE SIMULTANEIDAD DEL ESQUEMA, LOTES Y DILUYENTES (Informativas, NO impiden la radicación):
 {json.dumps(advertencias[:12], indent=2, ensure_ascii=False)}
 
-Instrucciones para tu dictamen institucional:
-1. Redacta un dictamen oficial, empático, altamente pedagógico y constructivo dirigido al personal de salud y coordinadores de vacunación de {municipio}.
-2. Si existen inconsistencias críticas, explica con absoluta claridad la causa de cada descuadre y qué celdas o columnas deben ajustar en sus archivos de Excel para radicar.
-3. Si el informe está aprobado para radicar pero tiene observaciones de simultaneidad (desfases en cohortes de 2m, 4m, 6m, 12m, 18m, 5a) o diluyentes:
-   - Destaca que el informe es VÁLIDO y PUEDE SER RADICADO.
-   - Brinda un análisis pedagógico sobre las oportunidades de vacunación observadas en las cohortes, aconsejando estrategias de búsqueda activa y seguimiento en campo para garantizar esquemas completos.
-4. Mantén un tono institucional, cordial, motivador y profesional en formato Markdown estructurado con títulos claros.
+DIRECTRICES OBLIGATORIAS PARA TU DICTAMEN INSTITUCIONAL:
+1. REDACCIÓN Y FORMATO: Redacta un dictamen oficial, empático, altamente pedagógico, técnico y constructivo dirigido al personal de salud y coordinadores de vacunación de {municipio}. Usa Markdown estructurado con viñetas limpias y concisas. NUNCA uses sintaxis LaTeX (está estrictamente prohibido usar $$ o $).
+2. POLÍTICA ESTRICTA SOBRE FÓRMULAS DE EXCEL: Queda terminantemente PROHIBIDO invitar, sugerir o instruir al usuario a modificar, alterar o recalcular fórmulas de Excel (como la ecuación de saldo final, sumas de lotes o celdas de control). Las fórmulas de las plantillas oficiales MinSalud son estandarizadas y no se tocan.
+3. CONCILIACIÓN FÍSICA Y KARDEX (REGLA 3): Ante inconsistencias en biológicos recibidos versus el Kardex del Depósito Departamental, o diferencias en saldos y lotes, indica expresamente:
+   - Verificar detalladamente el inventario físico en los termos/neveras de la IPS y las actas físicas de entrega/remisión oficial emitidas por la cadena de frío departamental.
+   - Si tras verificar el inventario físico se corrobora que el conteo municipal es exacto y la discrepancia con el Kardex oficial persiste, instruye al vacunador a comunicarse inmediatamente con el Referente Departamental de Vacunación del PAI Risaralda para la respectiva conciliación administrativa.
+4. LOTES Y TRAZABILIDAD: Si un lote no figura en el catálogo maestro departamental o está faltante, instruye al municipio a verificar la etiqueta biológica y registrar el lote oficial correspondiente. No se pueden radicar informes con lotes inexistentes o erróneos.
+5. SIMULTANEIDAD Y COHORTES (INFORMATIVO): Si el informe está aprobado o presenta observaciones de simultaneidad clínica (2m, 4m, 6m, 12m, 18m, 5a) o diluyentes, destaca con claridad que el informe ES VÁLIDO y PUEDE SER RADICADO, y orienta al equipo con recomendaciones pedagógicas de búsqueda activa de susceptibles para completar esquemas.
+6. CONCISIÓN Y COMPLETITUD: Sé conciso, directo y estructurado para asegurar que el dictamen se entregue completo sin cortes.
 """
     data = json.dumps({
         "contents": [{"parts": [{"text": prompt}]}],
         "generationConfig": {
             "temperature": 0.2,
-            "maxOutputTokens": 2048,
+            "maxOutputTokens": 8192,
             "thinkingConfig": {"thinkingBudget": 0}
         }
     }).encode("utf-8")
@@ -204,10 +206,17 @@ Instrucciones para tu dictamen institucional:
         url = f"https://generativelanguage.googleapis.com/v1beta/models/{modelo}:generateContent?key={api_key}"
         req = urllib.request.Request(url, data=data, headers={"Content-Type": "application/json"})
         try:
-            with urllib.request.urlopen(req, timeout=25) as resp:
+            with urllib.request.urlopen(req, timeout=30) as resp:
                 res_json = json.loads(resp.read().decode("utf-8"))
-                texto = res_json["candidates"][0]["content"]["parts"][0]["text"]
-                return texto, modelo
+                candidates = res_json.get("candidates", [])
+                if candidates:
+                    cand = candidates[0]
+                    finish_reason = cand.get("finishReason", "")
+                    partes = cand.get("content", {}).get("parts", [])
+                    texto = partes[0].get("text", "") if partes else ""
+                    if finish_reason == "MAX_TOKENS":
+                        texto += "\n\n*(Nota institucional: Dictamen extenso sintetizado por límite de extensión).* "
+                    return texto, modelo
         except Exception as e:
             ultimo_error = e
             print(f"[AI Auditor] Modelo {modelo} falló: {e}. Probando siguiente candidato...")

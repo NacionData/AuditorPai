@@ -394,7 +394,7 @@ def validar_movimiento(filepath, mes_evaluar="AGOSTO", municipio_nombre=None, an
                         "saldo_reportado": saldo_ant,
                         "saldo_oficial_previo": saldo_cierre_previo,
                         "diferencia": dif,
-                        "mensaje": f"[Regla 1] En '{insumo_raw}': El Saldo Anterior en {mes_evaluar} ({saldo_ant}) NO coincide con el cierre oficial del mes anterior ({saldo_cierre_previo}). Descuadre: {dif} dosis alteradas."
+                        "mensaje": f"[Regla 1] En '{insumo_raw}': El Saldo Anterior en {mes_evaluar} ({saldo_ant}) NO coincide con el cierre oficial del mes anterior ({saldo_cierre_previo}). Descuadre: {dif} dosis. Verifique el inventario físico y kardex local; no modifique fórmulas del formato oficial. Si requiere conciliar saldos, coordine con el Referente Departamental de Vacunación del PAI Risaralda."
                     })
                     resultado["valido"] = False
                     resultado["metricas_reglas"]["regla1_continuidad_saldos"] = False
@@ -465,7 +465,7 @@ def validar_movimiento(filepath, mes_evaluar="AGOSTO", municipio_nombre=None, an
                     "suma_lotes_5_celdas": dosis_lotes_manual,
                     "celda_control_oficial": str(celda_control_val),
                     "diferencia": dif,
-                    "mensaje": f"[Regla 2] En '{insumo_raw}': La suma de las 5 celdas de lotes ({dosis_lotes_manual}) no coincide con el Saldo que inicia el mes siguiente ({saldo_esperado}). Descuadre: {dif} dosis."
+                    "mensaje": f"[Regla 2] En '{insumo_raw}': La suma de las 5 celdas de lotes ({dosis_lotes_manual}) no coincide con el Saldo que inicia el mes siguiente ({saldo_esperado}). Descuadre: {dif} dosis. Verifique el conteo físico por lote en los termos/neveras de la IPS. Las fórmulas oficiales de saldo y control no deben alterarse."
                 })
                 resultado["valido"] = False
                 resultado["metricas_reglas"]["regla2_flag_verdadero"] = False

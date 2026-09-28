@@ -189,100 +189,151 @@ async function inspeccionarMunicipio(municipio) {
     const desc = data.descargas_archivos;
 
     // Construir secciones del informe detallado
-    const cruce = rec.cruce_colombianos;
-    const cruceDep = rec.cruce_deposito || (dMov && dMov.cruce_deposito);
-    const sim = rec.simultaneidad || [];
     const detAud = rec.detalle_auditoria || {};
     const dDosis = detAud.dosis || {};
     const dMov = detAud.movimiento || {};
     const dExt = detAud.extranjeros || {};
+    const cruce = rec.cruce_colombianos;
+    const cruceDep = rec.cruce_deposito || (dMov && dMov.cruce_deposito);
+    const sim = rec.simultaneidad || [];
 
     // 1. Evaluar estado de cada regla para el checklist institucional
-    const reglas = [
-      {
-        nombre: "Regla de Oro Demográfica PAI (541 Cols)",
-        archivo: "Dosis Aplicadas",
-        ok: dDosis.resumen_coherencia ? (dDosis.resumen_coherencia.coincidencia_genero_regimen && dDosis.resumen_coherencia.coincidencia_genero_etnico) : true,
-        desc: "Suma(Género) == Suma(Régimen) == Suma(Pertenencia Étnica)"
-      },
-      {
-        nombre: "Recálculo Anti-Adulteración de Fórmulas",
-        archivo: "Dosis Aplicadas",
-        ok: dDosis.resumen_coherencia ? (dDosis.resumen_coherencia.formulas_adulteradas === 0) : true,
-        desc: "Verificación independiente sin confiar en celdas de total sobreescritas"
-      },
-      {
-        nombre: "Continuidad Intermensual de Saldos (Regla 1)",
-        archivo: "Movimiento Biológicos",
-        ok: dMov.metricas_reglas ? dMov.metricas_reglas.regla1_continuidad_saldos : true,
-        desc: "Saldo Anterior mes actual == Saldo Cierre del mes anterior archivado"
-      },
-      {
-        nombre: "Coherencia de 5 Lotes vs Saldo Siguiente (Regla 2)",
-        archivo: "Movimiento Biológicos",
-        ok: dMov.metricas_reglas ? dMov.metricas_reglas.regla2_flag_verdadero : true,
-        desc: "Suma de dosis en las 5 celdas de lotes == Saldo Siguiente (Col N = Col M)"
-      },
-      {
-        nombre: "Cruce Entregas Depósito Departamental (Regla 3)",
-        archivo: "Movimiento vs Kardex",
-        ok: cruceDep && cruceDep.resumen ? (cruceDep.resumen.biologicos_exactos === cruceDep.resumen.biologicos_total) : true,
-        desc: "Dosis recibidas (Col 5) vs despachadas en Kardex oficial por el Depósito Departamental"
-      },
-      {
-        nombre: "Catálogo Maestro de Lotes Oficiales (Regla 4)",
-        archivo: "Movimiento Biológicos",
-        ok: dMov.metricas_reglas ? dMov.metricas_reglas.regla4_lotes_oficiales : true,
-        desc: "Validación de lotes contra los 361 lotes activos del Depósito Departamental"
-      },
-      {
-        nombre: "Diluyentes en Liofilizados (Regla 6)",
-        archivo: "Movimiento Biológicos",
-        ok: !(dMov.errores || []).some(e => e.regla === 'REGLA_6_DILUYENTES_INSUFICIENTES'),
-        desc: "Diluyentes utilizados >= Vacunas reconstituidas utilizadas"
-      },
-      {
-        nombre: "Racionalidad de 11 Causas de Pérdida (Regla 5)",
-        archivo: "Movimiento Biológicos",
-        ok: dMov.metricas_reglas ? dMov.metricas_reglas.regla5_racionalidad_perdidas : true,
-        desc: "Suma de 11 causas == Total Pérdidas reportadas"
-      },
-      {
-        nombre: "Coherencia Matricial en Países Fronterizos",
-        archivo: "Vacunados Extranjeros",
-        ok: !(dExt.errores || []).some(e => e.tipo === 'DESCUADRE_EXTRANJEROS'),
-        desc: "Total Género == Total Régimen en las 6 hojas de países migrantes"
-      }
-    ];
+    let htmlReglas = '';
+    const dr = rec.dictamen_reglas;
 
-    let htmlReglas = `
-      <div class="rounded-2xl border-2 border-slate-200 overflow-hidden shadow-sm">
-        <div class="bg-slate-100 px-4 py-2.5 border-b border-slate-200 flex items-center justify-between">
-          <span class="text-xs font-black uppercase text-slate-800 tracking-wider">📋 Checklist Institucional de Reglas Auditadas</span>
-          <span class="text-[11px] font-bold text-slate-600">${reglas.filter(r => r.ok).length}/${reglas.length} Reglas Cumplidas</span>
-        </div>
-        <div class="divide-y divide-slate-100 text-xs">
-    `;
-
-    reglas.forEach(r => {
-      htmlReglas += `
-        <div class="p-3 flex items-center justify-between gap-3 bg-white hover:bg-slate-50 transition">
-          <div class="space-y-0.5">
-            <div class="font-bold text-slate-900 flex items-center gap-2">
-              <span>${r.nombre}</span>
-              <span class="text-[10px] font-mono font-normal text-slate-500 bg-slate-100 px-1.5 py-0.2 rounded border border-slate-200">${r.archivo}</span>
+    if (dr && dr.reglas && dr.reglas.length > 0) {
+      htmlReglas = `
+        <div class="rounded-2xl border-2 border-slate-200 overflow-hidden shadow-sm">
+          <div class="bg-slate-100 px-4 py-2.5 border-b border-slate-200 flex flex-wrap items-center justify-between gap-2">
+            <div class="flex items-center gap-2">
+              <span class="text-xs font-black uppercase text-slate-800 tracking-wider">📋 Dictamen Técnico por Regla de Auditoría</span>
+              <span class="text-[10px] bg-slate-200 text-slate-700 px-2 py-0.5 rounded-full font-bold">11 Reglas Auditadas</span>
             </div>
-            <div class="text-[11px] text-slate-600">${r.desc}</div>
+            <div class="flex items-center gap-2">
+              <span class="text-xs font-black ${dr.reglas_cumplidas === dr.total_reglas ? 'text-emerald-700' : 'text-amber-700'}">${dr.reglas_cumplidas}/${dr.total_reglas} Reglas Cumplidas (${dr.porcentaje_cumplimiento}%)</span>
+            </div>
           </div>
-          <div>
-            <span class="px-2.5 py-1 rounded-full text-[11px] font-black flex items-center gap-1 ${r.ok ? 'bg-emerald-100 text-emerald-900 border border-emerald-300' : 'bg-rose-100 text-rose-900 border border-rose-300'}">
-              ${r.ok ? '✓ CUMPLE' : '✕ INCONSISTENCIA'}
-            </span>
-          </div>
-        </div>
+          <div class="divide-y divide-slate-100 text-xs">
       `;
-    });
-    htmlReglas += `</div></div>`;
+
+      dr.reglas.forEach(r => {
+        const esOk = r.cumple;
+        const metricsHtml = Object.entries(r.metricas || {})
+          .map(([k, v]) => `<span class="bg-slate-50 border border-slate-200 text-slate-700 px-2 py-0.5 rounded text-[10px] font-mono"><strong class="text-slate-900">${k.replace(/_/g, ' ')}:</strong> ${v}</span>`)
+          .join(' ');
+
+        const hallazgosHtml = (r.hallazgos || []).map(h => `<div class="text-[11px] ${esOk ? 'text-slate-600' : 'text-rose-700 font-bold'}">• ${h}</div>`).join('');
+
+        htmlReglas += `
+          <div class="p-3.5 bg-white hover:bg-slate-50/80 transition space-y-2">
+            <div class="flex items-start justify-between gap-3">
+              <div class="space-y-1 flex-1">
+                <div class="font-bold text-slate-900 flex flex-wrap items-center gap-2">
+                  <span class="text-[10px] font-mono font-black text-indigo-700 bg-indigo-50 border border-indigo-200 px-1.5 py-0.5 rounded">${r.codigo}</span>
+                  <span class="text-xs">${r.nombre}</span>
+                  <span class="text-[10px] font-mono font-normal text-slate-500 bg-slate-100 px-1.5 py-0.2 rounded border border-slate-200">${r.archivo}</span>
+                </div>
+                <div class="text-[11px] text-slate-500">${r.resumen}</div>
+              </div>
+              <div class="shrink-0">
+                <span class="px-2.5 py-1 rounded-full text-[11px] font-black flex items-center gap-1 ${esOk ? 'bg-emerald-100 text-emerald-900 border border-emerald-300' : 'bg-rose-100 text-rose-900 border border-rose-300'}">
+                  ${esOk ? '✓ ' + r.estado : '✕ ' + r.estado}
+                </span>
+              </div>
+            </div>
+            ${metricsHtml ? `<div class="flex flex-wrap gap-1.5 pt-1">${metricsHtml}</div>` : ''}
+            ${hallazgosHtml ? `<div class="space-y-0.5 pt-1.5 border-t border-slate-100">${hallazgosHtml}</div>` : ''}
+          </div>
+        `;
+      });
+      htmlReglas += `</div></div>`;
+    } else {
+      const reglas = [
+        {
+          nombre: "Regla de Oro Demográfica PAI (541 Cols)",
+          archivo: "Dosis Aplicadas",
+          ok: dDosis.resumen_coherencia ? (dDosis.resumen_coherencia.coincidencia_genero_regimen && dDosis.resumen_coherencia.coincidencia_genero_etnico) : true,
+          desc: "Suma(Género) == Suma(Régimen) == Suma(Pertenencia Étnica)"
+        },
+        {
+          nombre: "Recálculo Anti-Adulteración de Fórmulas",
+          archivo: "Dosis Aplicadas",
+          ok: dDosis.resumen_coherencia ? (dDosis.resumen_coherencia.formulas_adulteradas === 0) : true,
+          desc: "Verificación independiente sin confiar en celdas de total sobreescritas"
+        },
+        {
+          nombre: "Continuidad Intermensual de Saldos (Regla 1)",
+          archivo: "Movimiento Biológicos",
+          ok: dMov.metricas_reglas ? dMov.metricas_reglas.regla1_continuidad_saldos : true,
+          desc: "Saldo Anterior mes actual == Saldo Cierre del mes anterior archivado"
+        },
+        {
+          nombre: "Coherencia de 5 Lotes vs Saldo Siguiente (Regla 2)",
+          archivo: "Movimiento Biológicos",
+          ok: dMov.metricas_reglas ? dMov.metricas_reglas.regla2_flag_verdadero : true,
+          desc: "Suma de dosis en las 5 celdas de lotes == Saldo Siguiente (Col N = Col M)"
+        },
+        {
+          nombre: "Cruce Entregas Depósito Departamental (Regla 3)",
+          archivo: "Movimiento vs Kardex",
+          ok: cruceDep && cruceDep.resumen ? (cruceDep.resumen.biologicos_exactos === cruceDep.resumen.biologicos_total) : true,
+          desc: "Dosis recibidas (Col 5) vs despachadas en Kardex oficial por el Depósito Departamental"
+        },
+        {
+          nombre: "Catálogo Maestro de Lotes Oficiales (Regla 4)",
+          archivo: "Movimiento Biológicos",
+          ok: dMov.metricas_reglas ? dMov.metricas_reglas.regla4_lotes_oficiales : true,
+          desc: "Validación de lotes contra los 361 lotes activos del Depósito Departamental"
+        },
+        {
+          nombre: "Diluyentes en Liofilizados (Regla 6)",
+          archivo: "Movimiento Biológicos",
+          ok: !(dMov.errores || []).some(e => e.regla === 'REGLA_6_DILUYENTES_INSUFICIENTES'),
+          desc: "Diluyentes utilizados >= Vacunas reconstituidas utilizadas"
+        },
+        {
+          nombre: "Racionalidad de 11 Causas de Pérdida (Regla 5)",
+          archivo: "Movimiento Biológicos",
+          ok: dMov.metricas_reglas ? dMov.metricas_reglas.regla5_racionalidad_perdidas : true,
+          desc: "Suma de 11 causas == Total Pérdidas reportadas"
+        },
+        {
+          nombre: "Coherencia Matricial en Países Fronterizos",
+          archivo: "Vacunados Extranjeros",
+          ok: !(dExt.errores || []).some(e => e.tipo === 'DESCUADRE_EXTRANJEROS'),
+          desc: "Total Género == Total Régimen en las 6 hojas de países migrantes"
+        }
+      ];
+
+      htmlReglas = `
+        <div class="rounded-2xl border-2 border-slate-200 overflow-hidden shadow-sm">
+          <div class="bg-slate-100 px-4 py-2.5 border-b border-slate-200 flex items-center justify-between">
+            <span class="text-xs font-black uppercase text-slate-800 tracking-wider">📋 Checklist Institucional de Reglas Auditadas</span>
+            <span class="text-[11px] font-bold text-slate-600">${reglas.filter(r => r.ok).length}/${reglas.length} Reglas Cumplidas</span>
+          </div>
+          <div class="divide-y divide-slate-100 text-xs">
+      `;
+
+      reglas.forEach(r => {
+        htmlReglas += `
+          <div class="p-3 flex items-center justify-between gap-3 bg-white hover:bg-slate-50 transition">
+            <div class="space-y-0.5">
+              <div class="font-bold text-slate-900 flex items-center gap-2">
+                <span>${r.nombre}</span>
+                <span class="text-[10px] font-mono font-normal text-slate-500 bg-slate-100 px-1.5 py-0.2 rounded border border-slate-200">${r.archivo}</span>
+              </div>
+              <div class="text-[11px] text-slate-600">${r.desc}</div>
+            </div>
+            <div>
+              <span class="px-2.5 py-1 rounded-full text-[11px] font-black flex items-center gap-1 ${r.ok ? 'bg-emerald-100 text-emerald-900 border border-emerald-300' : 'bg-rose-100 text-rose-900 border border-rose-300'}">
+                ${r.ok ? '✓ CUMPLE' : '✕ INCONSISTENCIA'}
+              </span>
+            </div>
+          </div>
+        `;
+      });
+      htmlReglas += `</div></div>`;
+    }
 
     // 2. Reporte de Simultaneidad del Esquema Nacional (6 Cohortes Clave)
     let htmlSimultaneidad = '';

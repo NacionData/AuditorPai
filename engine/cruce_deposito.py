@@ -302,7 +302,7 @@ def auditar_cruce_deposito(municipio, mes, ano, items_recibidos_municipio):
                     "recibido_municipio": rec,
                     "diferencia": dif,
                     "lotes_despachados": lotes_k,
-                    "mensaje": f"[Regla 3] En '{nombre}': El Centro de Acopio Departamental despachó {desp:.0f} dosis (Lotes: {', '.join(lotes_k) or 'N/A'}), pero el municipio reportó haber recibido {rec:.0f} dosis en Columna 5. Diferencia: {dif:+.0f} dosis."
+                    "mensaje": f"[Regla 3 - Cruce Kardex] En '{nombre}': El Depósito Departamental despachó {desp:.0f} dosis (Lotes: {', '.join(lotes_k) or 'N/A'}), pero el municipio registró {rec:.0f} dosis recibidas (Columna 5). Diferencia: {dif:+.0f} dosis. Verifique el inventario físico en sus equipos de frío y las actas físicas de remisión oficial. No modifique fórmulas del formato oficial. Si el conteo físico corrobora su reporte y la diferencia con el Kardex persiste, comuníquese inmediatamente con el Referente Departamental de Vacunación del PAI Risaralda para conciliación administrativa."
                 })
 
         items_resultado.append({

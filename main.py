@@ -18,6 +18,7 @@ from engine.validator_extranjeros import validar_extranjeros
 from engine.cruce_colombianos import auditar_cruce_colombianos
 from engine.ai_auditor import generar_dictamen_auditoria, test_gemini_connection
 from engine.consolidator import consolidar_departamento
+from engine.dictamen_reglas import generar_dictamen_reglas_detallado
 from engine.auth import autenticar_usuario, verificar_token, cerrar_sesion
 from engine.drive_sync import sincronizar_radicado_drive, sincronizar_consolidados_drive, obtener_estado_drive
 
@@ -288,6 +289,14 @@ async def api_radicar(session_id: str = Form(...)):
         "cruce_colombianos": meta.get("cruce_colombianos"),
         "cruce_deposito": meta.get("cruce_deposito"),
         "simultaneidad": (meta.get("detalle_dosis") or {}).get("resumen_coherencia", {}).get("informe_simultaneidad", []),
+        "dictamen_reglas": generar_dictamen_reglas_detallado(
+            municipio, mes, ano,
+            meta.get("detalle_dosis"),
+            meta.get("detalle_movimiento"),
+            meta.get("detalle_extranjeros"),
+            meta.get("cruce_colombianos"),
+            meta.get("cruce_deposito")
+        ),
         "detalle_auditoria": {
             "dosis": meta.get("detalle_dosis"),
             "movimiento": meta.get("detalle_movimiento"),
@@ -470,6 +479,19 @@ def api_admin_inspeccionar(municipio: str, mes: str, ano: str = "2026"):
                         recibo["cruce_deposito"] = r_m["cruce_deposito"]
             except Exception as e_cd:
                 print(f"[Admin Inspeccionar] Fallo al extraer cruce_deposito: {e_cd}")
+
+    if "dictamen_reglas" not in recibo or not recibo.get("dictamen_reglas"):
+        try:
+            recibo["dictamen_reglas"] = generar_dictamen_reglas_detallado(
+                municipio, mes, ano,
+                recibo.get("detalle_auditoria", {}).get("dosis"),
+                recibo.get("detalle_auditoria", {}).get("movimiento"),
+                recibo.get("detalle_auditoria", {}).get("extranjeros"),
+                recibo.get("cruce_colombianos"),
+                recibo.get("cruce_deposito")
+            )
+        except Exception as e_dr:
+            print(f"[Admin Inspeccionar] Fallo generando dictamen_reglas: {e_dr}")
 
     # Identificar enlaces de descarga individuales de los archivos subidos por el municipio
     archivos_descargables = {}

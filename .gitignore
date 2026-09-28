@@ -22,3 +22,6 @@ storage/google_drive_credentials.json
 # Sistema Operativo
 .DS_Store
 Thumbs.db
+
+# Respaldos originales locales
+templates_base/backup_original/
