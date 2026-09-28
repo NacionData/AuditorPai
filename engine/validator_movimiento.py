@@ -346,6 +346,7 @@ def validar_movimiento(filepath, mes_evaluar="AGOSTO", municipio_nombre=None, an
                 total_dosis_colombianos_biologicos += dosis_col
 
             # Clasificación de biológicos liofilizados y sus diluyentes para control de reconstitución
+            # NOTA CLÍNICA PAI: VRS (Virus Sincitial Respiratorio) no requiere diluyente (no se entrega diluyente por almacén)
             es_diluyente = "DILUYENTE" in insumo_norm
             for tipo_bio, patron in [
                 ("BCG", "BCG"),
@@ -353,7 +354,6 @@ def validar_movimiento(filepath, mes_evaluar="AGOSTO", municipio_nombre=None, an
                 ("DOBLE_VIRAL_SR", "SARAMPION RUBEOLA"),
                 ("FIEBRE_AMARILLA", "FIEBRE AMARILLA"),
                 ("VARICELA", "VARICELA"),
-                ("VRS", "SINCITIAL"),
                 ("DENGUE", "DENGUE"),
                 ("ANTIRRABICA", "ANTIRRABICA"),
                 ("MENINGOCOCO", "MENINGOCOCO")
@@ -598,12 +598,13 @@ def validar_movimiento(filepath, mes_evaluar="AGOSTO", municipio_nombre=None, an
             "DOBLE_VIRAL_SR": "Doble Viral (SR)",
             "FIEBRE_AMARILLA": "Fiebre Amarilla",
             "VARICELA": "Varicela",
-            "VRS": "Virus Sincitial Respiratorio (VRS)",
             "DENGUE": "Dengue",
             "ANTIRRABICA": "Antirrábica Humana",
             "MENINGOCOCO": "Meningococo"
         }
         for tipo_bio, dosis_vac in vacunas_liofilizadas.items():
+            if tipo_bio == "VRS":
+                continue  # VRS no se suministra con diluyente ni requiere reconstitución con diluyente independiente
             if dosis_vac > 0:
                 dosis_dil = diluyentes_totales.get(tipo_bio, 0)
                 nombre_bio = nombres_amigables.get(tipo_bio, tipo_bio)

@@ -72,7 +72,6 @@ REGLAS_MAPEO = [
     ("DIL_FA", "Diluyente Fiebre Amarilla", "Diluyente", [["FIEBREAMARILLA"], ["ANTIAMARILICA"]], [["FIEBREAMARILLA"], ["ANTIAMARILICA"]]),
     ("DIL_VARICELA", "Diluyente Varicela", "Diluyente", [["VARICELA"]], [["VARICELA"]]),
     ("DIL_ANTIRRABICA", "Diluyente Antirrábica", "Diluyente", [["ANTIRRABICA"]], [["ANTIRRABICA"]]),
-    ("DIL_VRS", "Diluyente VRS", "Diluyente", [["SINCITIAL"], ["VRS"]], [["SINCITIAL"], ["VRS"]]),
     # Insumos y Jeringas
     ("INS_JERINGA_22G", "Jeringa 22G", "Insumo", [["22G"]], [["22G"]]),
     ("INS_JERINGA_23G", "Jeringa 23G", "Insumo", [["23G"]], [["23G"]]),

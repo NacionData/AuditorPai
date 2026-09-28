@@ -195,7 +195,7 @@ def generar_dictamen_reglas_detallado(municipio, mes, ano, r_dosis, r_mov, r_ext
         "archivo": "Movimiento de Biológicos",
         "cumple": reg6_cumple,
         "estado": "CUMPLE" if reg6_cumple else "DILUYENTES INSUFICIENTES",
-        "resumen": "Diluyentes utilizados >= Vacunas reconstituidas utilizadas",
+        "resumen": "Diluyentes utilizados >= Vacunas reconstituidas utilizadas (Excluye VRS que no requiere diluyente)",
         "metricas": {
             "balance_diluyentes": "Suficiente y Trazable" if reg6_cumple else "Déficit detectado",
             "observaciones": len(adv_reg6)
