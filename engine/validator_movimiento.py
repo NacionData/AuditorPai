@@ -375,7 +375,8 @@ def validar_movimiento(filepath, mes_evaluar="AGOSTO", municipio_nombre=None, an
             # =================================================================
             # REGLA 1: CONTINUIDAD INTERMENSUAL (vs Archivo Oficial Previo)
             # =================================================================
-            if saldos_previos_oficiales:
+            es_vrs = ("SINCITIAL" in insumo_norm or "VRS" in insumo_norm)
+            if not es_vrs and saldos_previos_oficiales:
                 saldo_cierre_previo = None
                 if insumo_norm in saldos_previos_oficiales:
                     saldo_cierre_previo = saldos_previos_oficiales[insumo_norm]
@@ -402,7 +403,9 @@ def validar_movimiento(filepath, mes_evaluar="AGOSTO", municipio_nombre=None, an
             # =================================================================
             # REGLA 2: ESTRUCTURA DE 5 CELDAS DE LOTES + FILA DE CONTROL (VERDADERO)
             # =================================================================
-            if "CARNET" in insumo_norm:
+            # Por directriz técnica oficial, Carnets e Insumos así como Virus Sincitial Respiratorio (VRS)
+            # no se evalúan en lotes ni saldos.
+            if "CARNET" in insumo_norm or es_vrs:
                 r += 6
                 continue
 

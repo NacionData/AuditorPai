@@ -99,7 +99,7 @@ def consolidar_departamento(mes="AGOSTO", ano="2026", fuentes_municipios=None):
     mes_idx = MESES_ORDEN.index(mes) if mes in MESES_ORDEN else 7
     src_row_start_teorica = 9 + (mes_idx * 19)
 
-    max_c = 150
+    max_c = 541
 
     for mun_nombre, f_dict in fuentes_municipios.items():
         mun_norm = normalizar(mun_nombre)
@@ -121,7 +121,7 @@ def consolidar_departamento(mes="AGOSTO", ano="2026", fuentes_municipios=None):
             if "1_PLANTILLA_MENSUAL" in wb_src.sheetnames:
                 ws_src = wb_src["1_PLANTILLA_MENSUAL"]
                 
-                # Extraer en bloque
+                # Extraer en bloque las 541 columnas
                 grid_src = list(ws_src.iter_rows(min_row=1, max_row=260, min_col=1, max_col=max_c, values_only=True))
                 
                 # Buscar fila inicial en origen
@@ -134,32 +134,22 @@ def consolidar_departamento(mes="AGOSTO", ano="2026", fuentes_municipios=None):
                             src_start = r_i
                             break
 
-                # Copiar las 19 filas del bloque
+                # Copiar solo las filas de datos primarios (omitiendo filas de fórmulas de totales: 3, 8, 15)
+                filas_totales_offset = {3, 8, 15}
                 for r_offset in range(19):
+                    if r_offset in filas_totales_offset:
+                        continue
                     src_r = src_start + r_offset
                     dst_r = target_row_start + r_offset
                     if src_r <= len(grid_src):
                         row_vals = grid_src[src_r - 1]
                         for c_i in range(5, max_c + 1):
+                            # Omitir columnas de fórmulas de resumen y metadatos (474 a 521 y 524)
+                            if (474 <= c_i <= 521) or c_i == 524:
+                                continue
                             v = row_vals[c_i - 1] if c_i <= len(row_vals) else None
                             if v is not None and isinstance(v, (int, float)) and v != 0:
                                 ws_dosis.cell(dst_r, c_i).value = v
-
-                # Copiar a 3_CONSOLIDADO REGIMEN si existe
-                if ws_regimen:
-                    reg_row = None
-                    for k, r_idx in MAPA_FILAS_CONSOLIDADO_REGIMEN.items():
-                        if k == mun_norm or mun_norm in k or k in mun_norm:
-                            reg_row = r_idx
-                            break
-                    if reg_row:
-                        tot_gen_r = src_start + 3
-                        if tot_gen_r <= len(grid_src):
-                            gen_vals = grid_src[tot_gen_r - 1]
-                            for c_i in range(4, min(max_c + 1, ws_regimen.max_column + 1)):
-                                v = gen_vals[c_i] if c_i < len(gen_vals) else None
-                                if v is not None and isinstance(v, (int, float)):
-                                    ws_regimen.cell(reg_row, c_i).value = v
 
                 archivos_generados["municipios_incluidos"].append(mun_nombre)
             wb_src.close()

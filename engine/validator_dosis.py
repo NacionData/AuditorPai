@@ -95,6 +95,8 @@ def validar_dosis(filepath, mes_evaluar="AGOSTO", municipio_nombre=None):
             v8 = get_val(8, c_idx)
             if v6:
                 curr_vacuna = str(v6).strip()
+            elif c_idx in [522, 523]:
+                curr_vacuna = str(v7 or "").split("-")[0].split("\n")[0].strip()
             col_familias[c_idx] = curr_vacuna
             detalle = " - ".join([str(p).strip() for p in [v7, v8] if p and str(p).strip()])
             nombre_completo = f"{curr_vacuna} ({detalle})" if detalle else (curr_vacuna or f"Columna {c_idx}")
@@ -159,7 +161,7 @@ def validar_dosis(filepath, mes_evaluar="AGOSTO", municipio_nombre=None):
             v8_raw = str(get_val(8, col_idx) or "").upper()
             if "CODEPCOMURE" in v7_raw or "TOTAL DOSIS" in v8_raw or "DOSIS APLICADAS POR BIOLOGICOS" in v7_raw:
                 continue
-            if col_idx in [474, 475, 520, 521, 524]:
+            if (474 <= col_idx <= 521) or col_idx == 524:
                 continue
 
             col_letter = openpyxl.utils.get_column_letter(col_idx)

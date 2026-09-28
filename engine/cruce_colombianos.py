@@ -160,7 +160,7 @@ def auditar_cruce_colombianos(res_dosis, res_mov):
         {
             "id": "COVID19",
             "nombre": "COVID-19",
-            "matcher_dosis": lambda k: "COVID" in k or "469" in k,
+            "matcher_dosis": lambda k: "COVID" in k,
             "matcher_mov": lambda k: "COVID" in k
         },
         {
