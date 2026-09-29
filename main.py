@@ -39,11 +39,13 @@ TEMP_DIR = os.path.join(BASE_DIR, "storage", "temp")
 RADICADOS_DIR = os.path.join(BASE_DIR, "storage", "radicados")
 CONSOLIDADOS_DIR = os.path.join(BASE_DIR, "storage", "consolidados")
 TEMPLATES_DIR = os.path.join(BASE_DIR, "templates_base")
+TEMPLATES_MES_DIR = os.path.join(BASE_DIR, "storage", "templates_mes")
 
 os.makedirs(STATIC_DIR, exist_ok=True)
 os.makedirs(TEMP_DIR, exist_ok=True)
 os.makedirs(RADICADOS_DIR, exist_ok=True)
 os.makedirs(CONSOLIDADOS_DIR, exist_ok=True)
+os.makedirs(TEMPLATES_MES_DIR, exist_ok=True)
 
 # Cargar catálogo de municipios
 CAT_MUNICIPIOS_FILE = os.path.join(STORAGE_DIR, "catalogos", "municipios.json")
@@ -345,6 +347,131 @@ async def api_radicar(session_id: str = Form(...)):
         "drive": info_drive
     }
 
+@app.get("/api/admin/plantillas-base/{mes}")
+def api_admin_plantillas_base(mes: str, ano: str = "2026"):
+    mes = mes.upper()
+    custom_dir = os.path.join(TEMPLATES_MES_DIR, ano, mes)
+
+    res = {
+        "mes": mes,
+        "ano": ano,
+        "movimiento": {"personalizada": False, "nombre_archivo": "Plantilla_Movimiento_Base.xlsm", "fecha": None, "tamano_kb": 0},
+        "dosis": {"personalizada": False, "nombre_archivo": "Plantilla_Dosis_Base.xlsx", "fecha": None, "tamano_kb": 0},
+        "extranjeros": {"personalizada": False, "nombre_archivo": "Plantilla_Extranjeros_Base.xlsx", "fecha": None, "tamano_kb": 0}
+    }
+
+    if os.path.exists(custom_dir):
+        meta_file = os.path.join(custom_dir, "metadata.json")
+        meta = {}
+        if os.path.exists(meta_file):
+            try:
+                with open(meta_file, "r", encoding="utf-8") as f:
+                    meta = json.load(f)
+            except Exception:
+                meta = {}
+
+        for tipo in ["movimiento", "dosis", "extranjeros"]:
+            exts = [".xlsm", ".xlsx"] if tipo == "movimiento" else [".xlsx"]
+            prefijo = f"BASE_{tipo.upper()}_{mes}_{ano}"
+            for f in os.listdir(custom_dir):
+                if f.upper().startswith(prefijo) and any(f.endswith(e) for e in exts):
+                    fpath = os.path.join(custom_dir, f)
+                    st = os.stat(fpath)
+                    mod_dt = datetime.fromtimestamp(st.st_mtime).strftime("%d/%m/%Y %H:%M")
+                    orig_name = meta.get(tipo, {}).get("nombre_original", f)
+                    res[tipo] = {
+                        "personalizada": True,
+                        "nombre_archivo": orig_name,
+                        "archivo_sistema": f,
+                        "fecha": mod_dt,
+                        "tamano_kb": round(st.st_size / 1024, 1)
+                    }
+                    break
+    return res
+
+@app.post("/api/admin/subir-plantilla-base/{tipo}/{mes}")
+async def api_admin_subir_plantilla_base(tipo: str, mes: str, file: UploadFile = File(...), ano: str = "2026"):
+    tipo = tipo.lower()
+    if tipo not in ["movimiento", "dosis", "extranjeros"]:
+        raise HTTPException(status_code=400, detail="Tipo de plantilla no válido. Debe ser: movimiento, dosis o extranjeros.")
+
+    mes = mes.upper()
+    fname = file.filename or ""
+    ext = os.path.splitext(fname)[1].lower()
+
+    if tipo == "movimiento" and ext not in [".xlsm", ".xlsx"]:
+        raise HTTPException(status_code=400, detail="Para Movimiento de Biológicos se requiere archivo .xlsm o .xlsx.")
+    if tipo != "movimiento" and ext != ".xlsx":
+        raise HTTPException(status_code=400, detail="Para este informe se requiere archivo formato .xlsx.")
+
+    custom_dir = os.path.join(TEMPLATES_MES_DIR, ano, mes)
+    os.makedirs(custom_dir, exist_ok=True)
+
+    dest_name = f"BASE_{tipo.upper()}_{mes}_{ano}{ext}"
+    dest_path = os.path.join(custom_dir, dest_name)
+
+    content = await file.read()
+    with open(dest_path, "wb") as f:
+        f.write(content)
+
+    # Guardar metadatos
+    meta_file = os.path.join(custom_dir, "metadata.json")
+    meta = {}
+    if os.path.exists(meta_file):
+        try:
+            with open(meta_file, "r", encoding="utf-8") as jf:
+                meta = json.load(jf)
+        except Exception:
+            meta = {}
+
+    meta[tipo] = {
+        "nombre_original": fname,
+        "fecha_subida": datetime.now().strftime("%d/%m/%Y %H:%M"),
+        "tamano_bytes": len(content)
+    }
+    with open(meta_file, "w", encoding="utf-8") as jf:
+        json.dump(meta, jf, ensure_ascii=False, indent=2)
+
+    return {
+        "success": True,
+        "mensaje": f"Plantilla base departamental de {tipo.capitalize()} cargada exitosamente para {mes} {ano}.",
+        "tipo": tipo,
+        "mes": mes,
+        "nombre_original": fname
+    }
+
+@app.post("/api/admin/restablecer-plantilla-base/{tipo}/{mes}")
+def api_admin_restablecer_plantilla_base(tipo: str, mes: str, ano: str = "2026"):
+    tipo = tipo.lower()
+    mes = mes.upper()
+    custom_dir = os.path.join(TEMPLATES_MES_DIR, ano, mes)
+
+    if os.path.exists(custom_dir):
+        exts = [".xlsm", ".xlsx"] if tipo == "movimiento" else [".xlsx"]
+        prefijo = f"BASE_{tipo.upper()}_{mes}_{ano}"
+        for f in os.listdir(custom_dir):
+            if f.upper().startswith(prefijo) and any(f.endswith(e) for e in exts):
+                try:
+                    os.remove(os.path.join(custom_dir, f))
+                except Exception:
+                    pass
+        meta_file = os.path.join(custom_dir, "metadata.json")
+        if os.path.exists(meta_file):
+            try:
+                with open(meta_file, "r", encoding="utf-8") as jf:
+                    meta = json.load(jf)
+                if tipo in meta:
+                    del meta[tipo]
+                with open(meta_file, "w", encoding="utf-8") as jf:
+                    json.dump(meta, jf, ensure_ascii=False, indent=2)
+            except Exception:
+                pass
+
+    return {
+        "success": True,
+        "mensaje": f"Plantilla de {tipo.capitalize()} restablecida a la oficial por defecto para {mes} {ano}."
+    }
+
 @app.post("/api/consolidar/{mes}")
 def api_consolidar(mes: str, ano: str = "2026"):
     mes = mes.upper()
@@ -399,6 +526,7 @@ def api_consolidar(mes: str, ano: str = "2026"):
         "ano": ano,
         "municipios_consolidados": resultado["municipios_incluidos"],
         "total_consolidados": len(resultado["municipios_incluidos"]),
+        "bases_utilizadas": resultado.get("bases_utilizadas", {}),
         "descargas": {
             "dosis": f"/api/descargar/dosis/{mes}",
             "movimiento": f"/api/descargar/movimiento/{mes}",

@@ -146,6 +146,117 @@
 
     </div>
 
+    <!-- Panel Maestro: Plantillas Base Departamentales del Mes (Centro de Acopio & Acumulados) -->
+    <div class="bg-white border-2 border-slate-200 rounded-3xl p-6 md:p-8 shadow-sm space-y-6">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-100 pb-5">
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="px-2.5 py-0.5 rounded-full text-[10px] font-black tracking-wider uppercase bg-teal-100 text-teal-800 border border-teal-200">Configuración Mensual</span>
+            <span class="text-xs font-bold text-slate-500">MinSalud Risaralda</span>
+          </div>
+          <h2 class="text-xl font-black text-slate-950 mt-1">Plantillas Base Departamentales del Mes</h2>
+          <p class="text-xs text-slate-600 font-medium mt-0.5">
+            Cargue la plantilla de <b>Movimiento</b> diligenciada con los datos del <b>Centro de Acopio (Depósito)</b> y la de <b>Dosis</b> del mes. Al consolidar, el sistema complementará automáticamente la información de los 14 municipios radicados.
+          </p>
+        </div>
+        <div class="flex items-center gap-2 flex-shrink-0">
+          <button onclick="cargarEstadoPlantillasBase()" class="px-3 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5" title="Actualizar estado de plantillas">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+            <span>Refrescar</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Tarjetas de Cargue de Plantillas -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+
+        <!-- 1. Movimiento de Biológicos (Centro de Acopio) -->
+        <div id="card-tpl-mov" class="rounded-2xl border-2 border-slate-200 p-5 bg-slate-50/70 hover:border-slate-300 transition flex flex-col justify-between space-y-4">
+          <div>
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2.5">
+                <div class="w-10 h-10 rounded-xl bg-blue-100 border border-blue-200 flex items-center justify-center text-blue-700 font-black">
+                  📦
+                </div>
+                <div>
+                  <h3 class="text-sm font-black text-slate-900">Movimiento de Biológicos (.xlsm)</h3>
+                  <p class="text-[11px] text-slate-500 font-medium">Centro de Acopio Departamental (Depósito)</p>
+                </div>
+              </div>
+              <span id="badge-tpl-mov" class="text-[10px] font-black uppercase px-2.5 py-1 rounded-full bg-slate-200 text-slate-700">Por defecto</span>
+            </div>
+
+            <div id="info-tpl-mov" class="mt-4 p-3 rounded-xl bg-white border border-slate-200 text-xs space-y-1">
+              <div class="flex items-center justify-between text-slate-600">
+                <span class="font-bold">Archivo actual:</span>
+                <span id="name-tpl-mov" class="font-mono font-black text-slate-900 truncate max-w-[200px]">Plantilla_Movimiento_Base.xlsm</span>
+              </div>
+              <div class="flex items-center justify-between text-[11px] text-slate-500">
+                <span>Estado:</span>
+                <span id="status-tpl-mov" class="font-semibold text-slate-600">Plantilla oficial estándar</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="space-y-2">
+            <input type="file" id="input-file-tpl-mov" accept=".xlsm,.xlsx" class="hidden" onchange="subirPlantillaBase('movimiento', this)">
+            <div class="flex items-center gap-2">
+              <button onclick="document.getElementById('input-file-tpl-mov').click()" class="flex-1 py-2.5 px-3 rounded-xl bg-blue-700 hover:bg-blue-800 text-white text-xs font-black shadow-sm transition flex items-center justify-center gap-2">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
+                <span id="btn-text-tpl-mov">Cargar Plantilla con Depósito</span>
+              </button>
+              <button id="btn-reset-tpl-mov" onclick="restablecerPlantillaBase('movimiento')" class="hidden px-3 py-2.5 rounded-xl border border-red-200 text-red-700 hover:bg-red-50 text-xs font-bold transition" title="Restablecer a plantilla base por defecto">
+                ✕
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. Dosis Aplicadas (Plantilla Mensual) -->
+        <div id="card-tpl-dosis" class="rounded-2xl border-2 border-slate-200 p-5 bg-slate-50/70 hover:border-slate-300 transition flex flex-col justify-between space-y-4">
+          <div>
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2.5">
+                <div class="w-10 h-10 rounded-xl bg-emerald-100 border border-emerald-200 flex items-center justify-center text-emerald-700 font-black">
+                  💉
+                </div>
+                <div>
+                  <h3 class="text-sm font-black text-slate-900">Dosis Aplicadas (.xlsx)</h3>
+                  <p class="text-[11px] text-slate-500 font-medium">Plantilla de Reporte Mensual MinSalud</p>
+                </div>
+              </div>
+              <span id="badge-tpl-dosis" class="text-[10px] font-black uppercase px-2.5 py-1 rounded-full bg-slate-200 text-slate-700">Por defecto</span>
+            </div>
+
+            <div id="info-tpl-dosis" class="mt-4 p-3 rounded-xl bg-white border border-slate-200 text-xs space-y-1">
+              <div class="flex items-center justify-between text-slate-600">
+                <span class="font-bold">Archivo actual:</span>
+                <span id="name-tpl-dosis" class="font-mono font-black text-slate-900 truncate max-w-[200px]">Plantilla_Dosis_Base.xlsx</span>
+              </div>
+              <div class="flex items-center justify-between text-[11px] text-slate-500">
+                <span>Estado:</span>
+                <span id="status-tpl-dosis" class="font-semibold text-slate-600">Plantilla oficial estándar</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="space-y-2">
+            <input type="file" id="input-file-tpl-dosis" accept=".xlsx" class="hidden" onchange="subirPlantillaBase('dosis', this)">
+            <div class="flex items-center gap-2">
+              <button onclick="document.getElementById('input-file-tpl-dosis').click()" class="flex-1 py-2.5 px-3 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-black shadow-sm transition flex items-center justify-center gap-2">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
+                <span id="btn-text-tpl-dosis">Cargar Plantilla Mensual</span>
+              </button>
+              <button id="btn-reset-tpl-dosis" onclick="restablecerPlantillaBase('dosis')" class="hidden px-3 py-2.5 rounded-xl border border-red-200 text-red-700 hover:bg-red-50 text-xs font-bold transition" title="Restablecer a plantilla base por defecto">
+                ✕
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
     <!-- Zona de Descargas de Consolidación (Se activa al consolidar) -->
     <div id="box-descargas" class="hidden bg-emerald-50 border-2 border-emerald-400 rounded-3xl p-6 md:p-8 space-y-4 shadow-sm">
       <div class="flex items-center gap-4">

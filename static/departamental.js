@@ -70,6 +70,9 @@ function cerrarSesionAdmin() {
 async function cargarTableroDepartamental() {
   const mes = document.getElementById('select-mes-admin').value || 'AGOSTO';
   
+  // Cargar estado de plantillas base departamentales del mes
+  cargarEstadoPlantillasBase();
+
   try {
     const res = await fetch(`/api/estado/${mes}`);
     if (!res.ok) throw new Error("Error consultando estado departamental");
@@ -686,6 +689,132 @@ async function solicitarDevolucionMunicipio(municipio, mes) {
   }
 }
 
+// -------------------------------------------------------------
+// GESTIÓN DE PLANTILLAS BASE DEPARTAMENTALES DEL MES
+// -------------------------------------------------------------
+async function cargarEstadoPlantillasBase() {
+  const mes = document.getElementById('select-mes-admin').value || 'AGOSTO';
+  try {
+    const res = await fetch(`/api/admin/plantillas-base/${mes}`);
+    if (!res.ok) return;
+    const data = await res.json();
+
+    // 1. Movimiento de Biológicos
+    const mov = data.movimiento || {};
+    const badgeMov = document.getElementById('badge-tpl-mov');
+    const nameMov = document.getElementById('name-tpl-mov');
+    const statusMov = document.getElementById('status-tpl-mov');
+    const btnTextMov = document.getElementById('btn-text-tpl-mov');
+    const btnResetMov = document.getElementById('btn-reset-tpl-mov');
+    const cardMov = document.getElementById('card-tpl-mov');
+
+    if (mov && badgeMov) {
+      if (mov.personalizada) {
+        badgeMov.className = "text-[10px] font-black uppercase px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-300";
+        badgeMov.textContent = "Depósito Cargado";
+        nameMov.textContent = mov.nombre_archivo;
+        statusMov.innerHTML = `<span class="text-emerald-700 font-bold">Personalizada con Cava/Despachos (${mov.tamano_kb} KB)</span> • ${mov.fecha}`;
+        btnTextMov.textContent = "Reemplazar Plantilla";
+        btnResetMov.classList.remove('hidden');
+        cardMov.className = "rounded-2xl border-2 border-blue-400 p-5 bg-blue-50/40 transition flex flex-col justify-between space-y-4 shadow-sm";
+      } else {
+        badgeMov.className = "text-[10px] font-black uppercase px-2.5 py-1 rounded-full bg-slate-200 text-slate-700";
+        badgeMov.textContent = "Por defecto";
+        nameMov.textContent = mov.nombre_archivo;
+        statusMov.textContent = "Plantilla oficial estándar (sin datos de acopio)";
+        btnTextMov.textContent = "Cargar Plantilla con Depósito";
+        btnResetMov.classList.add('hidden');
+        cardMov.className = "rounded-2xl border-2 border-slate-200 p-5 bg-slate-50/70 hover:border-slate-300 transition flex flex-col justify-between space-y-4";
+      }
+    }
+
+    // 2. Dosis Aplicadas
+    const dosis = data.dosis || {};
+    const badgeDosis = document.getElementById('badge-tpl-dosis');
+    const nameDosis = document.getElementById('name-tpl-dosis');
+    const statusDosis = document.getElementById('status-tpl-dosis');
+    const btnTextDosis = document.getElementById('btn-text-tpl-dosis');
+    const btnResetDosis = document.getElementById('btn-reset-tpl-dosis');
+    const cardDosis = document.getElementById('card-tpl-dosis');
+
+    if (dosis && badgeDosis) {
+      if (dosis.personalizada) {
+        badgeDosis.className = "text-[10px] font-black uppercase px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-300";
+        badgeDosis.textContent = "Plantilla Cargada";
+        nameDosis.textContent = dosis.nombre_archivo;
+        statusDosis.innerHTML = `<span class="text-emerald-700 font-bold">Plantilla mensual configurada (${dosis.tamano_kb} KB)</span> • ${dosis.fecha}`;
+        btnTextDosis.textContent = "Reemplazar Plantilla";
+        btnResetDosis.classList.remove('hidden');
+        cardDosis.className = "rounded-2xl border-2 border-emerald-400 p-5 bg-emerald-50/40 transition flex flex-col justify-between space-y-4 shadow-sm";
+      } else {
+        badgeDosis.className = "text-[10px] font-black uppercase px-2.5 py-1 rounded-full bg-slate-200 text-slate-700";
+        badgeDosis.textContent = "Por defecto";
+        nameDosis.textContent = dosis.nombre_archivo;
+        statusDosis.textContent = "Plantilla departamental estándar";
+        btnTextDosis.textContent = "Cargar Plantilla Mensual";
+        btnResetDosis.classList.add('hidden');
+        cardDosis.className = "rounded-2xl border-2 border-slate-200 p-5 bg-slate-50/70 hover:border-slate-300 transition flex flex-col justify-between space-y-4";
+      }
+    }
+  } catch (err) {
+    console.warn("Error cargando estado plantillas base:", err);
+  }
+}
+
+async function subirPlantillaBase(tipo, inputElement) {
+  const file = inputElement.files[0];
+  if (!file) return;
+
+  const mes = document.getElementById('select-mes-admin').value || 'AGOSTO';
+  const formData = new FormData();
+  formData.append('file', file);
+
+  const btnText = document.getElementById(`btn-text-tpl-${tipo}`);
+  const originalText = btnText ? btnText.textContent : 'Cargar';
+  if (btnText) btnText.textContent = "⏳ Subiendo...";
+
+  try {
+    const res = await fetch(`/api/admin/subir-plantilla-base/${tipo}/${mes}`, {
+      method: 'POST',
+      body: formData
+    });
+
+    const data = await res.json();
+    if (!res.ok) {
+      throw new Error(data.detail || "Error subiendo plantilla");
+    }
+
+    alert(`✓ ${data.mensaje}`);
+    await cargarEstadoPlantillasBase();
+  } catch (err) {
+    alert(`Error: ${err.message}`);
+  } finally {
+    inputElement.value = '';
+    if (btnText) btnText.textContent = originalText;
+  }
+}
+
+async function restablecerPlantillaBase(tipo) {
+  const mes = document.getElementById('select-mes-admin').value || 'AGOSTO';
+  const nom = tipo === 'movimiento' ? 'Movimiento de Biológicos' : 'Dosis Aplicadas';
+  if (!confirm(`¿Desea restablecer la plantilla de ${nom} para ${mes} a la versión oficial estándar por defecto?`)) {
+    return;
+  }
+
+  try {
+    const res = await fetch(`/api/admin/restablecer-plantilla-base/${tipo}/${mes}`, {
+      method: 'POST'
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.detail || "Error al restablecer");
+
+    alert(`✓ ${data.mensaje}`);
+    await cargarEstadoPlantillasBase();
+  } catch (err) {
+    alert(`Error: ${err.message}`);
+  }
+}
+
 // 3. Ejecutar Consolidación Departamental MinSalud en 1 Clic
 async function ejecutarConsolidacionDepartamental() {
   const mes = document.getElementById('select-mes-admin').value || 'AGOSTO';
@@ -693,7 +822,7 @@ async function ejecutarConsolidacionDepartamental() {
   const boxDescargas = document.getElementById('box-descargas');
 
   btn.disabled = true;
-  btn.innerHTML = '<span>⏳ Consolidando 14 municipios...</span>';
+  btn.innerHTML = '<span>⏳ Consolidando e inyectando municipios...</span>';
 
   try {
     const res = await fetch(`/api/consolidar/${mes}`, { method: 'POST' });
@@ -710,6 +839,21 @@ async function ejecutarConsolidacionDepartamental() {
 
     boxDescargas.classList.remove('hidden');
     boxDescargas.scrollIntoView({ behavior: 'smooth' });
+
+    // Informar al usuario sobre las bases utilizadas
+    const bases = data.bases_utilizadas || {};
+    const movBaseInfo = bases.movimiento === 'PERSONALIZADA_DEPOSITO' 
+      ? 'Preservando los datos del Centro de Acopio Departamental (Depósito)' 
+      : 'Usando plantilla base estándar';
+    const dosisBaseInfo = bases.dosis === 'PERSONALIZADA_DEPOSITO' 
+      ? 'Sobre su plantilla mensual departamental' 
+      : 'Sobre plantilla mensual estándar';
+
+    alert(`✓ ¡Consolidación exitosa para ${mes} 2026!\n\n` +
+          `• Municipios consolidados: ${data.total_consolidados} (${data.municipios_consolidados.join(', ')})\n` +
+          `• Movimiento PAI: ${movBaseInfo}\n` +
+          `• Dosis Aplicadas: ${dosisBaseInfo}\n` +
+          `• Sincronizado automáticamente en Google Drive.`);
 
   } catch (err) {
     alert("Error al consolidar: " + err.message);
