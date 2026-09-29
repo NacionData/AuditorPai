@@ -128,6 +128,79 @@ function inicializarVistaMunicipal() {
 
   document.getElementById('modal-login').classList.add('hidden');
   actualizarEstadoBotonAuditar();
+
+  const selectMes = document.getElementById('select-mes');
+  if (selectMes) {
+    selectMes.removeEventListener('change', verificarEstadoRadicadoMunicipal);
+    selectMes.addEventListener('change', verificarEstadoRadicadoMunicipal);
+  }
+  verificarEstadoRadicadoMunicipal();
+}
+
+async function verificarEstadoRadicadoMunicipal() {
+  if (!usuarioSesion) return;
+  const mun = usuarioSesion.municipio || 'PEREIRA';
+  const mes = document.getElementById('select-mes').value;
+  const banner = document.getElementById('banner-estado-municipal');
+  if (!banner) return;
+
+  try {
+    const res = await fetch(`/api/municipio/estado/${mun}/${mes}`);
+    if (!res.ok) return;
+    const data = await res.json();
+
+    if (data.estado === 'RADICADO') {
+      banner.className = "bg-emerald-50 border-2 border-emerald-400 rounded-3xl p-5 shadow-sm space-y-2";
+      banner.innerHTML = `
+        <div class="flex items-start justify-between gap-3">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-emerald-600 text-white flex items-center justify-center font-black flex-shrink-0">
+              ✓
+            </div>
+            <div>
+              <span class="text-xs font-black uppercase text-emerald-950">Informe Oficial Radicado</span>
+              <h4 class="text-sm font-black text-slate-900">Radicado: <span class="font-mono text-emerald-800">${data.numero_radicado}</span></h4>
+            </div>
+          </div>
+          <span class="text-[11px] font-mono font-bold text-slate-500 bg-white border border-slate-200 px-2.5 py-1 rounded-xl">${data.fecha}</span>
+        </div>
+        <p class="text-xs font-bold text-slate-700 pt-1 border-t border-emerald-200">
+          Ya has radicado oficialmente los informes correspondientes a <strong>${mes} 2026</strong>. Si por algún motivo debes radicar una versión rectificada o con ajustes autorizados, puedes cargar tus nuevos 3 archivos a continuación para auditar y volver a radicar.
+        </p>
+      `;
+      banner.classList.remove('hidden');
+    } else if (data.estado === 'DEVUELTO') {
+      banner.className = "bg-amber-50 border-2 border-amber-400 rounded-3xl p-5 shadow-sm space-y-2.5";
+      banner.innerHTML = `
+        <div class="flex items-start justify-between gap-3">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-amber-600 text-white flex items-center justify-center font-black flex-shrink-0 text-base">
+              ↩️
+            </div>
+            <div>
+              <span class="text-xs font-black uppercase text-amber-950">Informe Devuelto por la Secretaría Departamental</span>
+              <h4 class="text-sm font-black text-slate-900">Se requiere corrección para el mes de <span class="text-amber-950 uppercase">${mes}</span></h4>
+            </div>
+          </div>
+          <span class="text-[10px] font-mono font-bold text-amber-900 bg-amber-100 border border-amber-300 px-2 py-0.5 rounded-lg">${data.fecha_devolucion || ''}</span>
+        </div>
+        <div class="p-3 bg-white rounded-xl border border-amber-300 text-xs font-bold text-slate-800">
+          <div class="text-[10px] uppercase font-black text-amber-800 tracking-wider">Motivo de Devolución Oficial:</div>
+          <div class="mt-0.5 font-medium text-slate-900 italic">"${data.motivo || 'Ajustes solicitados'}"</div>
+          ${data.radicado_previo ? `<div class="text-[10px] font-mono text-slate-500 mt-1">Radicado devuelto: ${data.radicado_previo}</div>` : ''}
+        </div>
+        <p class="text-xs font-bold text-amber-950">
+          👉 Realiza los ajustes necesarios en tus plantillas, sube los 3 archivos a continuación y haz clic en <strong>"Auditar Informes con IA"</strong> para re-radicar oficialmente.
+        </p>
+      `;
+      banner.classList.remove('hidden');
+    } else {
+      banner.innerHTML = '';
+      banner.classList.add('hidden');
+    }
+  } catch (e) {
+    console.warn("Estado municipal:", e);
+  }
 }
 
 function cerrarSesionUsuario() {
@@ -658,6 +731,7 @@ async function radicarInforme() {
     renderizarListaArchivos();
     actualizarEstadoBotonAuditar();
     document.getElementById('audit-results').classList.add('hidden');
+    verificarEstadoRadicadoMunicipal();
 
   } catch (err) {
     alert("Error al radicar: " + err.message);

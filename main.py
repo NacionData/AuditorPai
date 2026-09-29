@@ -106,6 +106,7 @@ def api_estado(mes: str, ano: str = "2026"):
         m_nombre = m["nombre"]
         m_dir = os.path.join(radicados_mes_dir, m_nombre)
         receipt_file = os.path.join(m_dir, "radicado.json")
+        dev_file = os.path.join(m_dir, "estado_devolucion.json")
 
         if os.path.exists(receipt_file):
             with open(receipt_file, "r", encoding="utf-8") as f:
@@ -118,6 +119,21 @@ def api_estado(mes: str, ano: str = "2026"):
                 "numero_radicado": rec.get("numero_radicado"),
                 "dosis_aplicadas": rec.get("metricas", {}).get("dosis_aplicadas_nacionales", 0),
                 "extranjeros": rec.get("metricas", {}).get("vacunados_extranjeros", 0)
+            })
+        elif os.path.exists(dev_file):
+            with open(dev_file, "r", encoding="utf-8") as f:
+                dev_info = json.load(f)
+            estados.append({
+                "municipio": m_nombre,
+                "dane": m["dane"],
+                "estado": "DEVUELTO",
+                "motivo_devolucion": dev_info.get("motivo"),
+                "fecha_devolucion": dev_info.get("fecha_devolucion"),
+                "radicado_previo": dev_info.get("radicado_previo"),
+                "fecha_radicacion": None,
+                "numero_radicado": None,
+                "dosis_aplicadas": 0,
+                "extranjeros": 0
             })
         else:
             estados.append({
@@ -266,6 +282,12 @@ async def api_radicar(session_id: str = Form(...)):
 
     target_dir = os.path.join(RADICADOS_DIR, ano, mes, municipio)
     os.makedirs(target_dir, exist_ok=True)
+    dev_file = os.path.join(target_dir, "estado_devolucion.json")
+    if os.path.exists(dev_file):
+        try:
+            os.remove(dev_file)
+        except Exception:
+            pass
 
     # Copiar archivos a radicados definitivos
     archivos_radicados = {}
@@ -525,6 +547,98 @@ def api_admin_descargar_archivo(ano: str, mes: str, municipio: str, clave: str):
         raise HTTPException(status_code=404, detail=f"Archivo {clave} no encontrado.")
 
     return FileResponse(fpath, filename=os.path.basename(fpath))
+
+@app.post("/api/admin/devolver-radicado")
+def api_admin_devolver_radicado(
+    municipio: str = Form(...),
+    mes: str = Form(...),
+    ano: str = Form("2026"),
+    motivo: str = Form(...)
+):
+    municipio = municipio.upper()
+    mes = mes.upper()
+    target_dir = os.path.join(RADICADOS_DIR, ano, mes, municipio)
+    receipt_file = os.path.join(target_dir, "radicado.json")
+
+    if not os.path.exists(receipt_file):
+        raise HTTPException(status_code=404, detail=f"No se encontró radicado activo para {municipio} en {mes} {ano}.")
+
+    with open(receipt_file, "r", encoding="utf-8") as f:
+        recibo = json.load(f)
+
+    # 1. Crear carpeta de histórico de devoluciones con timestamp
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    num_rad = recibo.get("numero_radicado", "RAD")
+    hist_dir = os.path.join(target_dir, "historico_devoluciones", f"{timestamp}_{num_rad}")
+    os.makedirs(hist_dir, exist_ok=True)
+
+    # 2. Mover archivos y recibo actual al histórico
+    for file_name in os.listdir(target_dir):
+        fpath = os.path.join(target_dir, file_name)
+        if os.path.isfile(fpath) and file_name != "estado_devolucion.json":
+            shutil.move(fpath, os.path.join(hist_dir, file_name))
+
+    # 3. Guardar metadatos de la devolución
+    info_dev = {
+        "estado": "DEVUELTO",
+        "municipio": municipio,
+        "mes": mes,
+        "ano": ano,
+        "fecha_devolucion": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        "motivo": motivo.strip(),
+        "radicado_previo": num_rad
+    }
+
+    with open(os.path.join(hist_dir, "devolucion_meta.json"), "w", encoding="utf-8") as f:
+        json.dump(info_dev, f, indent=2, ensure_ascii=False)
+
+    with open(os.path.join(target_dir, "estado_devolucion.json"), "w", encoding="utf-8") as f:
+        json.dump(info_dev, f, indent=2, ensure_ascii=False)
+
+    return {
+        "success": True,
+        "mensaje": f"El informe de {municipio} ({mes} {ano}) ha sido devuelto satisfactoriamente. Se habilitó la re-radicación para el municipio.",
+        "detalle": info_dev
+    }
+
+@app.get("/api/municipio/estado/{municipio}/{mes}")
+def api_municipio_estado(municipio: str, mes: str, ano: str = "2026"):
+    municipio = municipio.upper()
+    mes = mes.upper()
+    target_dir = os.path.join(RADICADOS_DIR, ano, mes, municipio)
+    receipt_file = os.path.join(target_dir, "radicado.json")
+    dev_file = os.path.join(target_dir, "estado_devolucion.json")
+
+    if os.path.exists(receipt_file):
+        with open(receipt_file, "r", encoding="utf-8") as f:
+            rec = json.load(f)
+        return {
+            "estado": "RADICADO",
+            "numero_radicado": rec.get("numero_radicado"),
+            "fecha": rec.get("fecha"),
+            "municipio": municipio,
+            "mes": mes,
+            "ano": ano
+        }
+    elif os.path.exists(dev_file):
+        with open(dev_file, "r", encoding="utf-8") as f:
+            dev = json.load(f)
+        return {
+            "estado": "DEVUELTO",
+            "motivo": dev.get("motivo"),
+            "fecha_devolucion": dev.get("fecha_devolucion"),
+            "radicado_previo": dev.get("radicado_previo"),
+            "municipio": municipio,
+            "mes": mes,
+            "ano": ano
+        }
+    else:
+        return {
+            "estado": "PENDIENTE",
+            "municipio": municipio,
+            "mes": mes,
+            "ano": ano
+        }
 
 # Rutas separadas para las interfaces Web
 @app.get("/departamental")

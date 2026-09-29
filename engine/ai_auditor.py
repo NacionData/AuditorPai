@@ -104,10 +104,8 @@ def _generar_dictamen_local(municipio, mes, errores, advertencias, res_dosis, re
 
         if otras_adv:
             lineas.append(f"\nℹ️ **Observaciones preventivas de lotes y diluyentes ({len(otras_adv)}):**\n")
-            for idx, adv in enumerate(otras_adv[:8], 1):
+            for idx, adv in enumerate(otras_adv, 1):
                 lineas.append(f"• {adv}")
-            if len(otras_adv) > 8:
-                lineas.append(f"• ... y {len(otras_adv) - 8} observaciones adicionales de trazabilidad.")
 
     return "\n".join(lineas)
 

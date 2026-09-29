@@ -92,9 +92,10 @@ function filtrarMunicipios(tipo) {
   
   const btnT = document.getElementById('btn-f-todos');
   const btnR = document.getElementById('btn-f-radicados');
+  const btnD = document.getElementById('btn-f-devueltos');
   const btnP = document.getElementById('btn-f-pendientes');
 
-  [btnT, btnR, btnP].forEach(b => {
+  [btnT, btnR, btnD, btnP].filter(Boolean).forEach(b => {
     b.className = "px-3.5 py-1.5 rounded-xl text-slate-700 hover:bg-white transition";
   });
 
@@ -102,6 +103,8 @@ function filtrarMunicipios(tipo) {
     btnT.className = "px-3.5 py-1.5 rounded-xl bg-white text-slate-950 shadow-sm border border-slate-300 font-black";
   } else if (tipo === 'radicados') {
     btnR.className = "px-3.5 py-1.5 rounded-xl bg-white text-emerald-900 shadow-sm border border-emerald-300 font-black";
+  } else if (tipo === 'devueltos') {
+    if (btnD) btnD.className = "px-3.5 py-1.5 rounded-xl bg-white text-amber-900 shadow-sm border border-amber-300 font-black";
   } else {
     btnP.className = "px-3.5 py-1.5 rounded-xl bg-white text-rose-900 shadow-sm border border-rose-300 font-black";
   }
@@ -115,15 +118,49 @@ function renderizarGrillaAdmin() {
 
   const listaFiltrada = datosDepartamentales.filter(m => {
     if (filtroActual === 'radicados') return m.estado === 'RADICADO';
-    if (filtroActual === 'pendientes') return m.estado !== 'RADICADO';
+    if (filtroActual === 'devueltos') return m.estado === 'DEVUELTO';
+    if (filtroActual === 'pendientes') return m.estado === 'PENDIENTE';
     return true;
   });
 
   listaFiltrada.forEach(m => {
     const card = document.createElement('div');
     const isRad = m.estado === 'RADICADO';
+    const isDev = m.estado === 'DEVUELTO';
 
-    card.className = `p-5 rounded-3xl border-2 ${isRad ? 'bg-white border-emerald-300 hover:border-emerald-600' : 'bg-slate-50 border-slate-300'} space-y-3 shadow-sm transition flex flex-col justify-between`;
+    let cardBorder = 'bg-slate-50 border-slate-300';
+    let badgeClass = 'bg-rose-100 text-rose-900 border border-rose-300';
+    let badgeText = '⏳ PENDIENTE';
+
+    if (isRad) {
+      cardBorder = 'bg-white border-emerald-300 hover:border-emerald-600';
+      badgeClass = 'bg-emerald-100 text-emerald-900 border border-emerald-300';
+      badgeText = '✓ RADICADO';
+    } else if (isDev) {
+      cardBorder = 'bg-amber-50/60 border-amber-300 hover:border-amber-500';
+      badgeClass = 'bg-amber-100 text-amber-900 border border-amber-300';
+      badgeText = '↩️ DEVUELTO';
+    }
+
+    card.className = `p-5 rounded-3xl border-2 ${cardBorder} space-y-3 shadow-sm transition flex flex-col justify-between`;
+
+    let infoEstado = `
+      <div class="text-xs font-bold text-rose-700 mt-1">Sin radicación oficial</div>
+      <div class="text-[11px] font-bold text-slate-500">Pendiente de cargue</div>
+    `;
+
+    if (isRad) {
+      infoEstado = `
+        <div class="text-xs font-mono font-bold text-emerald-800 mt-1">${m.numero_radicado}</div>
+        <div class="text-[11px] font-bold text-slate-500">${m.fecha_radicacion}</div>
+      `;
+    } else if (isDev) {
+      infoEstado = `
+        <div class="text-xs font-bold text-amber-800 mt-1">Devuelto para corrección</div>
+        <div class="text-[11px] font-medium text-slate-700 italic line-clamp-2" title="${m.motivo_devolucion || ''}">"${m.motivo_devolucion || 'Ajustes requeridos'}"</div>
+        <div class="text-[10px] text-slate-400 mt-0.5">${m.fecha_devolucion || ''}</div>
+      `;
+    }
 
     card.innerHTML = `
       <div class="space-y-3">
@@ -131,20 +168,14 @@ function renderizarGrillaAdmin() {
           <span class="text-xs font-mono font-black text-slate-700 bg-slate-100 px-2 py-0.5 rounded border border-slate-300">
             DANE: ${m.dane}
           </span>
-          <span class="text-[10px] px-3 py-1 rounded-full font-black ${isRad ? 'bg-emerald-100 text-emerald-900 border border-emerald-300' : 'bg-rose-100 text-rose-900 border border-rose-300'}">
-            ${isRad ? '✓ RADICADO' : '⏳ PENDIENTE'}
+          <span class="text-[10px] px-3 py-1 rounded-full font-black ${badgeClass}">
+            ${badgeText}
           </span>
         </div>
 
         <div>
           <h4 class="text-base font-black text-slate-900">${m.municipio}</h4>
-          ${isRad ? `
-            <div class="text-xs font-mono font-bold text-emerald-800 mt-1">${m.numero_radicado}</div>
-            <div class="text-[11px] font-bold text-slate-500">${m.fecha_radicacion}</div>
-          ` : `
-            <div class="text-xs font-bold text-rose-700 mt-1">Sin radicación oficial</div>
-            <div class="text-[11px] font-bold text-slate-500">Pendiente de cargue</div>
-          `}
+          ${infoEstado}
         </div>
 
         <div class="pt-2 border-t-2 border-slate-100 flex items-center justify-between text-xs font-mono">
@@ -158,11 +189,15 @@ function renderizarGrillaAdmin() {
           <svg class="w-4 h-4 text-indigo-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
           <span>Inspeccionar y Descargar</span>
         </button>
+      ` : (isDev ? `
+        <div class="w-full mt-3 py-2 text-center text-[11px] font-bold text-amber-800 bg-amber-100/70 rounded-xl border border-amber-300">
+          Esperando corrección del municipio
+        </div>
       ` : `
         <div class="w-full mt-3 py-2 text-center text-[11px] font-bold text-slate-400 bg-slate-100 rounded-xl border border-slate-200">
           Esperando reporte
         </div>
-      `}
+      `)}
     `;
 
     grid.appendChild(card);
@@ -592,6 +627,15 @@ async function inspeccionarMunicipio(municipio) {
       </div>
     `;
 
+    const accionesEl = document.getElementById('modal-insp-acciones');
+    if (accionesEl) {
+      accionesEl.innerHTML = `
+        <button onclick="solicitarDevolucionMunicipio('${municipio}', '${mes}')" class="px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 text-xs font-black shadow-md transition flex items-center gap-1.5">
+          <span>↩️ Devolver Radicado para Corrección</span>
+        </button>
+      `;
+    }
+
   } catch (err) {
     contenido.innerHTML = `<div class="p-4 rounded-xl bg-rose-100 text-rose-900 font-bold text-xs">${err.message}</div>`;
   }
@@ -599,6 +643,47 @@ async function inspeccionarMunicipio(municipio) {
 
 function cerrarModalInspeccion() {
   document.getElementById('modal-inspeccion').classList.add('hidden');
+  const accionesEl = document.getElementById('modal-insp-acciones');
+  if (accionesEl) accionesEl.innerHTML = '';
+}
+
+async function solicitarDevolucionMunicipio(municipio, mes) {
+  const motivo = prompt(`¿Por qué motivo deseas devolver el informe oficial de ${municipio} (${mes} 2026)?\n\nEste motivo quedará registrado en el historial de auditoría y se le mostrará al municipio para que realice las correcciones pertinentes:`);
+  
+  if (motivo === null) return;
+  const motivoLimpio = motivo.trim();
+  if (!motivoLimpio) {
+    alert("Debes indicar un motivo para devolver el informe.");
+    return;
+  }
+
+  if (!confirm(`¿Confirmas la devolución del informe de ${municipio}?\n\n- Se archivará la versión actual en el histórico de auditoría.\n- El municipio pasará a estado 'DEVUELTO'.\n- Se habilitará la re-radicación en el portal municipal.`)) {
+    return;
+  }
+
+  try {
+    const fd = new FormData();
+    fd.append('municipio', municipio);
+    fd.append('mes', mes);
+    fd.append('ano', '2026');
+    fd.append('motivo', motivoLimpio);
+
+    const res = await fetch('/api/admin/devolver-radicado', {
+      method: 'POST',
+      body: fd
+    });
+
+    const resData = await res.json();
+    if (!res.ok) {
+      throw new Error(resData.detail || "Error al devolver el radicado");
+    }
+
+    alert(`✓ ${resData.mensaje}`);
+    cerrarModalInspeccion();
+    cargarEstadoDepartamental();
+  } catch (err) {
+    alert(`Error: ${err.message}`);
+  }
 }
 
 // 3. Ejecutar Consolidación Departamental MinSalud en 1 Clic

@@ -202,6 +202,9 @@
           <button onclick="filtrarMunicipios('radicados')" id="btn-f-radicados" class="px-3.5 py-1.5 rounded-xl text-emerald-800 hover:bg-white transition">
             ✓ Radicados
           </button>
+          <button onclick="filtrarMunicipios('devueltos')" id="btn-f-devueltos" class="px-3.5 py-1.5 rounded-xl text-amber-800 hover:bg-white transition">
+            ↩️ Devueltos
+          </button>
           <button onclick="filtrarMunicipios('pendientes')" id="btn-f-pendientes" class="px-3.5 py-1.5 rounded-xl text-rose-800 hover:bg-white transition">
             ⏳ Faltantes
           </button>
@@ -242,7 +245,8 @@
         <!-- Dinámico -->
       </div>
 
-      <div class="pt-3 border-t-2 border-slate-200 flex justify-end">
+      <div class="pt-3 border-t-2 border-slate-200 flex flex-wrap items-center justify-between gap-3">
+        <div id="modal-insp-acciones"></div>
         <button onclick="cerrarModalInspeccion()" class="px-6 py-2.5 rounded-xl bg-slate-200 hover:bg-slate-300 text-slate-900 text-xs font-black transition">
           Cerrar Inspección
         </button>
