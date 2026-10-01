@@ -13,9 +13,10 @@ from fastapi.responses import FileResponse, JSONResponse
 
 from engine.detector import detectar_tipo_archivo
 from engine.validator_dosis import validar_dosis
-from engine.validator_movimiento import validar_movimiento
+from engine.validator_movimiento import validar_movimiento, cargar_lotes_google_sheet
 from engine.validator_extranjeros import validar_extranjeros
 from engine.cruce_colombianos import auditar_cruce_colombianos
+from engine.cruce_deposito import auditar_cruce_deposito, obtener_info_kardex_actual, limpiar_cache_kardex
 from engine.ai_auditor import generar_dictamen_auditoria, test_gemini_connection
 from engine.consolidator import consolidar_departamento
 from engine.dictamen_reglas import generar_dictamen_reglas_detallado
@@ -492,6 +493,69 @@ def api_admin_restablecer_plantilla_base(tipo: str, mes: str, ano: str = "2026")
     return {
         "success": True,
         "mensaje": f"Plantilla de {tipo.capitalize()} restablecida a la oficial por defecto para {mes} {ano}."
+    }
+
+@app.get("/api/admin/info-kardex")
+def api_admin_info_kardex():
+    """Retorna información técnica y estado del archivo oficial de Kardex Departamental."""
+    return obtener_info_kardex_actual()
+
+@app.post("/api/admin/subir-kardex")
+async def api_admin_subir_kardex(file: UploadFile = File(...)):
+    """
+    Permite a la administración departamental subir el archivo Excel actualizado
+    del Kardex de entregas del Depósito Departamental (deposito_risaralda.xlsx).
+    """
+    fname = file.filename or ""
+    ext = os.path.splitext(fname)[1].lower()
+    if ext != ".xlsx":
+        raise HTTPException(status_code=400, detail="El Kardex Departamental debe ser un archivo Excel (.xlsx).")
+
+    catalogos_dir = os.path.join(STORAGE_DIR, "catalogos")
+    os.makedirs(catalogos_dir, exist_ok=True)
+    dest_path = os.path.join(catalogos_dir, "deposito_risaralda.xlsx")
+    backup_path = os.path.join(catalogos_dir, "deposito_risaralda_backup.xlsx")
+
+    content = await file.read()
+    if len(content) < 1000:
+        raise HTTPException(status_code=400, detail="El archivo está vacío o dañado.")
+
+    tmp_path = os.path.join(catalogos_dir, f"tmp_{uuid.uuid4().hex[:8]}.xlsx")
+    with open(tmp_path, "wb") as f:
+        f.write(content)
+
+    try:
+        import openpyxl
+        wb = openpyxl.load_workbook(tmp_path, data_only=True, read_only=True)
+        sheets = wb.sheetnames
+        wb.close()
+    except Exception as e:
+        if os.path.exists(tmp_path):
+            os.remove(tmp_path)
+        raise HTTPException(status_code=400, detail=f"No se pudo procesar el archivo Excel: {str(e)}")
+
+    if os.path.exists(dest_path):
+        try:
+            shutil.copy2(dest_path, backup_path)
+        except Exception:
+            pass
+
+    shutil.move(tmp_path, dest_path)
+    limpiar_cache_kardex()
+
+    try:
+        cargar_lotes_google_sheet()
+    except Exception as e:
+        print(f"Error recargando lotes: {e}")
+
+    info = obtener_info_kardex_actual()
+
+    return {
+        "success": True,
+        "mensaje": f"Kardex Oficial del Depósito Departamental actualizado exitosamente ({fname}).",
+        "archivo": "deposito_risaralda.xlsx",
+        "nombre_original": fname,
+        "info": info
     }
 
 @app.post("/api/consolidar/{mes}")

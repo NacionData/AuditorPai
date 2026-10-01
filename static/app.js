@@ -420,8 +420,11 @@ function renderizarResultadosAuditoria(data) {
     {
       nombre: "Cruce Entregas Depósito Departamental (Regla 3)",
       archivo: "Movimiento vs Kardex",
-      ok: cruceDep && cruceDep.resumen ? (cruceDep.resumen.biologicos_exactos === cruceDep.resumen.biologicos_total) : true,
-      desc: "Dosis recibidas (Col 5) vs despachadas en Kardex oficial por el Depósito Departamental"
+      ok: cruceDep ? (cruceDep.disponible ? (cruceDep.resumen.biologicos_exactos === cruceDep.resumen.biologicos_total) : true) : true,
+      pendiente: cruceDep && !cruceDep.disponible,
+      desc: (cruceDep && !cruceDep.disponible)
+        ? "Depósito pendiente de cargar Kardex para este mes (No bloquea radicación)"
+        : "Dosis recibidas (Col 5) vs despachadas en Kardex oficial por el Depósito Departamental"
     },
     {
       nombre: "Catálogo Maestro de Lotes Oficiales (Regla 4)",
@@ -469,8 +472,8 @@ function renderizarResultadosAuditoria(data) {
           <div class="text-[11px] text-slate-600">${r.desc}</div>
         </div>
         <div>
-          <span class="px-2.5 py-1 rounded-full text-[11px] font-black flex items-center gap-1 ${r.ok ? 'bg-emerald-100 text-emerald-900 border border-emerald-300' : 'bg-rose-100 text-rose-900 border border-rose-300'}">
-            ${r.ok ? '✓ CUMPLE' : '✕ BLOQUEA'}
+          <span class="px-2.5 py-1 rounded-full text-[11px] font-black flex items-center gap-1 ${r.ok ? (r.pendiente ? 'bg-amber-100 text-amber-900 border border-amber-300' : 'bg-emerald-100 text-emerald-900 border border-emerald-300') : 'bg-rose-100 text-rose-900 border border-rose-300'}">
+            ${r.ok ? (r.pendiente ? '⏳ PENDIENTE KARDEX' : '✓ CUMPLE') : '✕ BLOQUEA'}
           </span>
         </div>
       </div>
@@ -482,85 +485,149 @@ function renderizarResultadosAuditoria(data) {
   let htmlCruceDeposito = '';
   if (cruceDep && cruceDep.items && cruceDep.items.length > 0) {
     const resDep = cruceDep.resumen || {};
-    htmlCruceDeposito = `
-      <div class="rounded-2xl border-2 border-slate-200 overflow-hidden shadow-sm bg-white">
-        <div class="bg-indigo-50 px-4 py-2.5 border-b border-indigo-200 flex flex-wrap items-center justify-between gap-2">
-          <div class="flex items-center gap-2">
-            <span class="text-xs font-black uppercase text-indigo-950 tracking-wider">📦 Cruce Oficial: Entregas Depósito Departamental vs Recibido por Municipio (Regla 3)</span>
-          </div>
-          <span class="text-[11px] font-bold text-indigo-900 bg-indigo-100/70 border border-indigo-200 px-2.5 py-0.5 rounded-full">
-            ${resDep.biologicos_exactos || 0}/${resDep.biologicos_total || 0} Biológicos 100% Coincidentes (${resDep.porcentaje_coincidencia || 0}%)
-          </span>
-        </div>
-        <div class="p-3 bg-slate-50 border-b border-slate-200 grid grid-cols-2 sm:grid-cols-4 gap-2 text-center text-xs">
-          <div class="bg-white p-2 rounded-xl border border-slate-200">
-            <div class="text-[10px] uppercase font-bold text-slate-500">Despachado Depósito</div>
-            <div class="text-base font-black text-slate-900 font-mono">${(resDep.total_despachado || 0).toLocaleString()}</div>
-          </div>
-          <div class="bg-white p-2 rounded-xl border border-slate-200">
-            <div class="text-[10px] uppercase font-bold text-slate-500">Recibido Municipio</div>
-            <div class="text-base font-black text-slate-900 font-mono">${(resDep.total_recibido || 0).toLocaleString()}</div>
-          </div>
-          <div class="bg-white p-2 rounded-xl border border-slate-200">
-            <div class="text-[10px] uppercase font-bold text-emerald-700">Coincidencias Exactas</div>
-            <div class="text-base font-black text-emerald-800 font-mono">${resDep.total_coincidencias || 0}</div>
-          </div>
-          <div class="bg-white p-2 rounded-xl border border-slate-200">
-            <div class="text-[10px] uppercase font-bold text-amber-700">Diferencias Detectadas</div>
-            <div class="text-base font-black text-amber-800 font-mono">${resDep.total_diferencias || 0}</div>
-          </div>
-        </div>
-        <div class="max-h-64 overflow-y-auto">
-          <table class="w-full text-left text-xs">
-            <thead class="bg-slate-100 text-[10px] uppercase font-black text-slate-600 border-b border-slate-200 sticky top-0">
-              <tr>
-                <th class="p-2.5 pl-4">Insumo / Biológico</th>
-                <th class="p-2.5 text-center">Grupo</th>
-                <th class="p-2.5 text-right">Despacho Kardex</th>
-                <th class="p-2.5 text-right">Recibido Municipio</th>
-                <th class="p-2.5 text-right">Diferencia</th>
-                <th class="p-2.5 pr-4 text-center">Estado</th>
-              </tr>
-            </thead>
-            <tbody class="divide-y divide-slate-100 font-medium text-slate-800">
-    `;
+    const esDisponible = cruceDep.disponible !== false;
 
-    cruceDep.items.forEach(it => {
-      const esMatch = Math.abs(it.diferencia) < 0.001;
-      const lotesTxt = (it.lotes_despachados && it.lotes_despachados.length > 0)
-        ? `<div class="text-[10px] font-mono text-slate-500">Lotes Kardex: ${it.lotes_despachados.join(', ')}</div>`
-        : '';
-      htmlCruceDeposito += `
-        <tr class="hover:bg-slate-50 transition">
-          <td class="p-2.5 pl-4">
-            <div class="font-bold text-slate-900">${it.insumo}</div>
-            ${lotesTxt}
-          </td>
-          <td class="p-2.5 text-center">
-            <span class="text-[10px] font-bold px-2 py-0.5 rounded-full ${it.grupo === 'Biológico' ? 'bg-indigo-100 text-indigo-900 border border-indigo-200' : (it.grupo === 'Diluyente' ? 'bg-teal-100 text-teal-900 border border-teal-200' : 'bg-slate-100 text-slate-800 border border-slate-200')}">
-              ${it.grupo}
+    if (!esDisponible) {
+      // Vista amigable cuando el Kardex está pendiente de carga por la Secretaría Departamental
+      htmlCruceDeposito = `
+        <div class="rounded-2xl border-2 border-amber-200 overflow-hidden shadow-sm bg-white">
+          <div class="bg-amber-50 px-4 py-2.5 border-b border-amber-200 flex flex-wrap items-center justify-between gap-2">
+            <div class="flex items-center gap-2">
+              <span class="text-xs font-black uppercase text-amber-950 tracking-wider">📦 Cruce Depósito Departamental vs Recibido (Regla 3)</span>
+            </div>
+            <span class="text-[11px] font-bold text-amber-900 bg-amber-100 border border-amber-300 px-2.5 py-0.5 rounded-full">
+              ⏳ Pendiente Conciliación con Kardex Departamental
             </span>
-          </td>
-          <td class="p-2.5 text-right font-mono font-bold">${it.despachado_deposito.toLocaleString()}</td>
-          <td class="p-2.5 text-right font-mono font-bold">${it.recibido_municipio.toLocaleString()}</td>
-          <td class="p-2.5 text-right font-mono font-black ${esMatch ? 'text-emerald-700' : 'text-amber-700'}">
-            ${it.diferencia > 0 ? '+' + it.diferencia : it.diferencia}
-          </td>
-          <td class="p-2.5 pr-4 text-center">
-            <span class="text-[10px] font-black px-2 py-0.5 rounded-full ${esMatch ? 'bg-emerald-100 text-emerald-900 border border-emerald-300' : 'bg-amber-100 text-amber-900 border border-amber-300'}">
-              ${esMatch ? '✓ Exacta' : '⚠️ ' + (it.diferencia > 0 ? '+' : '') + it.diferencia}
-            </span>
-          </td>
-        </tr>
+          </div>
+          <div class="p-4 bg-amber-50/50 border-b border-amber-200 text-xs space-y-1.5 text-amber-900">
+            <div class="font-bold flex items-center gap-1.5">
+              <span>ℹ️</span>
+              <span>El Centro de Acopio Departamental aún no ha registrado despachos en Kardex para este municipio en este periodo.</span>
+            </div>
+            <p class="text-[11px] text-amber-800">
+              Las <b>${(resDep.total_recibido || 0).toLocaleString()}</b> dosis recibidas que registró en la Columna 5 se radican con base en sus actas físicas de entrega oficial y se conciliarán administrativamente cuando el Depósito actualice el Kardex. <b>No bloquea la radicación de su informe.</b>
+            </p>
+          </div>
+          <div class="max-h-64 overflow-y-auto">
+            <table class="w-full text-left text-xs">
+              <thead class="bg-slate-100 text-[10px] uppercase font-black text-slate-600 border-b border-slate-200 sticky top-0">
+                <tr>
+                  <th class="p-2.5 pl-4">Insumo / Biológico</th>
+                  <th class="p-2.5 text-center">Grupo</th>
+                  <th class="p-2.5 text-right">Recibido Municipio (Col 5)</th>
+                  <th class="p-2.5 pr-4 text-center">Estado de Conciliación</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-100 font-medium text-slate-800">
       `;
-    });
 
-    htmlCruceDeposito += `
-            </tbody>
-          </table>
+      cruceDep.items.forEach(it => {
+        htmlCruceDeposito += `
+          <tr class="hover:bg-slate-50 transition">
+            <td class="p-2.5 pl-4 font-bold text-slate-900">${it.insumo}</td>
+            <td class="p-2.5 text-center">
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded-full ${it.grupo === 'Biológico' ? 'bg-indigo-100 text-indigo-900 border border-indigo-200' : 'bg-slate-100 text-slate-800 border border-slate-200'}">
+                ${it.grupo}
+              </span>
+            </td>
+            <td class="p-2.5 text-right font-mono font-bold">${it.recibido_municipio.toLocaleString()}</td>
+            <td class="p-2.5 pr-4 text-center">
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-slate-100 text-slate-700 border border-slate-200">
+                ⏳ Pendiente Kardex
+              </span>
+            </td>
+          </tr>
+        `;
+      });
+
+      htmlCruceDeposito += `
+              </tbody>
+            </table>
+          </div>
         </div>
-      </div>
-    `;
+      `;
+    } else {
+      // Vista completa con comparación matemática contra Kardex activo
+      htmlCruceDeposito = `
+        <div class="rounded-2xl border-2 border-slate-200 overflow-hidden shadow-sm bg-white">
+          <div class="bg-indigo-50 px-4 py-2.5 border-b border-indigo-200 flex flex-wrap items-center justify-between gap-2">
+            <div class="flex items-center gap-2">
+              <span class="text-xs font-black uppercase text-indigo-950 tracking-wider">📦 Cruce Oficial: Entregas Depósito Departamental vs Recibido por Municipio (Regla 3)</span>
+            </div>
+            <span class="text-[11px] font-bold text-indigo-900 bg-indigo-100/70 border border-indigo-200 px-2.5 py-0.5 rounded-full">
+              ${resDep.biologicos_exactos || 0}/${resDep.biologicos_total || 0} Biológicos 100% Coincidentes (${resDep.porcentaje_coincidencia || 0}%)
+            </span>
+          </div>
+          <div class="p-3 bg-slate-50 border-b border-slate-200 grid grid-cols-2 sm:grid-cols-4 gap-2 text-center text-xs">
+            <div class="bg-white p-2 rounded-xl border border-slate-200">
+              <div class="text-[10px] uppercase font-bold text-slate-500">Despachado Depósito</div>
+              <div class="text-base font-black text-slate-900 font-mono">${(resDep.total_despachado || 0).toLocaleString()}</div>
+            </div>
+            <div class="bg-white p-2 rounded-xl border border-slate-200">
+              <div class="text-[10px] uppercase font-bold text-slate-500">Recibido Municipio</div>
+              <div class="text-base font-black text-slate-900 font-mono">${(resDep.total_recibido || 0).toLocaleString()}</div>
+            </div>
+            <div class="bg-white p-2 rounded-xl border border-slate-200">
+              <div class="text-[10px] uppercase font-bold text-emerald-700">Coincidencias Exactas</div>
+              <div class="text-base font-black text-emerald-800 font-mono">${resDep.total_coincidencias || 0}</div>
+            </div>
+            <div class="bg-white p-2 rounded-xl border border-slate-200">
+              <div class="text-[10px] uppercase font-bold text-amber-700">Diferencias Detectadas</div>
+              <div class="text-base font-black text-amber-800 font-mono">${resDep.total_diferencias || 0}</div>
+            </div>
+          </div>
+          <div class="max-h-64 overflow-y-auto">
+            <table class="w-full text-left text-xs">
+              <thead class="bg-slate-100 text-[10px] uppercase font-black text-slate-600 border-b border-slate-200 sticky top-0">
+                <tr>
+                  <th class="p-2.5 pl-4">Insumo / Biológico</th>
+                  <th class="p-2.5 text-center">Grupo</th>
+                  <th class="p-2.5 text-right">Despacho Kardex</th>
+                  <th class="p-2.5 text-right">Recibido Municipio</th>
+                  <th class="p-2.5 text-right">Diferencia</th>
+                  <th class="p-2.5 pr-4 text-center">Estado</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-100 font-medium text-slate-800">
+      `;
+
+      cruceDep.items.forEach(it => {
+        const esMatch = Math.abs(it.diferencia) < 0.001;
+        const lotesTxt = (it.lotes_despachados && it.lotes_despachados.length > 0)
+          ? `<div class="text-[10px] font-mono text-slate-500">Lotes Kardex: ${it.lotes_despachados.join(', ')}</div>`
+          : '';
+        htmlCruceDeposito += `
+          <tr class="hover:bg-slate-50 transition">
+            <td class="p-2.5 pl-4">
+              <div class="font-bold text-slate-900">${it.insumo}</div>
+              ${lotesTxt}
+            </td>
+            <td class="p-2.5 text-center">
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded-full ${it.grupo === 'Biológico' ? 'bg-indigo-100 text-indigo-900 border border-indigo-200' : (it.grupo === 'Diluyente' ? 'bg-teal-100 text-teal-900 border border-teal-200' : 'bg-slate-100 text-slate-800 border border-slate-200')}">
+                ${it.grupo}
+              </span>
+            </td>
+            <td class="p-2.5 text-right font-mono font-bold">${it.despachado_deposito.toLocaleString()}</td>
+            <td class="p-2.5 text-right font-mono font-bold">${it.recibido_municipio.toLocaleString()}</td>
+            <td class="p-2.5 text-right font-mono font-black ${esMatch ? 'text-emerald-700' : 'text-amber-700'}">
+              ${it.diferencia > 0 ? '+' + it.diferencia : it.diferencia}
+            </td>
+            <td class="p-2.5 pr-4 text-center">
+              <span class="text-[10px] font-black px-2 py-0.5 rounded-full ${esMatch ? 'bg-emerald-100 text-emerald-900 border border-emerald-300' : 'bg-amber-100 text-amber-900 border border-amber-300'}">
+                ${esMatch ? '✓ Exacta' : '⚠️ ' + (it.diferencia > 0 ? '+' : '') + it.diferencia}
+              </span>
+            </td>
+          </tr>
+        `;
+      });
+
+      htmlCruceDeposito += `
+              </tbody>
+            </table>
+          </div>
+        </div>
+      `;
+    }
   }
 
   // 2.1 Tabla Comparativa Cruzada (Dosis Aplicadas a Colombianos vs Movimiento Colombianos)

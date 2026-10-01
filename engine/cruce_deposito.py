@@ -172,6 +172,7 @@ def cargar_despachos_kardex_oficial(municipio, mes, ano=2026):
         kardex_sheets = [s for s in wb.sheetnames if "KARDEX" in s.upper()]
         kardex_sheets.sort(key=lambda s: ("2025" in s or "2026" in s), reverse=True)
 
+        vistos = set()
         for sname in kardex_sheets:
             ws = wb[sname]
             for r, row in enumerate(ws.iter_rows(values_only=True)):
@@ -201,11 +202,14 @@ def cargar_despachos_kardex_oficial(municipio, mes, ano=2026):
 
                 # Filtrar fecha (mes y año)
                 coincide_fecha = False
+                f_date_str = ""
                 if isinstance(f_val, (datetime.datetime, datetime.date)):
+                    f_date_str = f_val.strftime("%Y-%m-%d")
                     if f_val.year == ano_target and (mes_target is None or f_val.month == mes_target):
                         coincide_fecha = True
                 elif f_val and str(ano_target) in str(f_val):
                     f_str = str(f_val).upper()
+                    f_date_str = str(f_val)[:10]
                     if mes_clean in f_str:
                         coincide_fecha = True
                     elif mes_target and f"{mes_target:02d}" in f_str:
@@ -213,6 +217,12 @@ def cargar_despachos_kardex_oficial(municipio, mes, ano=2026):
 
                 if not coincide_fecha:
                     continue
+
+                # Evitar duplicar movimientos idénticos si existen en múltiples hojas
+                reg_id = (f_date_str, m_row_key, normalizar_cadena(vac_row), c_sal, lote_row)
+                if reg_id in vistos:
+                    continue
+                vistos.add(reg_id)
 
                 clave, nombre_vis, grupo = clasificar_item(vac_row, "kardex")
                 if not clave:
@@ -234,7 +244,7 @@ def cargar_despachos_kardex_oficial(municipio, mes, ano=2026):
                 if lote_row:
                     despachos[clave]["lotes"].add(lote_row)
                 despachos[clave]["movimientos"].append({
-                    "fecha": f_val.strftime("%Y-%m-%d") if isinstance(f_val, (datetime.datetime, datetime.date)) else str(f_val),
+                    "fecha": f_date_str,
                     "cantidad": c_sal,
                     "lote": lote_row
                 })
@@ -246,14 +256,79 @@ def cargar_despachos_kardex_oficial(municipio, mes, ano=2026):
 
     return despachos
 
+def limpiar_cache_kardex():
+    """Limpia el caché de despachos de Kardex en memoria."""
+    _MEMORIA_KARDEX.clear()
+
+def obtener_info_kardex_actual():
+    """
+    Retorna el estado detallado del archivo actual de Kardex Departamental:
+    fechas de actualización, hojas, periodos registrados y municipios con entregas.
+    """
+    base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    fpath = os.path.join(base_dir, "storage", "catalogos", "deposito_risaralda.xlsx")
+    if not os.path.exists(fpath):
+        return {
+            "existe": False,
+            "nombre": "deposito_risaralda.xlsx",
+            "mensaje": "No se ha cargado el archivo de Kardex Departamental."
+        }
+
+    st = os.stat(fpath)
+    fecha_mod = datetime.datetime.fromtimestamp(st.st_mtime).strftime("%d/%m/%Y %H:%M")
+    tamano_kb = round(st.st_size / 1024, 1)
+
+    meses_info = {}
+    sheets = []
+    try:
+        wb = openpyxl.load_workbook(fpath, data_only=True, read_only=True)
+        sheets = wb.sheetnames
+        k_sheets = [s for s in sheets if "KARDEX" in s.upper()] or sheets[:2]
+        for sname in k_sheets:
+            ws = wb[sname]
+            for r, row in enumerate(ws.iter_rows(values_only=True)):
+                if r == 0 or len(row) < 7:
+                    continue
+                f_val = row[2]
+                mun_row = row[3]
+                if f_val and mun_row:
+                    f_str = str(f_val)[:7]
+                    if f_str.startswith("202"):
+                        if f_str not in meses_info:
+                            meses_info[f_str] = {"total_movimientos": 0, "municipios": set()}
+                        meses_info[f_str]["total_movimientos"] += 1
+                        meses_info[f_str]["municipios"].add(str(mun_row).strip().upper())
+        wb.close()
+    except Exception as e:
+        print(f"Error inspeccionando Kardex: {e}")
+
+    resumen_periodos = {}
+    for k, v in sorted(meses_info.items(), reverse=True)[:6]:
+        resumen_periodos[k] = {
+            "total_movimientos": v["total_movimientos"],
+            "municipios_count": len(v["municipios"]),
+            "municipios": sorted(list(v["municipios"]))
+        }
+
+    return {
+        "existe": True,
+        "nombre": "deposito_risaralda.xlsx",
+        "fecha": fecha_mod,
+        "tamano_kb": tamano_kb,
+        "hojas": sheets,
+        "periodos": resumen_periodos
+    }
+
 def auditar_cruce_deposito(municipio, mes, ano, items_recibidos_municipio):
     """
     Realiza la auditoría de cruce entre lo despachado por el Depósito Departamental
     y lo reportado como recibido en Columna 5 de Movimiento de Biológicos por el Municipio.
 
-    items_recibidos_municipio: diccionario {clave_o_insumo: float(dosis_recibidas)} o lista de tuples.
+    Si el Kardex Departamental no tiene registros aún para este municipio y periodo,
+    se marca como PENDIENTE DE CONCILIACIÓN sin generar bloqueos injustificados al municipio.
     """
     despachos_kardex = cargar_despachos_kardex_oficial(municipio, mes, ano)
+    hay_kardex_para_municipio = len(despachos_kardex) > 0
 
     # Clasificar lo reportado por el municipio
     recibidos_dict = {}
@@ -273,6 +348,47 @@ def auditar_cruce_deposito(municipio, mes, ano, items_recibidos_municipio):
             except:
                 pass
 
+    total_rec = sum(it["total_recibido"] for it in recibidos_dict.values())
+
+    # CASO ESPECIAL: Si el Depósito Departamental NO ha cargado/registrado aún despachos
+    # para este municipio y mes en el Kardex oficial:
+    if not hay_kardex_para_municipio:
+        items_resultado = []
+        for clave, it in recibidos_dict.items():
+            items_resultado.append({
+                "clave": clave,
+                "insumo": it["nombre"],
+                "grupo": it["grupo"],
+                "despachado_deposito": 0.0,
+                "recibido_municipio": it["total_recibido"],
+                "diferencia": 0.0,
+                "lotes_despachados": [],
+                "estado": "PENDIENTE_KARDEX",
+                "estado_texto": "Pendiente conciliación con Kardex Departamental"
+            })
+
+        return {
+            "disponible": False,
+            "municipio": municipio,
+            "mes": mes,
+            "ano": ano,
+            "resumen": {
+                "total_items": len(recibidos_dict),
+                "total_coincidencias": len(recibidos_dict),
+                "total_diferencias": 0,
+                "total_despachado": 0.0,
+                "total_recibido": total_rec,
+                "porcentaje_coincidencia": 100.0,
+                "biologicos_exactos": 0,
+                "biologicos_total": 0,
+                "estado_conciliacion": "PENDIENTE_KARDEX",
+                "mensaje": f"El Centro de Acopio Departamental aún no registra despachos en Kardex para {municipio} en {mes} {ano}. Las {total_rec:.0f} dosis recibidas reportadas quedan radicadas válidamente según actas de entrega física y pendientes de conciliación administrativa."
+            },
+            "items": items_resultado,
+            "alertas": []
+        }
+
+    # Si hay despachos registrados para este municipio en este periodo, ejecutar cruce exhaustivo
     todas_claves = sorted(set(list(despachos_kardex.keys()) + list(recibidos_dict.keys())))
 
     items_resultado = []
@@ -331,7 +447,7 @@ def auditar_cruce_deposito(municipio, mes, ano, items_recibidos_municipio):
                     "recibido_municipio": rec,
                     "diferencia": dif,
                     "lotes_despachados": lotes_k,
-                    "mensaje": f"[Regla 3 - Cruce Kardex] En '{nombre}': El Depósito Departamental despachó {desp:.0f} dosis (Lotes: {', '.join(lotes_k) or 'N/A'}), pero el municipio registró {rec:.0f} dosis recibidas (Columna 5). Diferencia: {dif:+.0f} dosis. Verifique el inventario físico en sus equipos de frío y las actas físicas de remisión oficial. No modifique fórmulas del formato oficial. Si el conteo físico corrobora su reporte y la diferencia con el Kardex persiste, comuníquese inmediatamente con el Referente Departamental de Vacunación del PAI Risaralda para conciliación administrativa."
+                    "mensaje": f"[Regla 3 - Cruce Kardex] En '{nombre}': El Depósito Departamental despachó {desp:.0f} dosis (Lotes: {', '.join(lotes_k) or 'N/A'}), pero el municipio registró {rec:.0f} dosis recibidas (Columna 5). Diferencia: {dif:+.0f} dosis. Verifique el inventario físico en sus equipos de frío y las actas físicas de remisión oficial. Si el conteo físico corrobora su reporte y la diferencia persiste, comuníquese con el Referente Departamental para conciliación o radique utilizando el botón de Justificación."
                 })
 
         items_resultado.append({
@@ -349,7 +465,7 @@ def auditar_cruce_deposito(municipio, mes, ano, items_recibidos_municipio):
     porcentaje = round((total_coincidencias / len(todas_claves) * 100), 1) if todas_claves else 100.0
 
     return {
-        "disponible": len(despachos_kardex) > 0,
+        "disponible": True,
         "municipio": municipio,
         "mes": mes,
         "ano": ano,

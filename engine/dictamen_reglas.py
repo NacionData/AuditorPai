@@ -117,28 +117,40 @@ def generar_dictamen_reglas_detallado(municipio, mes, ano, r_dosis, r_mov, r_ext
     # REGLA 5: CRUCE DE ENTREGAS DEPÓSITO DEPARTAMENTAL (Regla 3 Kardex)
     # =========================================================================
     cdep = cruce_deposito or (r_mov or {}).get("cruce_deposito", {})
+    disp_cdep = cdep.get("disponible", True)
     res_cdep = cdep.get("resumen", {})
     tot_desp = res_cdep.get("total_despachado", 0)
     tot_rec = res_cdep.get("total_recibido", 0)
     bio_ex = res_cdep.get("biologicos_exactos", 0)
     bio_tot = res_cdep.get("biologicos_total", 0)
-    reg3_cumple = (bio_ex == bio_tot) if bio_tot > 0 else True
     alertas_reg3 = cdep.get("alertas", [])
+
+    if not disp_cdep:
+        reg3_cumple = True
+        estado_r3 = "PENDIENTE CONCILIACIÓN"
+        hallazgos_r3 = [
+            f"El Centro de Acopio Departamental aún no registra despachos en el Kardex oficial para {municipio} en este mes. Las {tot_rec:.0f} dosis recibidas reportadas se radican provisionalmente según actas físicas de entrega y quedan pendientes de conciliación administrativa."
+        ]
+    else:
+        reg3_cumple = (bio_ex == bio_tot) if bio_tot > 0 else True
+        estado_r3 = "CUMPLE" if reg3_cumple else "DIFERENCIA DETECTADA"
+        hallazgos_r3 = [a["mensaje"] for a in alertas_reg3] if alertas_reg3 else ["Conciliación del 100% con los despachos oficiales del Depósito Departamental."]
+
     reglas.append({
         "id": "regla_3_cruce_deposito",
         "codigo": "REG-05",
         "nombre": "Cruce Entregas Depósito Departamental (Regla 3)",
         "archivo": "Movimiento vs Kardex",
         "cumple": reg3_cumple,
-        "estado": "CUMPLE" if reg3_cumple else "DIFERENCIA DETECTADA",
+        "estado": estado_r3,
         "resumen": "Dosis recibidas (Columna 5) vs Kardex de despachos del Depósito Departamental",
         "metricas": {
-            "total_despachado_kardex": tot_desp,
+            "total_despachado_kardex": tot_desp if disp_cdep else "Pendiente carga Depósito",
             "total_recibido_municipio": tot_rec,
-            "biologicos_exactos": f"{bio_ex}/{bio_tot} ({res_cdep.get('porcentaje_coincidencia', 100)}%)",
-            "diferencias_detectadas": res_cdep.get("total_diferencias", 0)
+            "biologicos_exactos": f"{bio_ex}/{bio_tot} ({res_cdep.get('porcentaje_coincidencia', 100)}%)" if disp_cdep else "Pendiente conciliación",
+            "diferencias_detectadas": res_cdep.get("total_diferencias", 0) if disp_cdep else 0
         },
-        "hallazgos": [a["mensaje"] for a in alertas_reg3] if alertas_reg3 else ["Conciliación del 100% con los despachos oficiales del Depósito Departamental."]
+        "hallazgos": hallazgos_r3
     })
 
     # =========================================================================

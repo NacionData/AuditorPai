@@ -254,6 +254,43 @@
           </div>
         </div>
 
+        <!-- 3. Kardex Oficial de Entregas del Depósito Departamental (.xlsx) -->
+        <div id="card-tpl-kardex" class="col-span-1 md:col-span-2 rounded-2xl border-2 border-indigo-200 p-5 bg-indigo-50/50 hover:border-indigo-300 transition flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-sm">
+          <div class="space-y-1.5 flex-1">
+            <div class="flex items-center gap-2.5">
+              <div class="w-10 h-10 rounded-xl bg-indigo-100 border border-indigo-200 flex items-center justify-center text-indigo-700 font-black text-lg">
+                📑
+              </div>
+              <div>
+                <div class="flex items-center gap-2">
+                  <h3 class="text-sm font-black text-slate-900">Kardex Oficial de Entregas del Depósito Departamental (.xlsx)</h3>
+                  <span id="badge-tpl-kardex" class="text-[10px] font-black uppercase px-2.5 py-0.5 rounded-full bg-indigo-100 text-indigo-800 border border-indigo-300">Activo</span>
+                </div>
+                <p class="text-[11px] text-slate-600 font-medium">Libro maestro oficial con los despachos del Centro de Acopio a municipios y catálogo de lotes activos (Regla 3)</p>
+              </div>
+            </div>
+
+            <div id="info-tpl-kardex" class="mt-2 p-3 rounded-xl bg-white border border-slate-200 text-xs space-y-1">
+              <div class="flex flex-wrap items-center justify-between gap-2 text-slate-600">
+                <span class="font-bold">Archivo en servidor: <span id="name-tpl-kardex" class="font-mono font-black text-slate-900">deposito_risaralda.xlsx</span></span>
+                <span id="status-tpl-kardex" class="text-[11px] text-slate-500 font-semibold">Cargando información del Kardex...</span>
+              </div>
+              <div id="detalles-tpl-kardex" class="text-[11px] text-slate-500 font-mono flex flex-wrap gap-2 pt-1 border-t border-slate-100">
+                <!-- Se llena dinámicamente con los meses y registros -->
+              </div>
+            </div>
+          </div>
+
+          <div class="space-y-2 flex-shrink-0">
+            <input type="file" id="input-file-tpl-kardex" accept=".xlsx" class="hidden" onchange="subirKardexOficial(this)">
+            <button onclick="document.getElementById('input-file-tpl-kardex').click()" class="w-full md:w-auto py-3 px-4 rounded-xl bg-indigo-700 hover:bg-indigo-800 text-white text-xs font-black shadow-sm transition flex items-center justify-center gap-2">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
+              <span id="btn-text-tpl-kardex">Actualizar Kardex del Depósito (.xlsx)</span>
+            </button>
+            <p class="text-[10px] text-slate-500 text-center font-medium">Actualiza automáticamente los cruces y 361 lotes</p>
+          </div>
+        </div>
+
       </div>
     </div>
 
