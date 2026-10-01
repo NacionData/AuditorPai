@@ -27,3 +27,4 @@ Thumbs.db
 
 # Respaldos originales locales
 templates_base/backup_original/
+storage/catalogos/*backup*.xlsx
