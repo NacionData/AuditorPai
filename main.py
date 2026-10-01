@@ -22,8 +22,18 @@ from engine.consolidator import consolidar_departamento
 from engine.dictamen_reglas import generar_dictamen_reglas_detallado
 from engine.auth import autenticar_usuario, verificar_token, cerrar_sesion
 from engine.drive_sync import sincronizar_radicado_drive, sincronizar_consolidados_drive, obtener_estado_drive
+from engine.kardex_sync import (
+    obtener_config_kardex_drive,
+    guardar_config_kardex_drive,
+    descargar_kardex_google,
+    iniciar_demonio_kardex_sync
+)
 
 app = FastAPI(title="Sistema PAI Risaralda", description="Plataforma de Auditoría y Consolidación de Vacunación")
+
+@app.on_event("startup")
+async def startup_event():
+    iniciar_demonio_kardex_sync()
 
 app.add_middleware(
     CORSMiddleware,
@@ -557,6 +567,35 @@ async def api_admin_subir_kardex(file: UploadFile = File(...)):
         "nombre_original": fname,
         "info": info
     }
+
+@app.get("/api/admin/kardex-drive-config")
+def api_admin_kardex_drive_config():
+    """Retorna la configuración actual del conector de Google Drive/Sheets para el Kardex."""
+    return obtener_config_kardex_drive()
+
+@app.post("/api/admin/guardar-kardex-drive-config")
+def api_admin_guardar_kardex_drive_config(
+    url_origen: str = Form(...),
+    auto_sync: bool = Form(True)
+):
+    """Guarda la URL o ID del Google Sheets/Drive del Kardex y estado de auto-sincronización mensual."""
+    cfg = guardar_config_kardex_drive({
+        "url_origen": url_origen.strip(),
+        "auto_sync": auto_sync
+    })
+    return {
+        "success": True,
+        "mensaje": "Configuración de conexión automática del Kardex guardada exitosamente.",
+        "config": cfg
+    }
+
+@app.post("/api/admin/sincronizar-kardex-drive")
+def api_admin_sincronizar_kardex_drive(url_origen: str = Form(None)):
+    """Ejecuta la sincronización inmediata del Kardex oficial desde Google Drive / Sheets."""
+    res = descargar_kardex_google(url_origen)
+    if not res.get("success"):
+        raise HTTPException(status_code=400, detail=res.get("error", "Error al sincronizar con Google Drive/Sheets."))
+    return res
 
 @app.post("/api/consolidar/{mes}")
 def api_consolidar(mes: str, ano: str = "2026"):

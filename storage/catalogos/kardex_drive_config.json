@@ -1,0 +1,11 @@
+{
+  "url_origen": "",
+  "auto_sync": true,
+  "frecuencia": "ULTIMO_DIA_MES",
+  "hora_programada": "23:30",
+  "ultima_sincronizacion": null,
+  "ultimo_resultado": "PENDIENTE_CONFIGURACION",
+  "ultimo_mensaje": "Ingrese el enlace o ID de Google Sheets / Drive para activar la sincronización automática.",
+  "tamano_kb": 0,
+  "proxima_sincronizacion": "2026-10-31 23:30:00"
+}

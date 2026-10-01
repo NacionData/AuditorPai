@@ -977,54 +977,142 @@ async function cargarEstadoPlantillasBase() {
 }
 
 // -------------------------------------------------------------
+// -------------------------------------------------------------
 // GESTIÓN DE KARDEX OFICIAL DEL DEPÓSITO DEPARTAMENTAL
 // -------------------------------------------------------------
 async function cargarEstadoKardex() {
   try {
-    const res = await fetch('/api/admin/info-kardex');
-    if (!res.ok) return;
-    const data = await res.json();
+    const [resInfo, resCfg] = await Promise.all([
+      fetch('/api/admin/info-kardex'),
+      fetch('/api/admin/kardex-drive-config')
+    ]);
 
-    const nameKardex = document.getElementById('name-tpl-kardex');
-    const statusKardex = document.getElementById('status-tpl-kardex');
-    const detallesKardex = document.getElementById('detalles-tpl-kardex');
-    const badgeKardex = document.getElementById('badge-tpl-kardex');
+    if (resInfo.ok) {
+      const data = await resInfo.json();
+      const nameKardex = document.getElementById('name-tpl-kardex');
+      const statusKardex = document.getElementById('status-tpl-kardex');
+      const detallesKardex = document.getElementById('detalles-tpl-kardex');
+      const badgeKardex = document.getElementById('badge-tpl-kardex');
 
-    if (!data.existe) {
-      if (statusKardex) statusKardex.innerHTML = `<span class="text-rose-600 font-bold">No cargado en el servidor</span>`;
-      if (badgeKardex) {
-        badgeKardex.className = "text-[10px] font-black uppercase px-2.5 py-0.5 rounded-full bg-rose-100 text-rose-800 border border-rose-300";
-        badgeKardex.textContent = "Pendiente";
+      if (!data.existe) {
+        if (statusKardex) statusKardex.innerHTML = `<span class="text-rose-600 font-bold">No cargado en el servidor</span>`;
+        if (badgeKardex) {
+          badgeKardex.className = "text-[10px] font-black uppercase px-2.5 py-0.5 rounded-full bg-rose-100 text-rose-800 border border-rose-300";
+          badgeKardex.textContent = "Pendiente";
+        }
+      } else {
+        if (nameKardex) nameKardex.textContent = data.nombre;
+        if (statusKardex) {
+          statusKardex.innerHTML = `<span class="text-emerald-700 font-bold">Actualizado: ${data.fecha}</span> • ${data.tamano_kb} KB`;
+        }
+        if (badgeKardex) {
+          badgeKardex.className = "text-[10px] font-black uppercase px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-300";
+          badgeKardex.textContent = "Vigente";
+        }
+
+        if (detallesKardex && data.periodos) {
+          const items = Object.entries(data.periodos).map(([per, info]) => {
+            const esReciente = per.startsWith("2026-09") || per.startsWith("2026-08");
+            const bg = esReciente ? "bg-indigo-50 border-indigo-200 text-indigo-900" : "bg-slate-50 border-slate-200 text-slate-700";
+            return `<span class="px-2 py-0.5 rounded border text-[10px] ${bg} font-bold">
+              📅 ${per}: <b>${info.municipios_count} mun</b> (${info.total_movimientos} despachos)
+            </span>`;
+          }).join(' ');
+
+          detallesKardex.innerHTML = `
+            <div class="w-full flex items-center justify-between gap-2">
+              <span><b>Despachos por periodo:</b> ${items}</span>
+            </div>
+          `;
+        }
       }
-      return;
     }
 
-    if (nameKardex) nameKardex.textContent = data.nombre;
-    if (statusKardex) {
-      statusKardex.innerHTML = `<span class="text-emerald-700 font-bold">Actualizado: ${data.fecha}</span> • ${data.tamano_kb} KB`;
-    }
-    if (badgeKardex) {
-      badgeKardex.className = "text-[10px] font-black uppercase px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-300";
-      badgeKardex.textContent = "Vigente";
-    }
+    if (resCfg.ok) {
+      const cfg = await resCfg.json();
+      const inputUrl = document.getElementById('input-url-kardex-drive');
+      const txtProx = document.getElementById('txt-proxima-sync');
+      const statusSync = document.getElementById('status-sync-drive');
 
-    if (detallesKardex && data.periodos) {
-      const items = Object.entries(data.periodos).map(([per, info]) => {
-        const esReciente = per.startsWith("2026-09") || per.startsWith("2026-08");
-        const bg = esReciente ? "bg-indigo-50 border-indigo-200 text-indigo-900" : "bg-slate-50 border-slate-200 text-slate-700";
-        return `<span class="px-2 py-0.5 rounded border text-[10px] ${bg} font-bold">
-          📅 ${per}: <b>${info.municipios_count} mun</b> (${info.total_movimientos} despachos)
-        </span>`;
-      }).join(' ');
-
-      detallesKardex.innerHTML = `
-        <div class="w-full flex items-center justify-between gap-2">
-          <span><b>Despachos por periodo:</b> ${items}</span>
-        </div>
-      `;
+      if (inputUrl && cfg.url_origen && !inputUrl.value) {
+        inputUrl.value = cfg.url_origen;
+      }
+      if (txtProx && cfg.proxima_sincronizacion) {
+        txtProx.textContent = `Próxima auto-sync: ${cfg.proxima_sincronizacion}`;
+      }
+      if (statusSync) {
+        if (cfg.ultimo_resultado === 'SINCRONIZADO_OK') {
+          statusSync.innerHTML = `<span class="text-emerald-700 font-bold">✓ Última sync en la nube:</span> ${cfg.ultima_sincronizacion}`;
+        } else if (cfg.ultimo_resultado === 'ERROR_DESCARGA') {
+          statusSync.innerHTML = `<span class="text-amber-700 font-bold">⚠️ Nota:</span> ${cfg.ultimo_mensaje}`;
+        } else {
+          statusSync.innerHTML = `<span class="text-slate-500 font-normal">Listo para auto-sincronizar el último día del mes</span>`;
+        }
+      }
     }
   } catch (err) {
     console.warn("Error cargando estado del Kardex:", err);
+  }
+}
+
+async function guardarConfigKardexDrive() {
+  const url = (document.getElementById('input-url-kardex-drive').value || '').trim();
+  if (!url) {
+    alert("Por favor ingrese la URL o ID del Google Sheets o Google Drive del Kardex.");
+    return;
+  }
+
+  try {
+    const fd = new FormData();
+    fd.append('url_origen', url);
+    fd.append('auto_sync', 'true');
+
+    const res = await fetch('/api/admin/guardar-kardex-drive-config', {
+      method: 'POST',
+      body: fd
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.detail || "Error al guardar configuración");
+
+    alert("✓ Enlace de Google Drive / Sheets guardado exitosamente.\n\nEl sistema se sincronizará automáticamente cada último día del mes para garantizar que los cruces estén listos cuando los municipios radiquen.");
+    await cargarEstadoKardex();
+  } catch (err) {
+    alert(`Error: ${err.message}`);
+  }
+}
+
+async function sincronizarKardexDriveAhora() {
+  const urlInput = document.getElementById('input-url-kardex-drive');
+  const url = (urlInput ? urlInput.value : '').trim();
+
+  const btn = document.getElementById('btn-sync-drive');
+  const btnText = document.getElementById('btn-text-sync-drive');
+  const originalText = btnText ? btnText.textContent : 'Sincronizar con Drive Ahora';
+  if (btnText) btnText.textContent = "⏳ Conectando con Google...";
+  if (btn) btn.disabled = true;
+
+  try {
+    const fd = new FormData();
+    if (url) fd.append('url_origen', url);
+
+    const res = await fetch('/api/admin/sincronizar-kardex-drive', {
+      method: 'POST',
+      body: fd
+    });
+
+    const data = await res.json();
+    if (!res.ok) {
+      throw new Error(data.detail || "Error al sincronizar con Google Drive/Sheets");
+    }
+
+    alert(`✓ ${data.mensaje}\n\nLos despachos del Kardex y el catálogo maestro de 361 lotes han sido actualizados.`);
+    await cargarEstadoKardex();
+    await cargarTableroDepartamental();
+  } catch (err) {
+    alert(`Error de Sincronización: ${err.message}`);
+  } finally {
+    if (btnText) btnText.textContent = originalText;
+    if (btn) btn.disabled = false;
   }
 }
 
