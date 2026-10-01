@@ -253,6 +253,14 @@ def validar_dosis(filepath, mes_evaluar="AGOSTO", municipio_nombre=None):
             total_dosis_acumulado += real_sum_genero
             dosis_por_columna[col_idx] = real_sum_genero
             fam_vacuna = col_familias.get(col_idx, "")
+            # Discriminación estricta Hepatitis B por rangos de columnas oficiales:
+            # Columnas H (8) a AD (30): Hepatitis B Pediátrica / Recién Nacido
+            # Columnas AE (31) a BN (66): Hepatitis B Adultos (Res. 0459/2012 y Circ. 031/2014)
+            if 8 <= col_idx <= 30:
+                fam_vacuna = "HEPATITIS B PEDIATRICA"
+            elif 31 <= col_idx <= 66:
+                fam_vacuna = "HEPATITIS B ADULTOS"
+
             if fam_vacuna:
                 vacunas_agrupadas[fam_vacuna] = vacunas_agrupadas.get(fam_vacuna, 0) + real_sum_genero
 
@@ -325,6 +333,8 @@ def validar_dosis(filepath, mes_evaluar="AGOSTO", municipio_nombre=None):
 
         resultado["total_dosis_mes"] = total_dosis_acumulado
         resultado["dosis_agrupadas_vacuna"] = vacunas_agrupadas
+        resultado["dosis_hep_b_pediatrica"] = vacunas_agrupadas.get("HEPATITIS B PEDIATRICA", 0)
+        resultado["dosis_hep_b_adultos"] = vacunas_agrupadas.get("HEPATITIS B ADULTOS", 0)
         resultado["resumen_coherencia"]["columnas_evaluadas"] = columnas_evaluadas
         resultado["resumen_coherencia"]["columnas_con_errores"] = columnas_con_error
         resultado["resumen_coherencia"]["formulas_adulteradas"] = formulas_alteradas

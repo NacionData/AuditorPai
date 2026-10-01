@@ -40,32 +40,32 @@ def auditar_cruce_colombianos(res_dosis, res_mov):
         {
             "id": "HEPATITIS_B_PED",
             "nombre": "Hepatitis B Pediátrica / Recién Nacido",
-            "matcher_dosis": lambda k: "HEPATITIS B" in k and "0459" not in k and "ADULTO" not in k and "PENTA" not in k,
-            "matcher_mov": lambda k: "HEPATITIS B" in k and "PEDIATRICA" in k and "PENTA" not in k and "DIFTERIA" not in k and "DTWP" not in k
+            "matcher_dosis": lambda k: "HEPATITIS B PEDIATRICA" in k or ("HEPATITIS B" in k and "0459" not in k and "ADULTO" not in k and "PENTA" not in k and "HEXA" not in k),
+            "matcher_mov": lambda k: "HEPATITIS B" in k and "PEDIATRICA" in k and "PENTA" not in k and "DIFTERIA" not in k and "DTWP" not in k and "HEXA" not in k
         },
         {
             "id": "HEPATITIS_B_ADULTO",
             "nombre": "Hepatitis B Adultos",
-            "matcher_dosis": lambda k: "0459" in k or ("HEPATITIS B" in k and "ADULTO" in k),
-            "matcher_mov": lambda k: "HEPATITIS B" in k and "ADULTO" in k
+            "matcher_dosis": lambda k: "HEPATITIS B ADULTOS" in k or "0459" in k or ("HEPATITIS B" in k and "ADULTO" in k),
+            "matcher_mov": lambda k: "HEPATITIS B" in k and "ADULTO" in k and "PEDIATR" not in k and "PENTA" not in k and "HEXA" not in k
         },
         {
             "id": "ANTIPOLIO_VIP",
             "nombre": "Antipolio Inactivada (VIP)",
-            "matcher_dosis": lambda k: "ANTIPOLIO" in k or "VIP" in k,
-            "matcher_mov": lambda k: "POLIOVIRUS" in k or "IPV" in k
+            "matcher_dosis": lambda k: ("ANTIPOLIO" in k or "VIP" in k or "POLIO" in k) and "HEXA" not in k and "PENTA" not in k,
+            "matcher_mov": lambda k: ("POLIOVIRUS" in k or "IPV" in k) and "HEXA" not in k and "PENTA" not in k and "DIFTERIA" not in k and "DTAP" not in k and "DTWP" not in k
         },
         {
             "id": "PENTAVALENTE",
             "nombre": "Pentavalente (DPT-HB-Hib)",
-            "matcher_dosis": lambda k: "PENTAVALENTE" in k,
-            "matcher_mov": lambda k: "PENTAVALENTE" in k or ("DIFTERIA - TOS FERINA" in k and "CELULA COMPLETA" in k)
+            "matcher_dosis": lambda k: "PENTAVALENTE" in k and "HEXA" not in k,
+            "matcher_mov": lambda k: ("PENTAVALENTE" in k or ("DIFTERIA - TOS FERINA" in k and "CELULA COMPLETA" in k)) and "HEXA" not in k and "IPV" not in k
         },
         {
             "id": "HEXAVALENTE",
-            "nombre": "Hexavalente",
+            "nombre": "Hexavalente (DTaP-IPV-HepB-Hib)",
             "matcher_dosis": lambda k: "HEXAVALENTE" in k,
-            "matcher_mov": lambda k: "HEXAVALENTE" in k
+            "matcher_mov": lambda k: "HEXAVALENTE" in k and ("ACELULAR" in k or "DTAP" in k) and "CELULA COMPLETA" not in k and "DTWP" not in k
         },
         {
             "id": "ROTAVIRUS",
@@ -161,7 +161,7 @@ def auditar_cruce_colombianos(res_dosis, res_mov):
             "id": "COVID19",
             "nombre": "COVID-19",
             "matcher_dosis": lambda k: "COVID" in k,
-            "matcher_mov": lambda k: "COVID" in k
+            "matcher_mov": lambda k: "COVID" in k or "MODERNA" in k or "PFIZER" in k
         },
         {
             "id": "DENGUE",

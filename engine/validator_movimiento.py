@@ -289,7 +289,7 @@ def validar_movimiento(filepath, mes_evaluar="AGOSTO", municipio_nombre=None, an
         saldos_previos_oficiales = obtener_saldos_mes_anterior_oficial(municipio_nombre, mes_evaluar, ano, wb_actual=wb)
 
         ws = wb[target_sheet]
-        rows_data = list(ws.iter_rows(min_row=1, max_row=380, min_col=1, max_col=45, values_only=True))
+        rows_data = list(ws.iter_rows(min_row=1, max_row=450, min_col=1, max_col=45, values_only=True))
         wb.close()
 
         vacunas_liofilizadas = {}
@@ -403,10 +403,26 @@ def validar_movimiento(filepath, mes_evaluar="AGOSTO", municipio_nombre=None, an
             # =================================================================
             # REGLA 2: ESTRUCTURA DE 5 CELDAS DE LOTES + FILA DE CONTROL (VERDADERO)
             # =================================================================
-            # Por directriz técnica oficial, Carnets e Insumos así como Virus Sincitial Respiratorio (VRS)
-            # no se evalúan en lotes ni saldos.
-            if "CARNET" in insumo_norm or es_vrs:
-                r += 6
+            # Por directriz técnica oficial, Carnets, Insumos, Papelería, Virus Sincitial Respiratorio (VRS)
+            # y Biológicos COVID-19 (Filas 377 a 381, que son renglones individuales sin 5 lotes)
+            # no se evalúan en lotes ni fórmulas de control M=N.
+            es_papeleria = any(x in insumo_norm for x in ["CARNET", "CARNE", "TARJETA", "MEMOFICHA", "CERTIFICADO"])
+            es_covid = any(k in insumo_norm for k in ["MODERNA", "PFIZER"]) or ("COVID" in insumo_norm and "JERINGA" not in insumo_norm)
+
+            next_c1 = get_c(r + 1, 1)
+            next_c2 = get_c(r + 1, 2)
+            es_siguiente_item = False
+            try:
+                if next_c1 is not None and int(next_c1) > 0 and next_c2 and str(next_c2).strip():
+                    es_siguiente_item = True
+            except (ValueError, TypeError):
+                es_siguiente_item = False
+
+            if es_papeleria or es_vrs or es_covid:
+                if es_siguiente_item or es_papeleria or es_covid:
+                    r += 1
+                else:
+                    r += 6
                 continue
 
             # Cada biológico tiene exactamente 5 celdas para lotes: filas r a r+4 (slots 0 a 4)
@@ -591,8 +607,11 @@ def validar_movimiento(filepath, mes_evaluar="AGOSTO", municipio_nombre=None, an
                     resultado["valido"] = False
                     resultado["metricas_reglas"]["regla5_racionalidad_perdidas"] = False
 
-            # Avanzamos exactamente al siguiente ítem biológico (bloque de 6 filas: 5 slots + 1 fila check)
-            r += 6
+            # Avanzamos al siguiente ítem biológico (1 fila si el siguiente renglón ya es un ítem, o 6 filas si es un bloque con lotes)
+            if es_siguiente_item:
+                r += 1
+            else:
+                r += 6
 
         # =================================================================
         # REGLA 6: RECONSTITUCIÓN DE BIOLÓGICOS LIOFILIZADOS VS DILUYENTES

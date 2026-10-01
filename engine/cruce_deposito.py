@@ -43,9 +43,9 @@ REGLAS_MAPEO = [
     ("BIO_BCG", "BCG (Tuberculosis)", "Biológico", [["BCG"]], [["BCG"]]),
     ("BIO_HEP_B_PED", "Hepatitis B Pediátrica", "Biológico", [["HEPATITISB", "PEDIATRICA"]], [["HEPATITISB", "PEDIATRICA"]]),
     ("BIO_HEP_B_ADU", "Hepatitis B Adultos", "Biológico", [["HEPATITISB", "ADULTO"]], [["HEPATITISB", "ADULTO"]]),
-    ("BIO_POLIO_VIP", "Polio Inactiva (VIP)", "Biológico", [["POLIO"]], [["POLIO"]]),
+    ("BIO_HEXAVALENTE", "Hexavalente (DTaP-IPV-HepB-Hib)", "Biológico", [["HEXAVALENTE"]], [["HEXAVALENTE", "ACELULAR"], ["DTAP-IPV-HEPB-HIB"], ["DTAPIPVHEPBHIB"]]),
+    ("BIO_POLIO_VIP", "Polio Inactiva (VIP)", "Biológico", [["ANTIPOLIO"], ["POLIO", "INACTIVO"], ["VIP"], ["POLIO"]], [["POLIOVIRUS", "IPV"], ["POLIOVIRUS", "INACTIVA"], ["POLIO", "INACTIVA"]]),
     ("BIO_PENTAVALENTE", "Pentavalente PAI", "Biológico", [["PENTAVALENTE"]], [["PENTAVALENTE"]]),
-    ("BIO_HEXAVALENTE", "Hexavalente", "Biológico", [["HEXAVALENTE"]], [["HEXAVALENTE"]]),
     ("BIO_DTAP_PED", "DTaP Pediátrica (Acelular)", "Biológico", [["DPTA"], ["DTAP", "PEDIATR"]], [["DTAP", "PEDIATR"]]),
     ("BIO_DPT", "DPT Pediátrica", "Biológico", [["DPT"]], [["DPT"]]),
     ("BIO_ROTAVIRUS", "Rotavirus Oral", "Biológico", [["ROTAVIRUS"]], [["ROTAVIRUS"]]),
@@ -61,6 +61,9 @@ REGLAS_MAPEO = [
     ("BIO_FLU_ADU", "Influenza Adultos", "Biológico", [["INFLUENZA"]], [["INFLUENZA", "ADULTO"]]),
     ("BIO_VRS", "Virus Sincitial Respiratorio (VRS)", "Biológico", [["SINCITIAL"], ["VRS"]], [["SINCITIAL"], ["VRS"]]),
     ("BIO_VPH", "Virus Papiloma Humano (VPH)", "Biológico", [["VPH"], ["PAPILOMA"]], [["VPH"], ["PAPILOMA"]]),
+    ("BIO_COVID_MODERNA", "Vacuna COVID-19 Moderna (Adulto + Pediátrica)", "Biológico", [["MODERNA"]], [["MODERNA"]]),
+    ("BIO_COVID_PFIZER", "Vacuna COVID-19 Pfizer (Adulto + Pediátrica)", "Biológico", [["PFIZER"]], [["PFIZER"]]),
+    ("BIO_COVID_GENERICA", "Vacuna COVID-19", "Biológico", [["COVID"]], [["COVID"]]),
     ("BIO_ANTIRRABICA", "Antirrábica Humana", "Biológico", [["ANTIRRABICA"]], [["ANTIRRABICA"]]),
     ("BIO_IG_ANTIRRABICA", "Inmunoglobulina Antirrábica", "Biológico", [["INMUNOGLOBULINA", "ANTIRRABICA"]], [["INMUNOGLOBULINA", "ANTIRRABICA"]]),
     ("BIO_IG_HEP_B", "Inmunoglobulina Antihepatitis B", "Biológico", [["INMUNOGLOBULINA", "HEPATITISB"]], [["INMUNOGLOBULINA", "HEPATITISB"]]),
@@ -90,6 +93,17 @@ def clasificar_item(texto, origen="kardex"):
     es_carne = "CARNE" in t_norm or "TARJETA" in t_norm or "CERTIFICADO" in t_norm or "CARNET" in t_norm
     es_jeringa = "JERINGA" in t_norm or "AGUJA" in t_norm
 
+    # Prioridad Exclusiva 1: Hexavalente Acelular vs Células Completas
+    if "HEXAVALENTE" in t_norm:
+        if origen == "kardex":
+            return "BIO_HEXAVALENTE", "Hexavalente (DTaP-IPV-HepB-Hib)", "Biológico"
+        elif origen == "movimiento":
+            # Exclusivamente con la versión Acelular (DTaP-IPV-HepB-Hib), NUNCA célula completa
+            if ("ACELULAR" in t_norm or "DTAP" in t_norm) and "CELULACOMPLETA" not in t_norm and "DTWP" not in t_norm:
+                return "BIO_HEXAVALENTE", "Hexavalente (DTaP-IPV-HepB-Hib)", "Biológico"
+            else:
+                return None, texto, "Otros"
+
     for clave, nombre_vis, grupo, opts_k, opts_m in REGLAS_MAPEO:
         if grupo == "Biológico" and (es_dil or es_carne or es_jeringa):
             continue
@@ -101,12 +115,16 @@ def clasificar_item(texto, origen="kardex"):
         opts = opts_k if origen == "kardex" else opts_m
 
         # Exclusiones específicas
-        if "HEP_B" in clave and "PENTAVALENTE" in t_norm: continue
-        if clave == "BIO_DPT" and ("ACELULAR" in t_norm or "DTAP" in t_norm or "DPTA" in t_norm): continue
+        if "HEP_B" in clave and ("PENTAVALENTE" in t_norm or "HEXAVALENTE" in t_norm): continue
+        if clave == "BIO_POLIO_VIP":
+            if any(x in t_norm for x in ["HEXAVALENTE", "CELULACOMPLETA", "DTAP", "DTWP", "DIFTERIA", "TETANOS", "TOSFERINA", "PENTAVALENTE"]):
+                continue
+        if clave == "BIO_DPT" and ("ACELULAR" in t_norm or "DTAP" in t_norm or "DPTA" in t_norm or "HEXAVALENTE" in t_norm): continue
         if clave == "BIO_FLU_ADU" and "PEDIATRICA" in t_norm: continue
         if clave == "BIO_ANTIRRABICA" and "INMUNOGLOBULINA" in t_norm: continue
         if clave == "BIO_SR" and ("PAPERAS" in t_norm or "TRIPLE" in t_norm): continue
         if clave == "DIL_SR" and ("PAPERAS" in t_norm or "TRIPLE" in t_norm): continue
+        if clave == "BIO_COVID_GENERICA" and any(x in t_norm for x in ["MODERNA", "PFIZER", "CARNET", "JERINGA", "AGUJA"]): continue
 
         for req_words in opts:
             if all(w in t_norm for w in req_words):
