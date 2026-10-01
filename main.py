@@ -113,10 +113,14 @@ def api_estado(mes: str, ano: str = "2026"):
         if os.path.exists(receipt_file):
             with open(receipt_file, "r", encoding="utf-8") as f:
                 rec = json.load(f)
+            estado_rad = rec.get("estado", "RADICADO")
             estados.append({
                 "municipio": m_nombre,
                 "dane": m["dane"],
-                "estado": "RADICADO",
+                "estado": estado_rad,
+                "tiene_justificacion": rec.get("tiene_justificacion", False),
+                "justificacion": rec.get("justificacion"),
+                "aprobado_departamental": rec.get("aprobado_departamental"),
                 "fecha_radicacion": rec.get("fecha"),
                 "numero_radicado": rec.get("numero_radicado"),
                 "dosis_aplicadas": rec.get("metricas", {}).get("dosis_aplicadas_nacionales", 0),
@@ -148,12 +152,14 @@ def api_estado(mes: str, ano: str = "2026"):
                 "extranjeros": 0
             })
 
-    total_radicados = sum(1 for e in estados if e["estado"] == "RADICADO")
+    total_radicados = sum(1 for e in estados if e["estado"] in ["RADICADO", "RADICADO_CON_JUSTIFICACION", "APROBADO_OFICIAL"])
+    total_justificados = sum(1 for e in estados if e["estado"] == "RADICADO_CON_JUSTIFICACION")
     return {
         "mes": mes,
         "ano": ano,
         "total_municipios": len(municipios),
         "radicados": total_radicados,
+        "justificados": total_justificados,
         "pendientes": len(municipios) - total_radicados,
         "porcentaje_avance": round((total_radicados / len(municipios)) * 100, 1) if municipios else 0,
         "detalle": estados
@@ -259,7 +265,10 @@ async def api_auditar(
     }
 
 @app.post("/api/radicar")
-async def api_radicar(session_id: str = Form(...)):
+async def api_radicar(
+    session_id: str = Form(...),
+    justificacion: str = Form(None)
+):
     # Buscar sesión temporal
     matched_dir = None
     for folder in os.listdir(TEMP_DIR):
@@ -273,8 +282,15 @@ async def api_radicar(session_id: str = Form(...)):
     with open(os.path.join(matched_dir, "session_meta.json"), "r", encoding="utf-8") as f:
         meta = json.load(f)
 
-    if not meta["dictamen"]["aprobado"]:
-        raise HTTPException(status_code=400, detail="El informe contiene errores críticos y no puede radicarse.")
+    justificacion_limpia = str(justificacion or "").strip()
+    es_aprobado = meta.get("dictamen", {}).get("aprobado", False)
+
+    if not es_aprobado:
+        if not justificacion_limpia or len(justificacion_limpia) < 10:
+            raise HTTPException(
+                status_code=400, 
+                detail="El informe contiene inconsistencias bloqueantes. Para radicar bajo excepción, debe ingresar una justificación técnica o administrativa detallada (mínimo 10 caracteres)."
+            )
 
     municipio = meta["municipio"]
     mes = meta["mes"]
@@ -300,6 +316,8 @@ async def api_radicar(session_id: str = Form(...)):
             shutil.copy2(p, dest)
             archivos_radicados[clave] = dest
 
+    tiene_justificacion = bool(not es_aprobado and justificacion_limpia)
+
     # Guardar recibo completo con auditoría detallada
     recibo = {
         "numero_radicado": num_radicado,
@@ -307,6 +325,10 @@ async def api_radicar(session_id: str = Form(...)):
         "mes": mes,
         "ano": ano,
         "fecha": fecha_rad,
+        "estado": "RADICADO_CON_JUSTIFICACION" if tiene_justificacion else "RADICADO",
+        "tiene_justificacion": tiene_justificacion,
+        "justificacion": justificacion_limpia if tiene_justificacion else None,
+        "aprobado_departamental": None,
         "archivos": archivos_radicados,
         "metricas": meta["dictamen"]["metricas"],
         "dictamen": meta.get("dictamen"),
@@ -729,6 +751,40 @@ def api_admin_devolver_radicado(
         "detalle": info_dev
     }
 
+@app.post("/api/admin/aprobar-justificacion")
+def api_admin_aprobar_justificacion(
+    municipio: str = Form(...),
+    mes: str = Form(...),
+    ano: str = Form("2026"),
+    observacion: str = Form(None)
+):
+    municipio = municipio.upper()
+    mes = mes.upper()
+    target_dir = os.path.join(RADICADOS_DIR, ano, mes, municipio)
+    receipt_file = os.path.join(target_dir, "radicado.json")
+
+    if not os.path.exists(receipt_file):
+        raise HTTPException(status_code=404, detail="No se encontró radicado oficial para este municipio y mes.")
+
+    with open(receipt_file, "r", encoding="utf-8") as f:
+        recibo = json.load(f)
+
+    recibo["estado"] = "APROBADO_OFICIAL"
+    recibo["aprobado_departamental"] = {
+        "aprobado": True,
+        "fecha": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        "observacion": (observacion or "Justificación de inconsistencias revisada y aceptada por la Referente Departamental.").strip()
+    }
+
+    with open(receipt_file, "w", encoding="utf-8") as f:
+        json.dump(recibo, f, indent=2, ensure_ascii=False)
+
+    return {
+        "success": True,
+        "mensaje": f"La justificación del informe de {municipio} ({mes} {ano}) ha sido APROBADA satisfactoriamente.",
+        "detalle": recibo["aprobado_departamental"]
+    }
+
 @app.get("/api/municipio/estado/{municipio}/{mes}")
 def api_municipio_estado(municipio: str, mes: str, ano: str = "2026"):
     municipio = municipio.upper()
@@ -741,7 +797,10 @@ def api_municipio_estado(municipio: str, mes: str, ano: str = "2026"):
         with open(receipt_file, "r", encoding="utf-8") as f:
             rec = json.load(f)
         return {
-            "estado": "RADICADO",
+            "estado": rec.get("estado", "RADICADO"),
+            "tiene_justificacion": rec.get("tiene_justificacion", False),
+            "justificacion": rec.get("justificacion"),
+            "aprobado_departamental": rec.get("aprobado_departamental"),
             "numero_radicado": rec.get("numero_radicado"),
             "fecha": rec.get("fecha"),
             "municipio": municipio,

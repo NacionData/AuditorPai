@@ -149,7 +149,8 @@ async function verificarEstadoRadicadoMunicipal() {
     if (!res.ok) return;
     const data = await res.json();
 
-    if (data.estado === 'RADICADO') {
+    if (data.estado === 'RADICADO' || data.estado === 'APROBADO_OFICIAL') {
+      const esAprobadoOficial = Boolean(data.aprobado_departamental && data.aprobado_departamental.aprobado);
       banner.className = "bg-emerald-50 border-2 border-emerald-400 rounded-3xl p-5 shadow-sm space-y-2";
       banner.innerHTML = `
         <div class="flex items-start justify-between gap-3">
@@ -158,14 +159,43 @@ async function verificarEstadoRadicadoMunicipal() {
               ✓
             </div>
             <div>
-              <span class="text-xs font-black uppercase text-emerald-950">Informe Oficial Radicado</span>
+              <span class="text-xs font-black uppercase text-emerald-950">${esAprobadoOficial ? 'Informe Aprobado Oficialmente por la Referente' : 'Informe Oficial Radicado'}</span>
               <h4 class="text-sm font-black text-slate-900">Radicado: <span class="font-mono text-emerald-800">${data.numero_radicado}</span></h4>
             </div>
           </div>
           <span class="text-[11px] font-mono font-bold text-slate-500 bg-white border border-slate-200 px-2.5 py-1 rounded-xl">${data.fecha}</span>
         </div>
+        ${esAprobadoOficial ? `
+          <div class="p-3 bg-white rounded-xl border border-emerald-300 text-xs font-medium text-emerald-950">
+            <strong>Resolución Departamental:</strong> Justificación de inconsistencias revisada y aprobada el ${data.aprobado_departamental.fecha}. "${data.aprobado_departamental.observacion || ''}"
+          </div>
+        ` : ''}
         <p class="text-xs font-bold text-slate-700 pt-1 border-t border-emerald-200">
           Ya has radicado oficialmente los informes correspondientes a <strong>${mes} 2026</strong>. Si por algún motivo debes radicar una versión rectificada o con ajustes autorizados, puedes cargar tus nuevos 3 archivos a continuación para auditar y volver a radicar.
+        </p>
+      `;
+      banner.classList.remove('hidden');
+    } else if (data.estado === 'RADICADO_CON_JUSTIFICACION') {
+      banner.className = "bg-amber-50 border-2 border-amber-400 rounded-3xl p-5 shadow-sm space-y-2.5";
+      banner.innerHTML = `
+        <div class="flex items-start justify-between gap-3">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-amber-600 text-white flex items-center justify-center font-black flex-shrink-0 text-base">
+              ⚠️
+            </div>
+            <div>
+              <span class="text-xs font-black uppercase text-amber-950">Radicado con Justificación (En Revisión)</span>
+              <h4 class="text-sm font-black text-slate-900">Radicado: <span class="font-mono text-amber-900">${data.numero_radicado}</span></h4>
+            </div>
+          </div>
+          <span class="text-[10px] font-mono font-bold text-amber-900 bg-amber-100 border border-amber-300 px-2 py-0.5 rounded-lg">${data.fecha || ''}</span>
+        </div>
+        <div class="p-3 bg-white rounded-xl border border-amber-300 text-xs text-slate-800 leading-relaxed">
+          <div class="text-[10px] uppercase font-black text-amber-800 tracking-wider">Justificación Registrada:</div>
+          <div class="mt-0.5 font-medium italic text-slate-900">"${data.justificacion || 'Inconsistencias justificadas por el municipio'}"</div>
+        </div>
+        <p class="text-xs font-bold text-amber-950">
+          ℹ️ Tu informe fue recibido con inconsistencias justificadas. La <strong>Referente Departamental del PAI</strong> revisará tu reporte en el módulo de supervisión para su aprobación oficial o solicitud de ajustes.
         </p>
       `;
       banner.classList.remove('hidden');
@@ -640,8 +670,14 @@ function renderizarResultadosAuditoria(data) {
             <span>Radicar Informe Oficial</span>
           </button>
         ` : `
-          <div class="px-4 py-2.5 rounded-xl bg-rose-200 border-2 border-rose-400 text-rose-950 text-xs font-black flex items-center gap-2">
-            <span>🔒 Radicación Bloqueada hasta Corregir Errores</span>
+          <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+            <div class="px-4 py-2.5 rounded-xl bg-rose-200 border border-rose-300 text-rose-950 text-xs font-black flex items-center gap-2">
+              <span>🔒 Errores Bloqueantes</span>
+            </div>
+            <button onclick="abrirModalJustificacion()" class="py-3 px-5 rounded-2xl bg-amber-600 hover:bg-amber-700 text-white font-black text-xs shadow-lg shadow-amber-600/25 transition flex items-center justify-center gap-2 transform hover:scale-105">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+              <span>Justificar Incoherencias para Radicar</span>
+            </button>
           </div>
         `}
       </div>
@@ -706,12 +742,37 @@ function renderizarResultadosAuditoria(data) {
 }
 
 // 5. Radicación Oficial y Sincronización a Google Drive
-async function radicarInforme() {
+function abrirModalJustificacion() {
+  const modal = document.getElementById('modal-justificacion');
+  const txt = document.getElementById('texto-justificacion');
+  if (txt) txt.value = '';
+  if (modal) modal.classList.remove('hidden');
+}
+
+function cerrarModalJustificacion() {
+  const modal = document.getElementById('modal-justificacion');
+  if (modal) modal.classList.add('hidden');
+}
+
+async function confirmarRadicacionConJustificacion() {
+  const txt = document.getElementById('texto-justificacion').value.trim();
+  if (!txt || txt.length < 10) {
+    alert("Por favor ingrese una justificación técnica o administrativa detallada (mínimo 10 caracteres).");
+    return;
+  }
+  cerrarModalJustificacion();
+  await radicarInforme(txt);
+}
+
+async function radicarInforme(justificacion = null) {
   if (!sesionActual) return;
 
   try {
     const formData = new FormData();
     formData.append('session_id', sesionActual);
+    if (justificacion) {
+      formData.append('justificacion', justificacion);
+    }
 
     const res = await fetch('/api/radicar', {
       method: 'POST',
@@ -742,12 +803,22 @@ function mostrarModalRadicado(recibo) {
   const modal = document.getElementById('modal-radicado');
   const detalle = document.getElementById('recibo-detalle');
 
+  const esJustificado = recibo.tiene_justificacion || recibo.estado === 'RADICADO_CON_JUSTIFICACION';
+
   detalle.innerHTML = `
-    <div><strong>N° DE RADICADO:</strong> <span class="text-emerald-800 font-black text-sm">${recibo.numero_radicado}</span></div>
+    <div><strong>N° DE RADICADO:</strong> <span class="${esJustificado ? 'text-amber-800' : 'text-emerald-800'} font-black text-sm">${recibo.numero_radicado}</span></div>
     <div><strong>MUNICIPIO:</strong> ${recibo.municipio}</div>
     <div><strong>MES DE REPORTE:</strong> ${recibo.mes} ${recibo.ano}</div>
     <div><strong>FECHA / HORA:</strong> ${recibo.fecha}</div>
-    <div class="text-emerald-800 font-black">ESTADO: RADICADO Y 100% AUDITADO</div>
+    <div class="${esJustificado ? 'text-amber-900 bg-amber-100 p-2.5 rounded-xl border border-amber-300' : 'text-emerald-800'} font-black">
+      ${esJustificado ? '⚠️ ESTADO: RADICADO CON JUSTIFICACIÓN (PENDIENTE REVISIÓN DEPARTAMENTAL)' : '✓ ESTADO: RADICADO Y 100% AUDITADO'}
+    </div>
+    ${recibo.justificacion ? `
+      <div class="p-2.5 bg-white rounded-xl border border-amber-300 text-[11px] text-slate-800 font-medium leading-relaxed">
+        <strong>Justificación Registrada:</strong><br>
+        <span class="italic text-slate-900">"${recibo.justificacion}"</span>
+      </div>
+    ` : ''}
     <div class="pt-2 border-t-2 border-slate-200"><strong>DOSIS NACIONALES:</strong> ${recibo.metricas.dosis_aplicadas_nacionales.toLocaleString()}</div>
     <div><strong>DOSIS MOVIMIENTO:</strong> ${recibo.metricas.dosis_movimiento_total.toLocaleString()}</div>
     <div><strong>EXTRANJEROS:</strong> ${recibo.metricas.vacunados_extranjeros.toLocaleString()}</div>

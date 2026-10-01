@@ -84,6 +84,16 @@ async function cargarTableroDepartamental() {
     document.getElementById('metric-radicados-sub').textContent = `${data.porcentaje_avance}% del departamento`;
     document.getElementById('metric-pendientes').textContent = data.pendientes;
 
+    const bCountJ = document.getElementById('badge-count-justificados');
+    if (bCountJ) {
+      if (data.justificados > 0) {
+        bCountJ.textContent = data.justificados;
+        bCountJ.classList.remove('hidden');
+      } else {
+        bCountJ.classList.add('hidden');
+      }
+    }
+
     renderizarGrillaAdmin();
   } catch (err) {
     console.error("Error cargando tablero departamental:", err);
@@ -95,10 +105,11 @@ function filtrarMunicipios(tipo) {
   
   const btnT = document.getElementById('btn-f-todos');
   const btnR = document.getElementById('btn-f-radicados');
+  const btnJ = document.getElementById('btn-f-justificados');
   const btnD = document.getElementById('btn-f-devueltos');
   const btnP = document.getElementById('btn-f-pendientes');
 
-  [btnT, btnR, btnD, btnP].filter(Boolean).forEach(b => {
+  [btnT, btnR, btnJ, btnD, btnP].filter(Boolean).forEach(b => {
     b.className = "px-3.5 py-1.5 rounded-xl text-slate-700 hover:bg-white transition";
   });
 
@@ -106,6 +117,8 @@ function filtrarMunicipios(tipo) {
     btnT.className = "px-3.5 py-1.5 rounded-xl bg-white text-slate-950 shadow-sm border border-slate-300 font-black";
   } else if (tipo === 'radicados') {
     btnR.className = "px-3.5 py-1.5 rounded-xl bg-white text-emerald-900 shadow-sm border border-emerald-300 font-black";
+  } else if (tipo === 'justificados') {
+    if (btnJ) btnJ.className = "px-3.5 py-1.5 rounded-xl bg-white text-amber-950 shadow-sm border border-amber-300 font-black";
   } else if (tipo === 'devueltos') {
     if (btnD) btnD.className = "px-3.5 py-1.5 rounded-xl bg-white text-amber-900 shadow-sm border border-amber-300 font-black";
   } else {
@@ -120,7 +133,8 @@ function renderizarGrillaAdmin() {
   grid.innerHTML = '';
 
   const listaFiltrada = datosDepartamentales.filter(m => {
-    if (filtroActual === 'radicados') return m.estado === 'RADICADO';
+    if (filtroActual === 'radicados') return ['RADICADO', 'RADICADO_CON_JUSTIFICACION', 'APROBADO_OFICIAL'].includes(m.estado);
+    if (filtroActual === 'justificados') return m.estado === 'RADICADO_CON_JUSTIFICACION' || (m.tiene_justificacion && m.estado !== 'DEVUELTO');
     if (filtroActual === 'devueltos') return m.estado === 'DEVUELTO';
     if (filtroActual === 'pendientes') return m.estado === 'PENDIENTE';
     return true;
@@ -128,20 +142,31 @@ function renderizarGrillaAdmin() {
 
   listaFiltrada.forEach(m => {
     const card = document.createElement('div');
-    const isRad = m.estado === 'RADICADO';
+    const isRadOficial = m.estado === 'RADICADO';
+    const isJustificado = m.estado === 'RADICADO_CON_JUSTIFICACION';
+    const isAprobado = m.estado === 'APROBADO_OFICIAL';
     const isDev = m.estado === 'DEVUELTO';
+    const isRad = isRadOficial || isJustificado || isAprobado;
 
     let cardBorder = 'bg-slate-50 border-slate-300';
     let badgeClass = 'bg-rose-100 text-rose-900 border border-rose-300';
     let badgeText = '⏳ PENDIENTE';
 
-    if (isRad) {
+    if (isRadOficial) {
       cardBorder = 'bg-white border-emerald-300 hover:border-emerald-600';
       badgeClass = 'bg-emerald-100 text-emerald-900 border border-emerald-300';
       badgeText = '✓ RADICADO';
+    } else if (isJustificado) {
+      cardBorder = 'bg-amber-50/50 border-amber-400 hover:border-amber-500 ring-2 ring-amber-300/40';
+      badgeClass = 'bg-amber-100 text-amber-950 border border-amber-300 font-black animate-pulse';
+      badgeText = '⚠️ C/ JUSTIFICACIÓN';
+    } else if (isAprobado) {
+      cardBorder = 'bg-teal-50/40 border-teal-400 hover:border-teal-600';
+      badgeClass = 'bg-teal-100 text-teal-900 border border-teal-300 font-black';
+      badgeText = '✓ APROBADO DPTAL.';
     } else if (isDev) {
       cardBorder = 'bg-amber-50/60 border-amber-300 hover:border-amber-500';
-      badgeClass = 'bg-amber-100 text-amber-900 border border-amber-300';
+      badgeClass = 'bg-amber-100 text-amber-900 border border-amber-300 font-black';
       badgeText = '↩️ DEVUELTO';
     }
 
@@ -152,7 +177,22 @@ function renderizarGrillaAdmin() {
       <div class="text-[11px] font-bold text-slate-500">Pendiente de cargue</div>
     `;
 
-    if (isRad) {
+    if (isJustificado) {
+      infoEstado = `
+        <div class="text-xs font-mono font-bold text-amber-950 mt-1">${m.numero_radicado}</div>
+        <div class="text-[11px] font-black text-amber-800">Radicado con Justificación</div>
+        <div class="text-[11px] font-medium text-slate-700 italic line-clamp-2 mt-1 bg-white/90 p-1.5 rounded-lg border border-amber-200" title="${m.justificacion || ''}">
+          "${m.justificacion || 'Inconsistencia justificada'}"
+        </div>
+        <div class="text-[10px] text-slate-400 mt-0.5">${m.fecha_radicacion || ''}</div>
+      `;
+    } else if (isAprobado) {
+      infoEstado = `
+        <div class="text-xs font-mono font-bold text-teal-900 mt-1">${m.numero_radicado}</div>
+        <div class="text-[11px] font-bold text-teal-800">Justificación Aprobada por Dpto.</div>
+        <div class="text-[10px] text-slate-500 mt-0.5">${m.fecha_radicacion || ''}</div>
+      `;
+    } else if (isRadOficial) {
       infoEstado = `
         <div class="text-xs font-mono font-bold text-emerald-800 mt-1">${m.numero_radicado}</div>
         <div class="text-[11px] font-bold text-slate-500">${m.fecha_radicacion}</div>
@@ -183,11 +223,15 @@ function renderizarGrillaAdmin() {
 
         <div class="pt-2 border-t-2 border-slate-100 flex items-center justify-between text-xs font-mono">
           <span class="text-slate-600 font-bold">Dosis:</span>
-          <span class="font-black ${isRad ? 'text-emerald-900' : 'text-slate-400'} text-sm">${isRad ? m.dosis_aplicadas.toLocaleString() : '0'}</span>
+          <span class="font-black ${isRad ? 'text-emerald-900' : 'text-slate-400'} text-sm">${isRad ? (m.dosis_aplicadas || 0).toLocaleString() : '0'}</span>
         </div>
       </div>
 
-      ${isRad ? `
+      ${isJustificado ? `
+        <button onclick="inspeccionarMunicipio('${m.municipio}')" class="w-full mt-3 py-2 px-3 rounded-xl bg-amber-600 hover:bg-amber-700 text-white text-xs font-black transition flex items-center justify-center gap-1.5 shadow-sm">
+          <span>⚠️ Revisar Justificación y Dictamen</span>
+        </button>
+      ` : (isRad ? `
         <button onclick="inspeccionarMunicipio('${m.municipio}')" class="w-full mt-3 py-2 px-3 rounded-xl bg-indigo-50 hover:bg-indigo-100 text-indigo-900 border border-indigo-200 text-xs font-black transition flex items-center justify-center gap-1.5">
           <svg class="w-4 h-4 text-indigo-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
           <span>Inspeccionar y Descargar</span>
@@ -200,7 +244,7 @@ function renderizarGrillaAdmin() {
         <div class="w-full mt-3 py-2 text-center text-[11px] font-bold text-slate-400 bg-slate-100 rounded-xl border border-slate-200">
           Esperando reporte
         </div>
-      `)}
+      `))}
     `;
 
     grid.appendChild(card);
@@ -540,14 +584,64 @@ async function inspeccionarMunicipio(municipio) {
     const dictamenTexto = (rec.dictamen && rec.dictamen.dictamen_pedagogico) ? rec.dictamen.dictamen_pedagogico : '';
     const motorIa = (rec.dictamen && rec.dictamen.motor_ia) ? rec.dictamen.motor_ia : 'Tutor PAI';
 
+    const esRadJust = rec.estado === 'RADICADO_CON_JUSTIFICACION';
+    const esAprobOfic = rec.estado === 'APROBADO_OFICIAL';
+
+    let badgeRecibo = '<span class="bg-emerald-200 text-emerald-950 px-2.5 py-0.5 rounded-full text-[10px] font-black border border-emerald-400">✓ AUDITADO Y APROBADO</span>';
+    if (esRadJust) {
+      badgeRecibo = '<span class="bg-amber-200 text-amber-950 px-2.5 py-0.5 rounded-full text-[10px] font-black border border-amber-400 animate-pulse">⚠️ RADICADO CON JUSTIFICACIÓN</span>';
+    } else if (esAprobOfic) {
+      badgeRecibo = '<span class="bg-teal-200 text-teal-950 px-2.5 py-0.5 rounded-full text-[10px] font-black border border-teal-400">✓ JUSTIFICACIÓN APROBADA OFICIALMENTE</span>';
+    }
+
+    let bannerJustificacionHtml = '';
+    if (rec.tiene_justificacion || esRadJust || esAprobOfic) {
+      const justTexto = rec.justificacion || 'No se registró detalle de la justificación.';
+      bannerJustificacionHtml = `
+        <div class="p-4 md:p-5 rounded-2xl ${esAprobOfic ? 'bg-teal-50 border-2 border-teal-400 text-teal-950' : 'bg-amber-50 border-2 border-amber-400 text-amber-950'} shadow-sm space-y-3">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <div class="flex items-center gap-2 font-black text-sm">
+              <span class="text-xl">${esAprobOfic ? '✓' : '⚠️'}</span>
+              <span>${esAprobOfic ? 'Informe Aprobado con Justificación por la Gobernación' : 'Novedad: Informe Radicado Bajo Justificación de Inconsistencias'}</span>
+            </div>
+            <span class="text-[10px] font-black uppercase px-2.5 py-1 rounded-full ${esAprobOfic ? 'bg-teal-200 text-teal-900 border border-teal-300' : 'bg-amber-200 text-amber-950 border border-amber-300 animate-pulse'}">
+              ${esAprobOfic ? 'APROBADO POR GOBERNACIÓN' : 'PENDIENTE DE EVALUACIÓN'}
+            </span>
+          </div>
+
+          <div class="bg-white p-3.5 rounded-xl border ${esAprobOfic ? 'border-teal-200' : 'border-amber-300'} space-y-1">
+            <div class="text-[10px] font-black uppercase text-slate-500">Justificación Técnica / Administrativa presentada por el Municipio:</div>
+            <p class="text-xs font-bold text-slate-900 whitespace-pre-wrap leading-relaxed">${justTexto.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</p>
+          </div>
+
+          ${esAprobOfic ? `
+            <div class="text-xs bg-teal-100/70 p-2.5 rounded-xl border border-teal-200 flex flex-wrap items-center justify-between gap-2">
+              <div>
+                <span class="font-bold">Dictamen Departamental:</span> 
+                <span>${(rec.aprobado_departamental && rec.aprobado_departamental.observacion) || 'Aprobado oficialmente sin observaciones adicionales.'}</span>
+              </div>
+              <span class="text-[10px] font-mono text-teal-900 font-bold">${(rec.aprobado_departamental && rec.aprobado_departamental.fecha) || ''}</span>
+            </div>
+          ` : `
+            <div class="text-xs text-amber-900 font-medium bg-amber-100/60 p-2.5 rounded-xl border border-amber-200">
+              💡 <b>Instrucción para la Referente Departamental:</b> Este informe presentó inconsistencias en las reglas matemáticas. El municipio solicitó su radicación bajo la justificación descrita. Puede <b>Aceptar la Justificación</b> para darlo por aprobado o <b>Rechazarla y Devolver</b> para solicitar corrección inmediata de las plantillas.
+            </div>
+          `}
+        </div>
+      `;
+    }
+
     contenido.innerHTML = `
       <div class="space-y-5">
         
+        <!-- Alerta de Novedad / Justificación si aplica -->
+        ${bannerJustificacionHtml}
+
         <!-- Tarjeta de Recibo -->
-        <div class="p-4 rounded-2xl bg-emerald-50 border-2 border-emerald-300 text-xs font-mono font-bold space-y-1.5 shadow-sm">
+        <div class="p-4 rounded-2xl ${esRadJust ? 'bg-amber-50/70 border-2 border-amber-300' : 'bg-emerald-50 border-2 border-emerald-300'} text-xs font-mono font-bold space-y-1.5 shadow-sm">
           <div class="flex items-center justify-between">
-            <span class="text-emerald-950 font-black text-sm">RADICADO OFICIAL: ${rec.numero_radicado}</span>
-            <span class="bg-emerald-200 text-emerald-950 px-2.5 py-0.5 rounded-full text-[10px] font-black border border-emerald-400">✓ AUDITADO Y APROBADO</span>
+            <span class="${esRadJust ? 'text-amber-950' : 'text-emerald-950'} font-black text-sm">RADICADO OFICIAL: ${rec.numero_radicado}</span>
+            ${badgeRecibo}
           </div>
           <div class="text-slate-700">Fecha y Hora de Entrega: ${rec.fecha}</div>
           <div class="text-indigo-900">Google Drive: Sincronizado a ${rec.google_drive ? rec.google_drive.correo : 'risaraldapaiweb@gmail.com'}</div>
@@ -632,11 +726,26 @@ async function inspeccionarMunicipio(municipio) {
 
     const accionesEl = document.getElementById('modal-insp-acciones');
     if (accionesEl) {
-      accionesEl.innerHTML = `
-        <button onclick="solicitarDevolucionMunicipio('${municipio}', '${mes}')" class="px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 text-xs font-black shadow-md transition flex items-center gap-1.5">
-          <span>↩️ Devolver Radicado para Corrección</span>
-        </button>
-      `;
+      if (esRadJust) {
+        accionesEl.innerHTML = `
+          <div class="flex flex-wrap items-center gap-2.5">
+            <button onclick="aprobarJustificacionMunicipio('${municipio}', '${mes}')" class="px-4 py-2.5 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-black shadow-md transition flex items-center gap-1.5">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+              <span>✓ Aceptar Justificación y Aprobar Radicado</span>
+            </button>
+            <button onclick="solicitarDevolucionMunicipio('${municipio}', '${mes}')" class="px-4 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-xs font-black shadow-md transition flex items-center gap-1.5">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/></svg>
+              <span>✕ Rechazar y Devolver al Municipio</span>
+            </button>
+          </div>
+        `;
+      } else {
+        accionesEl.innerHTML = `
+          <button onclick="solicitarDevolucionMunicipio('${municipio}', '${mes}')" class="px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 text-xs font-black shadow-md transition flex items-center gap-1.5">
+            <span>↩️ Devolver Radicado para Corrección</span>
+          </button>
+        `;
+      }
     }
 
   } catch (err) {
@@ -684,6 +793,45 @@ async function solicitarDevolucionMunicipio(municipio, mes) {
     alert(`✓ ${resData.mensaje}`);
     cerrarModalInspeccion();
     cargarEstadoDepartamental();
+  } catch (err) {
+    alert(`Error: ${err.message}`);
+  }
+}
+
+async function aprobarJustificacionMunicipio(municipio, mes) {
+  const observacion = prompt(
+    `¿Desea ingresar alguna nota u observación institucional para aprobar la justificación de ${municipio} (${mes} 2026)? (Opcional):`,
+    "Justificación técnica y administrativa revisada y aceptada por la Referente Departamental PAI Risaralda."
+  );
+
+  if (observacion === null) return;
+
+  if (!confirm(`¿Confirmas la APROBACIÓN OFICIAL del informe de ${municipio} (${mes} 2026)?\n\n- El estado pasará a 'APROBADO_OFICIAL'.\n- El radicado quedará plenamente avalado para el consolidado MinSalud.`)) {
+    return;
+  }
+
+  try {
+    const fd = new FormData();
+    fd.append('municipio', municipio);
+    fd.append('mes', mes);
+    fd.append('ano', '2026');
+    if (observacion && observacion.trim()) {
+      fd.append('observacion', observacion.trim());
+    }
+
+    const res = await fetch('/api/admin/aprobar-justificacion', {
+      method: 'POST',
+      body: fd
+    });
+
+    const resData = await res.json();
+    if (!res.ok) {
+      throw new Error(resData.detail || "Error al aprobar la justificación");
+    }
+
+    alert(`✓ ${resData.mensaje}`);
+    cerrarModalInspeccion();
+    cargarTableroDepartamental();
   } catch (err) {
     alert(`Error: ${err.message}`);
   }
