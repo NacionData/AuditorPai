@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
   verificarSesionAdmin();
   verificarEstadoIA();
   cargarTableroDepartamental();
+  cargarEstadoKardex();
 });
 
 async function verificarEstadoIA() {
@@ -70,8 +71,9 @@ function cerrarSesionAdmin() {
 async function cargarTableroDepartamental() {
   const mes = document.getElementById('select-mes-admin').value || 'AGOSTO';
   
-  // Cargar estado de plantillas base departamentales del mes
+  // Cargar estado de plantillas base departamentales del mes y Kardex
   cargarEstadoPlantillasBase();
+  cargarEstadoKardex();
 
   try {
     const res = await fetch(`/api/estado/${mes}`);
@@ -1034,11 +1036,11 @@ async function cargarEstadoKardex() {
       const txtProx = document.getElementById('txt-proxima-sync');
       const statusSync = document.getElementById('status-sync-drive');
 
-      if (inputUrl && cfg.url_origen && !inputUrl.value) {
+      if (inputUrl && cfg.url_origen) {
         inputUrl.value = cfg.url_origen;
       }
       if (txtProx && cfg.proxima_sincronizacion) {
-        txtProx.textContent = `Próxima auto-sync: ${cfg.proxima_sincronizacion}`;
+        txtProx.textContent = `Próxima auto-sincronización: ${cfg.proxima_sincronizacion}`;
       }
       if (statusSync) {
         if (cfg.ultimo_resultado === 'SINCRONIZADO_OK') {
