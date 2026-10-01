@@ -39,18 +39,18 @@ def generar_dictamen_auditoria(municipio, mes, res_dosis, res_mov, res_ext=None)
     dictamen_ia = None
     modelo_usado = None
 
-    if api_key and (errores_totales or advertencias_totales):
+    if api_key:
         try:
             dictamen_ia, modelo_usado = _consultar_gemini(api_key, municipio, mes, errores_totales, advertencias_totales)
         except Exception as e:
-            print(f"[AI Auditor] Error consultando Gemini: {e}")
+            print(f"[AI Auditor] Consulta a Gemini no disponible ({e}). Activando motor pedagógico local oficial.")
             dictamen_ia = None
             modelo_usado = None
 
-    # Si no hay API key o falló la conexión remota, usamos el motor pedagógico local
+    # Si no hay API key, falló la conexión remota o la respuesta fue incompleta, usamos el motor pedagógico local garantizado
     if not dictamen_ia:
         dictamen_ia = _generar_dictamen_local(municipio, mes, errores_totales, advertencias_totales, res_dosis, res_mov)
-        modelo_usado = "Motor Local Risaralda"
+        modelo_usado = "Motor Pedagógico Departamental Risaralda"
 
     return {
         "estado": estado,
@@ -73,39 +73,77 @@ def generar_dictamen_auditoria(municipio, mes, res_dosis, res_mov, res_ext=None)
     }
 
 def _generar_dictamen_local(municipio, mes, errores, advertencias, res_dosis, res_mov):
-    """Generador pedagógico nativo en español para salud pública."""
+    """
+    Generador pedagógico nativo en español para salud pública de Risaralda.
+    Garantiza estructura completa, formal, empática y 100% cerrada sin cortes.
+    """
+    es_aprobado = len(errores) == 0
     lineas = []
-    lineas.append(f"### 📋 Dictamen de Auditoría PAI — {municipio} ({mes})")
-    
-    if not errores and not advertencias:
-        lineas.append("\n✅ **¡Felicitaciones! Todos los informes están completamente coherentes y auditados.**")
-        lineas.append("- Las sumatorias de género, régimen y grupos étnicos coinciden al 100%.")
-        lineas.append("- La ecuación de inventarios y los saldos por lotes están perfectamente cuadrados.")
-        lineas.append("- **El informe se encuentra listo para radicación oficial ante la Secretaría de Salud de Risaralda.**")
-        return "\n".join(lineas)
+
+    # Encabezado Institucional Departamental
+    lineas.append("# DICTAMEN OFICIAL DE AUDITORÍA MÉDICA PAI")
+    lineas.append("**Programa Ampliado de Inmunizaciones (PAI) — Secretaría de Salud Departamental de Risaralda**\n")
+    lineas.append(f"• **Para:** Coordinación de Vacunación, IPS y Equipo PAI – Municipio de {municipio}")
+    lineas.append("• **De:** Coordinador Médico de Auditoría PAI Risaralda")
+    lineas.append(f"• **Periodo Evaluado:** {mes} de 2026")
+    lineas.append("• **Informes Evaluados:** Dosis Aplicadas, Movimiento de Biológicos y Población Extranjera")
+    if es_aprobado and not advertencias:
+        lineas.append("• **Estado de Radicación:** **APROBADO PARA RADICACIÓN OFICIAL (100% CONFORME)**\n")
+    elif es_aprobado:
+        lineas.append("• **Estado de Radicación:** **APROBADO PARA RADICACIÓN OFICIAL (CON OBSERVACIONES INFORMATIVAS)**\n")
+    else:
+        lineas.append("• **Estado de Radicación:** **INCONSISTENCIAS CRÍTICAS DETECTADAS (REQUIERE CORRECCIÓN O JUSTIFICACIÓN)**\n")
+
+    lineas.append("---\n")
+    lineas.append("### 1. Concepto General de Auditoría Médica")
+    lineas.append(f"Estimado equipo de salud del municipio de {municipio}:\n")
+
+    if es_aprobado:
+        lineas.append("Tras procesar la información reportada a través del motor de validación de datos y coherencia biológica con base en los lineamientos del Ministerio de Salud y Protección Social (Actualización Julio 2026), nos complace informarles que **no se identificaron inconsistencias críticas que bloqueen la radicación**.")
+        lineas.append(f"Sus tres informes oficiales correspondientes al mes de {mes} de 2026 son **válidos, consistentes y se encuentran plenamente autorizados para su radicación oficial** ante la Secretaría de Salud Departamental de Risaralda.\n")
+    else:
+        lineas.append(f"Tras la auditoría exhaustiva de sus informes oficiales correspondientes al mes de {mes} de 2026, el sistema identificó **{len(errores)} inconsistencia(s) crítica(s)** que deben ser atendidas para asegurar la integridad de los datos epidemiológicos del departamento.\n")
 
     if errores:
-        lineas.append(f"\n⚠️ **Se detectaron {len(errores)} inconsistencias críticas que deben corregirse antes de radicar:**\n")
+        lineas.append("### 2. Inconsistencias Críticas que Requieren Atención")
+        lineas.append("*(Estas observaciones son de carácter bloqueante y deben subsanarse en las plantillas o mediante justificación técnica autorizada)*\n")
         for idx, err in enumerate(errores, 1):
             lineas.append(f"{idx}. {err}")
-        lineas.append("\n💡 **Instrucciones oficiales para corregir:**")
-        lineas.append("• En la plantilla de Dosis Aplicadas, asegúrate de que la cantidad total de dosis por género coincida exactamente con la suma por régimen (contributivo, subsidiado, etc.) y pertenencia étnica.")
-        lineas.append("• En Movimiento de Biológicos, verifique el inventario físico en sus equipos de frío y las actas de entrega/remisiones del Depósito Departamental. Recuerde que las fórmulas de las plantillas oficiales MinSalud están protegidas y no deben ser modificadas ni sobreescritas bajo ninguna circunstancia. Si tras verificar los conteos físicos persiste una diferencia frente al Kardex oficial del Depósito Departamental, comuníquese inmediatamente con el Referente Departamental de Vacunación del PAI Risaralda para realizar la respectiva conciliación administrativa.")
+
+        lineas.append("\n💡 **Instrucciones Oficiales para la Corrección:**")
+        lineas.append("• **Plantilla de Dosis Aplicadas:** Verifique que el recálculo independiente de datos brutos coincida exactamente: la sumatoria por Género debe ser idéntica a la sumatoria por Régimen y a la sumatoria por Pertenencia Étnica.")
+        lineas.append("• **Plantilla de Movimiento de Biológicos:** Recuerde que las fórmulas de las plantillas oficiales MinSalud están estandarizadas y no deben modificarse bajo ninguna circunstancia. Verifique el inventario físico en termos/neveras de la IPS y las actas de entrega/remisión oficial emitidas por la cadena de frío departamental.")
+        lineas.append("• **Conciliación con Depósito Departamental:** Si tras la verificación física persiste alguna discrepancia frente al Kardex del Depósito, comuníquese con el Referente Departamental o registre la novedad a través del botón de justificación oficial.")
 
     if advertencias:
         simul_adv = [a for a in advertencias if "Simultaneidad" in a]
         otras_adv = [a for a in advertencias if "Simultaneidad" not in a]
 
+        num_sec = "3" if errores else "2"
+        lineas.append(f"\n### {num_sec}. Oportunidades de Vacunación y Seguimiento Clínico (Informativo)")
+        lineas.append("*(Las siguientes observaciones son pedagógicas y preventivas para fortalecer el esquema en campo; **NO impiden ni bloquean la radicación**)*\n")
+
         if simul_adv:
-            lineas.append("\n📊 **Análisis Pedagógico de Simultaneidad del Esquema (Oportunidades de Vacunación):**")
-            lineas.append("*(Estas observaciones son informativas para el seguimiento en campo y no bloquean la radicación)*\n")
+            lineas.append("**Análisis de Oportunidades y Simultaneidad de Esquema:**")
             for sa in simul_adv:
                 lineas.append(f"• {sa}")
+            lineas.append("")
 
         if otras_adv:
-            lineas.append(f"\nℹ️ **Observaciones preventivas de lotes y diluyentes ({len(otras_adv)}):**\n")
-            for idx, adv in enumerate(otras_adv, 1):
+            lineas.append("**Trazabilidad Preventiva de Lotes y Diluyentes:**")
+            for adv in otras_adv:
                 lineas.append(f"• {adv}")
+
+    # Cierre y Firma Institucional
+    lineas.append("\n---\n")
+    lineas.append("### 3. Recomendaciones Institucionales Permanentes" if not (errores and advertencias) else "\n### 4. Recomendaciones Institucionales Permanentes")
+    lineas.append("1. **Búsqueda Activa Comunitaria:** Priorizar el rastreo de susceptibles en cohortes con coberturas diferidas.")
+    lineas.append("2. **Cadena de Frío:** Mantener el registro continuo de temperatura y verificar lotes vigentes autorizados.")
+    lineas.append("3. **Radicación Oportuna:** Una vez verificado el dictamen, proceda con la radicación oficial para el consolidado departamental ante MinSalud.\n")
+    lineas.append("Atentamente,\n")
+    lineas.append("**COORDINACIÓN MÉDICA DE AUDITORÍA PAI**  ")
+    lineas.append("*Programa Ampliado de Inmunizaciones (PAI)*  ")
+    lineas.append("*Secretaría de Salud Departamental de Risaralda*")
 
     return "\n".join(lineas)
 
@@ -115,16 +153,13 @@ def _obtener_candidatos_modelos():
     env_model = os.environ.get("GEMINI_MODEL")
     if env_model:
         candidatos.append(env_model.strip())
-    
-    # Modelos recomendados y activos en orden de prioridad
+
     defaults = [
-        "gemini-3.6-flash",
         "gemini-flash-latest",
-        "gemini-2.5-flash-lite",
-        "gemini-2.5-pro",
+        "gemini-3.6-flash",
+        "gemini-3.1-flash-lite",
         "gemini-pro-latest",
-        "gemini-1.5-pro",
-        "gemini-1.5-flash"
+        "gemini-2.5-flash"
     ]
     for d in defaults:
         if d not in candidatos:
@@ -141,13 +176,13 @@ def test_gemini_connection():
     ultimo_error = None
 
     for modelo in candidatos:
-        url = f"https://generativelanguage.googleapis.com/v1beta/models/{modelo}:generateContent?key={api_key}"
+        target = modelo if modelo.startswith("models/") else f"models/{modelo}"
+        url = f"https://generativelanguage.googleapis.com/v1beta/{target}:generateContent?key={api_key}"
         data = json.dumps({
             "contents": [{"parts": [{"text": "Ping institucional PAI Risaralda. Responde solo OK."}]}],
             "generationConfig": {
                 "temperature": 0.1,
-                "maxOutputTokens": 20,
-                "thinkingConfig": {"thinkingBudget": 0}
+                "maxOutputTokens": 20
             }
         }).encode("utf-8")
         req = urllib.request.Request(url, data=data, headers={"Content-Type": "application/json"})
@@ -164,6 +199,39 @@ def test_gemini_connection():
             continue
 
     return {"activo": False, "mensaje": f"Error conectando con modelos: {ultimo_error}", "modelo": None}
+
+def _es_dictamen_completo(texto: str, finish_reason: str) -> bool:
+    """Verifica con rigor que el texto del dictamen esté 100% completo y no cortado."""
+    if not texto or len(texto.strip()) < 350:
+        return False
+    if finish_reason in ["MAX_TOKENS", "LENGTH"]:
+        return False
+
+    t_strip = texto.rstrip()
+    
+    # Patrones de truncamiento sintáctico abrupto
+    palabras_corte = [
+        " y", " de", " con", " que", " la", " el", " en", " para", 
+        " por", " su", " sus", "**", "##", "*", "_", " son", " es", " del",
+        " a", " al", " un", " una", " los", " las"
+    ]
+    for corte in palabras_corte:
+        if t_strip.endswith(corte):
+            return False
+
+    # Debe poseer un cierre institucional o formal
+    terminaciones_validas = [
+        ".", "!", "?", ")", "]", "Risaralda", "PAI", "Salud", 
+        "Departamental", "Atentamente", "cordialmente", "Oficial", "AUDITORÍA", "auditoría"
+    ]
+    if any(t_strip.endswith(tv) for tv in terminaciones_validas):
+        return True
+
+    # Puntuación en los últimos caracteres
+    if any(c in t_strip[-10:] for c in [".", "!", ")", "]"]):
+        return True
+
+    return False
 
 def _consultar_gemini(api_key, municipio, mes, errores, advertencias):
     prompt = f"""
@@ -186,14 +254,13 @@ DIRECTRICES OBLIGATORIAS PARA TU DICTAMEN INSTITUCIONAL:
    - Si tras verificar el inventario físico se corrobora que el conteo municipal es exacto y la discrepancia con el Kardex oficial persiste, instruye al vacunador a comunicarse inmediatamente con el Referente Departamental de Vacunación del PAI Risaralda para la respectiva conciliación administrativa.
 4. LOTES Y TRAZABILIDAD: Si un lote no figura en el catálogo maestro departamental o está faltante, instruye al municipio a verificar la etiqueta biológica y registrar el lote oficial correspondiente. No se pueden radicar informes con lotes inexistentes o erróneos.
 5. SIMULTANEIDAD Y COHORTES (INFORMATIVO): Si el informe está aprobado o presenta observaciones de simultaneidad clínica (2m, 4m, 6m, 12m, 18m, 5a) o diluyentes, destaca con claridad que el informe ES VÁLIDO y PUEDE SER RADICADO, y orienta al equipo con recomendaciones pedagógicas de búsqueda activa de susceptibles para completar esquemas.
-6. CONCISIÓN Y COMPLETITUD: Sé conciso, directo y estructurado para asegurar que el dictamen se entregue completo sin cortes.
+6. CONCISIÓN Y COMPLETITUD TOTAL: Sé conciso, directo y estructurado. Es indispensable que el dictamen incluya Concepto General, Desarrollo, Recomendaciones y Firma Oficial de Cierre, entregándose 100% completo sin cortes.
 """
     data = json.dumps({
         "contents": [{"parts": [{"text": prompt}]}],
         "generationConfig": {
             "temperature": 0.2,
-            "maxOutputTokens": 8192,
-            "thinkingConfig": {"thinkingBudget": 0}
+            "maxOutputTokens": 8192
         }
     }).encode("utf-8")
 
@@ -201,23 +268,29 @@ DIRECTRICES OBLIGATORIAS PARA TU DICTAMEN INSTITUCIONAL:
     ultimo_error = None
 
     for modelo in candidatos:
-        url = f"https://generativelanguage.googleapis.com/v1beta/models/{modelo}:generateContent?key={api_key}"
+        target = modelo if modelo.startswith("models/") else f"models/{modelo}"
+        url = f"https://generativelanguage.googleapis.com/v1beta/{target}:generateContent?key={api_key}"
         req = urllib.request.Request(url, data=data, headers={"Content-Type": "application/json"})
         try:
-            with urllib.request.urlopen(req, timeout=30) as resp:
+            with urllib.request.urlopen(req, timeout=25) as resp:
                 res_json = json.loads(resp.read().decode("utf-8"))
                 candidates = res_json.get("candidates", [])
                 if candidates:
                     cand = candidates[0]
                     finish_reason = cand.get("finishReason", "")
                     partes = cand.get("content", {}).get("parts", [])
-                    texto = partes[0].get("text", "") if partes else ""
-                    if finish_reason == "MAX_TOKENS":
-                        texto += "\n\n*(Nota institucional: Dictamen extenso sintetizado por límite de extensión).* "
-                    return texto, modelo
+                    # Extraer y concatenar TODAS las partes de texto devueltas
+                    texto = "".join([p.get("text", "") for p in partes if p.get("text")]).strip()
+                    
+                    if _es_dictamen_completo(texto, finish_reason):
+                        return texto, modelo
+                    else:
+                        print(f"[AI Auditor] Modelo {modelo} devolvió texto incompleto (longitud {len(texto)}, finishReason={finish_reason}). Probando siguiente...")
+                        ultimo_error = "Respuesta incompleta o truncada"
+                        continue
         except Exception as e:
             ultimo_error = e
             print(f"[AI Auditor] Modelo {modelo} falló: {e}. Probando siguiente candidato...")
             continue
 
-    raise RuntimeError(f"No fue posible consultar ningún modelo de Gemini. Último error: {ultimo_error}")
+    raise RuntimeError(f"No fue posible obtener un dictamen completo de Gemini. Último error: {ultimo_error}")
