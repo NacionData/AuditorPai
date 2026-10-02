@@ -78,6 +78,7 @@
       <div class="flex items-center gap-3">
         <label class="text-xs font-black uppercase tracking-wider text-slate-800">Mes a Evaluar:</label>
         <select id="select-mes-admin" onchange="cargarTableroDepartamental()" class="bg-slate-50 border-2 border-slate-300 rounded-xl px-3.5 py-2 text-sm font-black text-slate-900 focus:outline-none focus:border-indigo-600">
+          <option value="" selected>-- Seleccione Mes a Evaluar --</option>
           <option value="ENERO">Enero</option>
           <option value="FEBRERO">Febrero</option>
           <option value="MARZO">Marzo</option>
@@ -85,7 +86,7 @@
           <option value="MAYO">Mayo</option>
           <option value="JUNIO">Junio</option>
           <option value="JULIO">Julio</option>
-          <option value="AGOSTO" selected>Agosto</option>
+          <option value="AGOSTO">Agosto</option>
           <option value="SEPTIEMBRE">Septiembre</option>
           <option value="OCTUBRE">Octubre</option>
           <option value="NOVIEMBRE">Noviembre</option>
@@ -437,11 +438,13 @@
         <!-- Dinámico -->
       </div>
 
-      <div class="pt-3 border-t-2 border-slate-200 flex flex-wrap items-center justify-between gap-3">
-        <div id="modal-insp-acciones"></div>
-        <button onclick="cerrarModalInspeccion()" class="px-6 py-2.5 rounded-xl bg-slate-200 hover:bg-slate-300 text-slate-900 text-xs font-black transition">
-          Cerrar Inspección
-        </button>
+      <div class="pt-4 border-t-2 border-slate-200 flex flex-col gap-3">
+        <div id="modal-insp-acciones" class="w-full"></div>
+        <div class="flex items-center justify-end">
+          <button onclick="cerrarModalInspeccion()" class="px-6 py-2.5 rounded-xl bg-slate-200 hover:bg-slate-300 text-slate-900 text-xs font-black transition">
+            Cerrar Inspección
+          </button>
+        </div>
       </div>
 
     </div>

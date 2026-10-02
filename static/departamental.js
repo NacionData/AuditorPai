@@ -129,8 +129,14 @@ function cerrarSesionAdmin() {
 
 // 1. Cargar Estado Departamental
 async function cargarTableroDepartamental() {
-  const mes = document.getElementById('select-mes-admin').value || 'AGOSTO';
+  const selectEl = document.getElementById('select-mes-admin');
+  const mes = selectEl ? (selectEl.value || '').trim().toUpperCase() : '';
   
+  if (!mes) {
+    mostrarEstadoSinMesSeleccionado();
+    return;
+  }
+
   // Cargar estado de plantillas base departamentales del mes y Kardex
   cargarEstadoPlantillasBase();
   cargarEstadoKardex();
@@ -159,6 +165,31 @@ async function cargarTableroDepartamental() {
     renderizarGrillaAdmin();
   } catch (err) {
     console.error("Error cargando tablero departamental:", err);
+  }
+}
+
+function mostrarEstadoSinMesSeleccionado() {
+  datosDepartamentales = [];
+  document.getElementById('metric-radicados').textContent = '-';
+  document.getElementById('metric-radicados-sub').textContent = 'Seleccione mes a evaluar';
+  document.getElementById('metric-pendientes').textContent = '-';
+
+  const bCountJ = document.getElementById('badge-count-justificados');
+  if (bCountJ) bCountJ.classList.add('hidden');
+
+  const grid = document.getElementById('grid-municipios-admin');
+  if (grid) {
+    grid.innerHTML = `
+      <div class="col-span-full py-16 text-center bg-slate-50 border-2 border-dashed border-slate-300 rounded-3xl p-8 space-y-3">
+        <div class="w-16 h-16 mx-auto rounded-3xl bg-indigo-100 text-indigo-700 border-2 border-indigo-200 flex items-center justify-center text-3xl shadow-sm">
+          📅
+        </div>
+        <h4 class="text-base font-black text-slate-900">Seleccione el Mes a Evaluar</h4>
+        <p class="text-xs font-bold text-slate-500 max-w-md mx-auto">
+          Por favor elija en el selector superior el periodo mensual que desea auditar para consultar el semáforo de radicación de los 14 municipios de Risaralda y los informes radicados.
+        </p>
+      </div>
+    `;
   }
 }
 
@@ -296,12 +327,12 @@ function renderizarGrillaAdmin() {
       ` : (isRad ? `
         <button onclick="inspeccionarMunicipio('${m.municipio}')" class="w-full mt-3 py-2 px-3 rounded-xl bg-indigo-50 hover:bg-indigo-100 text-indigo-900 border border-indigo-200 text-xs font-black transition flex items-center justify-center gap-1.5">
           <svg class="w-4 h-4 text-indigo-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
-          <span>Inspeccionar y Descargar</span>
+          <span>Inspeccionar y Decidir</span>
         </button>
       ` : (isDev ? `
-        <div class="w-full mt-3 py-2 text-center text-[11px] font-bold text-amber-800 bg-amber-100/70 rounded-xl border border-amber-300">
-          Esperando corrección del municipio
-        </div>
+        <button onclick="inspeccionarMunicipio('${m.municipio}')" class="w-full mt-3 py-2 px-3 rounded-xl bg-amber-100 hover:bg-amber-200 text-amber-950 border border-amber-300 text-xs font-black transition flex items-center justify-center gap-1.5 shadow-sm">
+          <span>↩️ Ver Devolución y Observaciones</span>
+        </button>
       ` : `
         <div class="w-full mt-3 py-2 text-center text-[11px] font-bold text-slate-400 bg-slate-100 rounded-xl border border-slate-200">
           Esperando reporte
@@ -315,13 +346,19 @@ function renderizarGrillaAdmin() {
 
 // 2. Inspección de Informes de un Municipio
 async function inspeccionarMunicipio(municipio) {
-  const mes = document.getElementById('select-mes-admin').value || 'AGOSTO';
+  const mes = (document.getElementById('select-mes-admin').value || '').trim().toUpperCase();
+  if (!mes) {
+    alert("Por favor seleccione primero el mes a evaluar en el menú superior.");
+    return;
+  }
   const modal = document.getElementById('modal-inspeccion');
   const titulo = document.getElementById('modal-insp-titulo');
   const contenido = document.getElementById('modal-insp-contenido');
+  const accionesEl = document.getElementById('modal-insp-acciones');
 
   titulo.textContent = `${municipio} — ${mes} 2026`;
   contenido.innerHTML = '<div class="text-center py-6 font-bold text-slate-500">Cargando detalles del informe...</div>';
+  if (accionesEl) accionesEl.innerHTML = '';
   modal.classList.remove('hidden');
 
   try {
@@ -851,26 +888,117 @@ async function inspeccionarMunicipio(municipio) {
 
     const accionesEl = document.getElementById('modal-insp-acciones');
     if (accionesEl) {
-      if (esRadJust) {
-        accionesEl.innerHTML = `
-          <div class="flex flex-wrap items-center gap-2.5">
-            <button onclick="aprobarJustificacionMunicipio('${municipio}', '${mes}')" class="px-4 py-2.5 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-black shadow-md transition flex items-center gap-1.5">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
-              <span>✓ Aceptar Justificación y Aprobar Radicado</span>
+      const isDevuelto = rec.estado === 'DEVUELTO';
+      const fechaDev = rec.fecha_devolucion || '';
+      const motivoDev = rec.motivo_devolucion || '';
+      const fechaAprob = (rec.aprobado_departamental && rec.aprobado_departamental.fecha) || '';
+      const obsAprob = (rec.aprobado_departamental && rec.aprobado_departamental.observacion) || 'Informe auditado y aprobado formalmente por la Secretaría de Salud Departamental.';
+
+      let badgeEstado = '';
+      if (esAprobOfic) {
+        badgeEstado = '<span class="px-3 py-1 rounded-full text-[11px] font-black bg-teal-100 text-teal-900 border border-teal-300">✓ APROBADO DPTAL.</span>';
+      } else if (esRadJust) {
+        badgeEstado = '<span class="px-3 py-1 rounded-full text-[11px] font-black bg-amber-100 text-amber-950 border border-amber-300 animate-pulse">⚠️ CON JUSTIFICACIÓN</span>';
+      } else if (isDevuelto) {
+        badgeEstado = '<span class="px-3 py-1 rounded-full text-[11px] font-black bg-rose-100 text-rose-900 border border-rose-300">↩️ DEVUELTO</span>';
+      } else {
+        badgeEstado = '<span class="px-3 py-1 rounded-full text-[11px] font-black bg-emerald-100 text-emerald-900 border border-emerald-300">✓ RADICADO OFICIAL</span>';
+      }
+
+      accionesEl.innerHTML = `
+        <div class="bg-slate-50 border-2 border-slate-200 rounded-2xl p-4 md:p-5 space-y-4 shadow-sm">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-200 pb-3">
+            <div>
+              <span class="text-[10px] font-black uppercase text-indigo-900 tracking-wider">Dictamen y Decisión Departamental</span>
+              <h4 class="text-sm font-black text-slate-900">Aprobación o Rechazo del Informe Oficial</h4>
+            </div>
+            <div>${badgeEstado}</div>
+          </div>
+
+          ${esAprobOfic ? `
+            <div class="bg-teal-50 border border-teal-300 rounded-xl p-3.5 text-xs text-teal-950 space-y-1">
+              <div class="font-black flex items-center gap-1.5 text-teal-900">
+                <span class="text-base">✓</span> <span>Informe Aprobado Oficialmente por la Referente Departamental</span>
+              </div>
+              <div class="text-[11px] text-teal-800">
+                <b>Fecha de Aprobación:</b> ${fechaAprob}
+              </div>
+              <div class="text-[11px] text-teal-900 bg-white/90 p-2 rounded-lg border border-teal-200 mt-1">
+                <b>Observación Institucional Registrada:</b> "${obsAprob}"
+              </div>
+            </div>
+          ` : ''}
+
+          ${isDevuelto ? `
+            <div class="bg-rose-50 border border-rose-300 rounded-xl p-3.5 text-xs text-rose-950 space-y-1">
+              <div class="font-black flex items-center gap-1.5 text-rose-900">
+                <span class="text-base">↩️</span> <span>Informe Rechazado / Devuelto al Municipio</span>
+              </div>
+              <div class="text-[11px] text-rose-800">
+                <b>Fecha de Devolución:</b> ${fechaDev}
+              </div>
+              <div class="text-[11px] text-rose-950 bg-white/90 p-2 rounded-lg border border-rose-200 mt-1">
+                <b>Motivo / Observaciones Notificadas:</b> "${motivoDev}"
+              </div>
+            </div>
+          ` : ''}
+
+          <!-- Botones Principales de Decisión -->
+          <div id="box-botones-decision" class="flex flex-wrap items-center gap-3">
+            <button onclick="mostrarFormularioAprobacion('${municipio}', '${mes}', ${esAprobOfic})" class="flex-1 min-w-[200px] py-3 px-4 rounded-xl ${esAprobOfic ? 'bg-teal-700 hover:bg-teal-800' : 'bg-emerald-700 hover:bg-emerald-800'} text-white text-xs font-black shadow-md transition flex items-center justify-center gap-2">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+              <span>${esAprobOfic ? '✏️ Modificar Observación de Aprobación' : '✓ Aceptar y Aprobar Informe'}</span>
             </button>
-            <button onclick="solicitarDevolucionMunicipio('${municipio}', '${mes}')" class="px-4 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-xs font-black shadow-md transition flex items-center gap-1.5">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/></svg>
-              <span>✕ Rechazar y Devolver al Municipio</span>
+            <button onclick="mostrarFormularioRechazo('${municipio}', '${mes}')" class="flex-1 min-w-[200px] py-3 px-4 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-xs font-black shadow-md transition flex items-center justify-center gap-2">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+              <span>✕ Rechazar Informe con Observaciones</span>
             </button>
           </div>
-        `;
-      } else {
-        accionesEl.innerHTML = `
-          <button onclick="solicitarDevolucionMunicipio('${municipio}', '${mes}')" class="px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 text-xs font-black shadow-md transition flex items-center gap-1.5">
-            <span>↩️ Devolver Radicado para Corrección</span>
-          </button>
-        `;
-      }
+
+          <!-- Formulario Desplegable de Aprobación -->
+          <div id="form-aprobacion-panel" class="hidden bg-white border-2 border-emerald-300 rounded-xl p-4 space-y-3 shadow-sm">
+            <div class="flex items-center justify-between">
+              <h5 class="text-xs font-black uppercase text-emerald-900 flex items-center gap-1.5">
+                <span>✓</span> <span>Aprobación Oficial del Informe — ${municipio} (${mes} 2026)</span>
+              </h5>
+              <button onclick="cancelarFormulariosDecision()" class="text-slate-400 hover:text-slate-700 text-xs font-bold">✕ Cancelar</button>
+            </div>
+            <p class="text-[11px] text-slate-600">
+              Al aceptar este informe, el radicado queda validado y avalado formalmente por la Secretaría de Salud Departamental para su inclusión en la consolidación MinSalud. Puede registrar observaciones institucionales:
+            </p>
+            <textarea id="txt-obs-aprobacion" rows="2" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5 text-xs font-medium text-slate-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500" placeholder="Observaciones institucionales de aprobación...">${esAprobOfic ? obsAprob : 'Informe revisado y aprobado oficialmente por la Secretaría de Salud Departamental de Risaralda.'}</textarea>
+            <div class="flex items-center justify-end gap-2 pt-1">
+              <button onclick="cancelarFormulariosDecision()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition">Cancelar</button>
+              <button id="btn-confirmar-aprobacion" onclick="confirmarAprobacionInforme('${municipio}', '${mes}')" class="px-5 py-2 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-black shadow transition flex items-center gap-1.5">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                <span>Confirmar Aprobación</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Formulario Desplegable de Rechazo -->
+          <div id="form-rechazo-panel" class="hidden bg-white border-2 border-rose-300 rounded-xl p-4 space-y-3 shadow-sm">
+            <div class="flex items-center justify-between">
+              <h5 class="text-xs font-black uppercase text-rose-900 flex items-center gap-1.5">
+                <span>✕</span> <span>Rechazar y Devolver Informe — ${municipio} (${mes} 2026)</span>
+              </h5>
+              <button onclick="cancelarFormulariosDecision()" class="text-slate-400 hover:text-slate-700 text-xs font-bold">✕ Cancelar</button>
+            </div>
+            <p class="text-[11px] text-slate-600">
+              El informe pasará a estado <b>DEVUELTO</b>, se archivará en el histórico y el municipio verá estas observaciones en su portal municipal para realizar las correcciones y re-radicar:
+            </p>
+            <textarea id="txt-obs-rechazo" rows="3" class="w-full bg-slate-50 border border-rose-300 rounded-xl p-2.5 text-xs font-medium text-slate-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-rose-500" placeholder="Escriba detalladamente las razones del rechazo, inconsistencias encontradas y qué debe corregir el municipio (Obligatorio)..."></textarea>
+            <div class="flex items-center justify-end gap-2 pt-1">
+              <button onclick="cancelarFormulariosDecision()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition">Cancelar</button>
+              <button id="btn-confirmar-rechazo" onclick="confirmarRechazoInforme('${municipio}', '${mes}')" class="px-5 py-2 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-xs font-black shadow transition flex items-center gap-1.5">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+                <span>Confirmar Rechazo y Devolver</span>
+              </button>
+            </div>
+          </div>
+
+        </div>
+      `;
     }
 
   } catch (err) {
@@ -884,55 +1012,48 @@ function cerrarModalInspeccion() {
   if (accionesEl) accionesEl.innerHTML = '';
 }
 
-async function solicitarDevolucionMunicipio(municipio, mes) {
-  const motivo = prompt(`¿Por qué motivo deseas devolver el informe oficial de ${municipio} (${mes} 2026)?\n\nEste motivo quedará registrado en el historial de auditoría y se le mostrará al municipio para que realice las correcciones pertinentes:`);
-  
-  if (motivo === null) return;
-  const motivoLimpio = motivo.trim();
-  if (!motivoLimpio) {
-    alert("Debes indicar un motivo para devolver el informe.");
-    return;
-  }
-
-  if (!confirm(`¿Confirmas la devolución del informe de ${municipio}?\n\n- Se archivará la versión actual en el histórico de auditoría.\n- El municipio pasará a estado 'DEVUELTO'.\n- Se habilitará la re-radicación en el portal municipal.`)) {
-    return;
-  }
-
-  try {
-    const fd = new FormData();
-    fd.append('municipio', municipio);
-    fd.append('mes', mes);
-    fd.append('ano', '2026');
-    fd.append('motivo', motivoLimpio);
-
-    const res = await fetch('/api/admin/devolver-radicado', {
-      method: 'POST',
-      body: fd
-    });
-
-    const resData = await res.json();
-    if (!res.ok) {
-      throw new Error(resData.detail || "Error al devolver el radicado");
-    }
-
-    alert(`✓ ${resData.mensaje}`);
-    cerrarModalInspeccion();
-    cargarEstadoDepartamental();
-  } catch (err) {
-    alert(`Error: ${err.message}`);
+function mostrarFormularioAprobacion(municipio, mes, esEdicion) {
+  const boxBtns = document.getElementById('box-botones-decision');
+  const panelAprob = document.getElementById('form-aprobacion-panel');
+  const panelRech = document.getElementById('form-rechazo-panel');
+  if (panelRech) panelRech.classList.add('hidden');
+  if (boxBtns) boxBtns.classList.add('hidden');
+  if (panelAprob) {
+    panelAprob.classList.remove('hidden');
+    const txt = document.getElementById('txt-obs-aprobacion');
+    if (txt) txt.focus();
   }
 }
 
-async function aprobarJustificacionMunicipio(municipio, mes) {
-  const observacion = prompt(
-    `¿Desea ingresar alguna nota u observación institucional para aprobar la justificación de ${municipio} (${mes} 2026)? (Opcional):`,
-    "Justificación técnica y administrativa revisada y aceptada por la Referente Departamental PAI Risaralda."
-  );
+function mostrarFormularioRechazo(municipio, mes) {
+  const boxBtns = document.getElementById('box-botones-decision');
+  const panelAprob = document.getElementById('form-aprobacion-panel');
+  const panelRech = document.getElementById('form-rechazo-panel');
+  if (panelAprob) panelAprob.classList.add('hidden');
+  if (boxBtns) boxBtns.classList.add('hidden');
+  if (panelRech) {
+    panelRech.classList.remove('hidden');
+    const txt = document.getElementById('txt-obs-rechazo');
+    if (txt) txt.focus();
+  }
+}
 
-  if (observacion === null) return;
+function cancelarFormulariosDecision() {
+  const boxBtns = document.getElementById('box-botones-decision');
+  const panelAprob = document.getElementById('form-aprobacion-panel');
+  const panelRech = document.getElementById('form-rechazo-panel');
+  if (panelAprob) panelAprob.classList.add('hidden');
+  if (panelRech) panelRech.classList.add('hidden');
+  if (boxBtns) boxBtns.classList.remove('hidden');
+}
 
-  if (!confirm(`¿Confirmas la APROBACIÓN OFICIAL del informe de ${municipio} (${mes} 2026)?\n\n- El estado pasará a 'APROBADO_OFICIAL'.\n- El radicado quedará plenamente avalado para el consolidado MinSalud.`)) {
-    return;
+async function confirmarAprobacionInforme(municipio, mes) {
+  const txt = document.getElementById('txt-obs-aprobacion');
+  const obs = txt ? txt.value.trim() : '';
+  const btn = document.getElementById('btn-confirmar-aprobacion');
+  if (btn) {
+    btn.disabled = true;
+    btn.innerHTML = '<span>⏳ Guardando aprobación...</span>';
   }
 
   try {
@@ -940,33 +1061,96 @@ async function aprobarJustificacionMunicipio(municipio, mes) {
     fd.append('municipio', municipio);
     fd.append('mes', mes);
     fd.append('ano', '2026');
-    if (observacion && observacion.trim()) {
-      fd.append('observacion', observacion.trim());
-    }
+    if (obs) fd.append('observacion', obs);
 
-    const res = await fetch('/api/admin/aprobar-justificacion', {
+    const res = await fetch('/api/admin/aprobar-informe', {
       method: 'POST',
       body: fd
     });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.detail || "Error al aprobar informe");
 
-    const resData = await res.json();
-    if (!res.ok) {
-      throw new Error(resData.detail || "Error al aprobar la justificación");
-    }
-
-    alert(`✓ ${resData.mensaje}`);
+    alert(`✓ ${data.mensaje}`);
     cerrarModalInspeccion();
     cargarTableroDepartamental();
   } catch (err) {
     alert(`Error: ${err.message}`);
+  } finally {
+    if (btn) {
+      btn.disabled = false;
+      btn.innerHTML = '<span>Confirmar Aprobación</span>';
+    }
   }
+}
+
+async function confirmarRechazoInforme(municipio, mes) {
+  const txt = document.getElementById('txt-obs-rechazo');
+  const motivo = txt ? txt.value.trim() : '';
+  if (!motivo) {
+    alert("Debe ingresar las observaciones y razones del rechazo para que el municipio sepa qué corregir.");
+    if (txt) txt.focus();
+    return;
+  }
+
+  if (!confirm(`¿Confirmas el rechazo del informe de ${municipio} (${mes} 2026)?\n\n- El municipio pasará a estado 'DEVUELTO'.\n- Se archivará la versión actual en el histórico de auditoría.\n- Se notificarán sus observaciones al municipio para que corrija y vuelva a radicar.`)) {
+    return;
+  }
+
+  const btn = document.getElementById('btn-confirmar-rechazo');
+  if (btn) {
+    btn.disabled = true;
+    btn.innerHTML = '<span>⏳ Devolviendo al municipio...</span>';
+  }
+
+  try {
+    const fd = new FormData();
+    fd.append('municipio', municipio);
+    fd.append('mes', mes);
+    fd.append('ano', '2026');
+    fd.append('motivo', motivo);
+
+    const res = await fetch('/api/admin/rechazar-informe', {
+      method: 'POST',
+      body: fd
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.detail || "Error al rechazar informe");
+
+    alert(`✓ ${data.mensaje}`);
+    cerrarModalInspeccion();
+    cargarTableroDepartamental();
+  } catch (err) {
+    alert(`Error: ${err.message}`);
+  } finally {
+    if (btn) {
+      btn.disabled = false;
+      btn.innerHTML = '<span>Confirmar Rechazo y Devolver</span>';
+    }
+  }
+}
+
+// Wrappers compatibles hacia atrás
+async function solicitarDevolucionMunicipio(municipio, mes) {
+  mostrarFormularioRechazo(municipio, mes);
+}
+
+async function aprobarJustificacionMunicipio(municipio, mes) {
+  mostrarFormularioAprobacion(municipio, mes, false);
 }
 
 // -------------------------------------------------------------
 // GESTIÓN DE PLANTILLAS BASE DEPARTAMENTALES DEL MES
 // -------------------------------------------------------------
 async function cargarEstadoPlantillasBase() {
-  const mes = document.getElementById('select-mes-admin').value || 'AGOSTO';
+  const selectEl = document.getElementById('select-mes-admin');
+  const mes = selectEl ? (selectEl.value || '').trim().toUpperCase() : '';
+  if (!mes) {
+    const statusMov = document.getElementById('status-tpl-mov');
+    const statusDosis = document.getElementById('status-tpl-dosis');
+    if (statusMov) statusMov.textContent = 'Seleccione mes arriba para gestionar';
+    if (statusDosis) statusDosis.textContent = 'Seleccione mes arriba para gestionar';
+    return;
+  }
   try {
     const res = await fetch(`/api/admin/plantillas-base/${mes}`);
     if (!res.ok) return;
@@ -1223,7 +1407,12 @@ async function subirPlantillaBase(tipo, inputElement) {
   const file = inputElement.files[0];
   if (!file) return;
 
-  const mes = document.getElementById('select-mes-admin').value || 'AGOSTO';
+  const mes = (document.getElementById('select-mes-admin').value || '').trim().toUpperCase();
+  if (!mes) {
+    alert("Por favor seleccione primero el mes que desea configurar en el selector superior.");
+    inputElement.value = '';
+    return;
+  }
   const formData = new FormData();
   formData.append('file', file);
 
@@ -1253,7 +1442,11 @@ async function subirPlantillaBase(tipo, inputElement) {
 }
 
 async function restablecerPlantillaBase(tipo) {
-  const mes = document.getElementById('select-mes-admin').value || 'AGOSTO';
+  const mes = (document.getElementById('select-mes-admin').value || '').trim().toUpperCase();
+  if (!mes) {
+    alert("Por favor seleccione primero el mes en el selector superior.");
+    return;
+  }
   const nom = tipo === 'movimiento' ? 'Movimiento de Biológicos' : 'Dosis Aplicadas';
   if (!confirm(`¿Desea restablecer la plantilla de ${nom} para ${mes} a la versión oficial estándar por defecto?`)) {
     return;
@@ -1275,9 +1468,14 @@ async function restablecerPlantillaBase(tipo) {
 
 // 3. Ejecutar Consolidación Departamental MinSalud en 1 Clic
 async function ejecutarConsolidacionDepartamental() {
-  const mes = document.getElementById('select-mes-admin').value || 'AGOSTO';
+  const mes = (document.getElementById('select-mes-admin').value || '').trim().toUpperCase();
   const btn = document.getElementById('btn-consolidar');
   const boxDescargas = document.getElementById('box-descargas');
+
+  if (!mes) {
+    alert("Por favor seleccione primero el mes que desea consolidar en el selector superior.");
+    return;
+  }
 
   btn.disabled = true;
   btn.innerHTML = '<span>⏳ Consolidando e inyectando municipios...</span>';

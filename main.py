@@ -775,8 +775,47 @@ def api_admin_inspeccionar(municipio: str, mes: str, ano: str = "2026"):
     mes = mes.upper()
     target_dir = os.path.join(RADICADOS_DIR, ano, mes, municipio)
     receipt_file = os.path.join(target_dir, "radicado.json")
+    dev_file = os.path.join(target_dir, "estado_devolucion.json")
 
     if not os.path.exists(receipt_file):
+        if os.path.exists(dev_file):
+            with open(dev_file, "r", encoding="utf-8") as f:
+                dev_info = json.load(f)
+            hist_dir = os.path.join(target_dir, "historico_devoluciones")
+            recibo_previo = None
+            if os.path.exists(hist_dir):
+                carpetas = sorted(os.listdir(hist_dir), reverse=True)
+                for c in carpetas:
+                    rf = os.path.join(hist_dir, c, "radicado.json")
+                    if os.path.exists(rf):
+                        try:
+                            with open(rf, "r", encoding="utf-8") as rf_f:
+                                recibo_previo = json.load(rf_f)
+                                break
+                        except Exception:
+                            pass
+            rec = recibo_previo or {
+                "numero_radicado": dev_info.get("radicado_previo", "N/A"),
+                "municipio": municipio,
+                "mes": mes,
+                "ano": ano,
+                "fecha": dev_info.get("fecha_devolucion"),
+                "estado": "DEVUELTO",
+                "motivo_devolucion": dev_info.get("motivo"),
+                "metricas": {"dosis_aplicadas_nacionales": 0, "dosis_movimiento_total": 0, "dosis_perdidas_total": 0, "vacunados_extranjeros": 0}
+            }
+            rec["estado"] = "DEVUELTO"
+            rec["motivo_devolucion"] = dev_info.get("motivo")
+            rec["fecha_devolucion"] = dev_info.get("fecha_devolucion")
+            return {
+                "municipio": municipio,
+                "mes": mes,
+                "ano": ano,
+                "devuelto": True,
+                "detalle_devolucion": dev_info,
+                "recibo": rec,
+                "descargas_archivos": {}
+            }
         raise HTTPException(status_code=404, detail=f"El municipio {municipio} no registra radicado en {mes} {ano}.")
 
     with open(receipt_file, "r", encoding="utf-8") as f:
@@ -866,6 +905,7 @@ def api_admin_descargar_archivo(ano: str, mes: str, municipio: str, clave: str):
 
     return FileResponse(fpath, filename=os.path.basename(fpath))
 
+@app.post("/api/admin/rechazar-informe")
 @app.post("/api/admin/devolver-radicado")
 def api_admin_devolver_radicado(
     municipio: str = Form(...),
@@ -915,12 +955,13 @@ def api_admin_devolver_radicado(
 
     return {
         "success": True,
-        "mensaje": f"El informe de {municipio} ({mes} {ano}) ha sido devuelto satisfactoriamente. Se habilitó la re-radicación para el municipio.",
+        "mensaje": f"El informe de {municipio} ({mes} {ano}) ha sido rechazado/devuelto satisfactoriamente. Se habilitó la re-radicación para el municipio con las observaciones indicadas.",
         "detalle": info_dev
     }
 
+@app.post("/api/admin/aprobar-informe")
 @app.post("/api/admin/aprobar-justificacion")
-def api_admin_aprobar_justificacion(
+def api_admin_aprobar_informe(
     municipio: str = Form(...),
     mes: str = Form(...),
     ano: str = Form("2026"),
@@ -932,16 +973,17 @@ def api_admin_aprobar_justificacion(
     receipt_file = os.path.join(target_dir, "radicado.json")
 
     if not os.path.exists(receipt_file):
-        raise HTTPException(status_code=404, detail="No se encontró radicado oficial para este municipio y mes.")
+        raise HTTPException(status_code=404, detail="No se encontró radicado oficial activo para este municipio y mes.")
 
     with open(receipt_file, "r", encoding="utf-8") as f:
         recibo = json.load(f)
 
     recibo["estado"] = "APROBADO_OFICIAL"
+    obs_final = (observacion or "Informe revisado y aprobado oficialmente por la Secretaría de Salud Departamental de Risaralda.").strip()
     recibo["aprobado_departamental"] = {
         "aprobado": True,
         "fecha": ahora_colombia_str(),
-        "observacion": (observacion or "Justificación de inconsistencias revisada y aceptada por la Referente Departamental.").strip()
+        "observacion": obs_final
     }
 
     with open(receipt_file, "w", encoding="utf-8") as f:
@@ -949,7 +991,7 @@ def api_admin_aprobar_justificacion(
 
     return {
         "success": True,
-        "mensaje": f"La justificación del informe de {municipio} ({mes} {ano}) ha sido APROBADA satisfactoriamente.",
+        "mensaje": f"El informe de {municipio} ({mes} {ano}) ha sido APROBADO OFICIALMENTE por la Gobernación.",
         "detalle": recibo["aprobado_departamental"]
     }
 
