@@ -19,6 +19,7 @@ import os
 import shutil
 import json
 from datetime import datetime
+from engine.timezone_co import ahora_colombia_str
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 STORAGE_DIR = os.path.join(BASE_DIR, "storage")
@@ -89,7 +90,7 @@ def sincronizar_radicado_drive(municipio: str, mes: str, ano: str, archivos: dic
         "total_archivos": len(archivos_sincronizados),
         "archivos": archivos_sincronizados,
         "api_google": api_subida,
-        "fecha_sincronizacion": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        "fecha_sincronizacion": ahora_colombia_str()
     }
 
 def sincronizar_consolidados_drive(mes: str, ano: str, archivos_consolidados: dict) -> dict:

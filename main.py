@@ -22,6 +22,7 @@ from engine.consolidator import consolidar_departamento, normalizar
 from engine.dictamen_reglas import generar_dictamen_reglas_detallado
 from engine.auth import autenticar_usuario, verificar_token, cerrar_sesion
 from engine.drive_sync import sincronizar_radicado_drive, sincronizar_consolidados_drive, obtener_estado_drive
+from engine.timezone_co import ahora_colombia, ahora_colombia_str, mes_ha_finalizado, obtener_info_tiempo_colombia
 from engine.kardex_sync import (
     obtener_config_kardex_drive,
     guardar_config_kardex_drive,
@@ -108,6 +109,11 @@ def api_drive_estado():
 def api_ia_estado():
     return test_gemini_connection()
 
+@app.get("/api/tiempo-colombia")
+def api_tiempo_colombia():
+    """Retorna la fecha y hora oficial de Colombia (America/Bogota, UTC-5) y los meses habilitados para radicación."""
+    return obtener_info_tiempo_colombia()
+
 @app.get("/api/estado/{mes}")
 def api_estado(mes: str, ano: str = "2026"):
     mes = mes.upper()
@@ -189,6 +195,15 @@ async def api_auditar(
     MESES_VALIDOS = ["ENERO", "FEBRERO", "MARZO", "ABRIL", "MAYO", "JUNIO", "JULIO", "AGOSTO", "SEPTIEMBRE", "OCTUBRE", "NOVIEMBRE", "DICIEMBRE"]
     if mes not in MESES_VALIDOS:
         raise HTTPException(status_code=400, detail=f"El mes '{mes}' no es válido. Debe seleccionar un mes oficial de la lista.")
+
+    # Regla PAI: No se puede auditar ni radicar un mes en curso ni futuro
+    try:
+        ano_int = int(ano)
+    except Exception:
+        ano_int = 2026
+    finalizado, motivo_no_fin = mes_ha_finalizado(mes, ano_int)
+    if not finalizado:
+        raise HTTPException(status_code=400, detail=motivo_no_fin)
 
     municipio = municipio.upper()
     session_id = str(uuid.uuid4())[:8]
@@ -312,8 +327,17 @@ async def api_radicar(
     municipio = meta["municipio"]
     mes = meta["mes"]
     ano = meta["ano"]
+
+    try:
+        ano_int = int(ano)
+    except Exception:
+        ano_int = 2026
+    finalizado, motivo_no_fin = mes_ha_finalizado(mes, ano_int)
+    if not finalizado:
+        raise HTTPException(status_code=400, detail=motivo_no_fin)
+
     num_radicado = f"RAD-RIS-{ano}-{mes[:3]}-{str(uuid.uuid4())[:6].upper()}"
-    fecha_rad = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    fecha_rad = ahora_colombia_str()
 
     target_dir = os.path.join(RADICADOS_DIR, ano, mes, municipio)
     os.makedirs(target_dir, exist_ok=True)
@@ -465,7 +489,7 @@ async def api_admin_subir_plantilla_base(tipo: str, mes: str, file: UploadFile =
 
     meta[tipo] = {
         "nombre_original": fname,
-        "fecha_subida": datetime.now().strftime("%d/%m/%Y %H:%M"),
+        "fecha_subida": ahora_colombia_str("%d/%m/%Y %H:%M"),
         "tamano_bytes": len(content)
     }
     with open(meta_file, "w", encoding="utf-8") as jf:
@@ -861,7 +885,7 @@ def api_admin_devolver_radicado(
         recibo = json.load(f)
 
     # 1. Crear carpeta de histórico de devoluciones con timestamp
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    timestamp = ahora_colombia_str("%Y%m%d_%H%M%S")
     num_rad = recibo.get("numero_radicado", "RAD")
     hist_dir = os.path.join(target_dir, "historico_devoluciones", f"{timestamp}_{num_rad}")
     os.makedirs(hist_dir, exist_ok=True)
@@ -878,7 +902,7 @@ def api_admin_devolver_radicado(
         "municipio": municipio,
         "mes": mes,
         "ano": ano,
-        "fecha_devolucion": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        "fecha_devolucion": ahora_colombia_str(),
         "motivo": motivo.strip(),
         "radicado_previo": num_rad
     }
@@ -916,7 +940,7 @@ def api_admin_aprobar_justificacion(
     recibo["estado"] = "APROBADO_OFICIAL"
     recibo["aprobado_departamental"] = {
         "aprobado": True,
-        "fecha": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        "fecha": ahora_colombia_str(),
         "observacion": (observacion or "Justificación de inconsistencias revisada y aceptada por la Referente Departamental.").strip()
     }
 

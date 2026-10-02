@@ -3,12 +3,86 @@
 let archivosSeleccionados = [];
 let sesionActual = null;
 let usuarioSesion = null;
+let offsetTiempoColombiaMs = 0;
+let tiempoColombiaInfo = null;
 
 document.addEventListener('DOMContentLoaded', () => {
+  inicializarRelojColombia();
   verificarSesionInicial();
   verificarEstadoIA();
   configurarDropzone();
 });
+
+// Sincronización con Hora Legal de Colombia (America/Bogota, UTC-5)
+async function inicializarRelojColombia() {
+  try {
+    const tInicio = Date.now();
+    const res = await fetch('/api/tiempo-colombia');
+    if (res.ok) {
+      const data = await res.json();
+      tiempoColombiaInfo = data;
+      const tFin = Date.now();
+      const rtt = tFin - tInicio;
+      const serverTimeMs = new Date(data.hora_colombiana_iso).getTime() + (rtt / 2);
+      offsetTiempoColombiaMs = serverTimeMs - tFin;
+
+      actualizarDisplayRelojColombia();
+      setInterval(actualizarDisplayRelojColombia, 1000);
+      aplicarRestriccionesMeses(data);
+    }
+  } catch (e) {
+    console.warn("Reloj Colombia:", e);
+  }
+}
+
+function obtenerFechaHoraColombiaActual() {
+  return new Date(Date.now() + offsetTiempoColombiaMs);
+}
+
+function actualizarDisplayRelojColombia() {
+  const el = document.getElementById('reloj-colombia-txt');
+  if (!el) return;
+  const nowCo = obtenerFechaHoraColombiaActual();
+  const partes = nowCo.toLocaleTimeString('es-CO', {
+    timeZone: 'America/Bogota',
+    hour12: true,
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit'
+  });
+  el.textContent = partes;
+}
+
+function aplicarRestriccionesMeses(data) {
+  if (!data || !data.meses_bloqueados) return;
+  const selectMes = document.getElementById('select-mes');
+  const selectMesModal = document.getElementById('select-mes-modal');
+
+  const mapaBloqueados = {};
+  data.meses_bloqueados.forEach(b => {
+    mapaBloqueados[b.mes] = b;
+  });
+
+  [selectMes, selectMesModal].forEach(sel => {
+    if (!sel) return;
+    Array.from(sel.options).forEach(opt => {
+      const val = opt.value;
+      if (!val) return;
+      if (mapaBloqueados[val]) {
+        opt.disabled = true;
+        opt.classList.add('text-slate-400', 'bg-slate-100');
+        const bInfo = mapaBloqueados[val];
+        opt.textContent = `${bInfo.nombre} 2026 (En curso - se habilita al finalizar)`;
+        opt.title = bInfo.motivo || 'Mes en curso o futuro';
+      } else {
+        opt.disabled = false;
+        opt.classList.remove('text-slate-400', 'bg-slate-100');
+        const nombreMes = val.charAt(0) + val.slice(1).toLowerCase();
+        opt.textContent = sel.id === 'select-mes-modal' ? `${nombreMes} 2026` : nombreMes;
+      }
+    });
+  });
+}
 
 // 1. Verificación de Sesión y Autenticación
 function verificarSesionInicial() {
@@ -334,6 +408,10 @@ function abrirModalSeleccionarMes(callback = null) {
   const modalSelect = document.getElementById('select-mes-modal');
   const mainSelect = document.getElementById('select-mes');
 
+  if (tiempoColombiaInfo) {
+    aplicarRestriccionesMeses(tiempoColombiaInfo);
+  }
+
   if (modalSelect && mainSelect) {
     modalSelect.value = mainSelect.value || '';
   }
@@ -459,6 +537,15 @@ async function ejecutarAuditoria() {
     }
     abrirModalSeleccionarMes(() => ejecutarAuditoria());
     return;
+  }
+
+  // Validación de Cierre Mensual Oficial PAI
+  if (tiempoColombiaInfo && tiempoColombiaInfo.meses_bloqueados) {
+    const bloqueado = tiempoColombiaInfo.meses_bloqueados.find(b => b.mes === mes);
+    if (bloqueado) {
+      alert(`⚠️ Radicación no permitida:\n\n${bloqueado.motivo}`);
+      return;
+    }
   }
 
   const btn = document.getElementById('btn-auditar');

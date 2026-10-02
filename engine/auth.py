@@ -6,6 +6,7 @@ import json
 import hashlib
 import uuid
 from datetime import datetime, timedelta
+from engine.timezone_co import ahora_colombia
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 USUARIOS_FILE = os.path.join(BASE_DIR, "storage", "usuarios.json")
@@ -45,7 +46,7 @@ def autenticar_usuario(usuario: str, password: str) -> dict | None:
     
     if pwd_hash == user_data.get("password_hash") or (clave_directa and password.strip() == clave_directa):
         token = f"PAI-SEC-{str(uuid.uuid4()).replace('-', '')[:24]}"
-        exp = datetime.now() + timedelta(hours=DURACION_SESION_HORAS)
+        exp = ahora_colombia() + timedelta(hours=DURACION_SESION_HORAS)
         
         info_sesion = {
             "token": token,
@@ -68,7 +69,7 @@ def verificar_token(token: str) -> dict | None:
     sesion = SESIONES_ACTIVAS.get(token)
     if not sesion:
         return None
-    if datetime.now() > sesion["exp"]:
+    if ahora_colombia() > sesion["exp"]:
         del SESIONES_ACTIVAS[token]
         return None
     return sesion

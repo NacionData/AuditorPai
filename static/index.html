@@ -106,6 +106,15 @@
 
       <!-- Información del Usuario Autenticado -->
       <div class="flex items-center gap-3">
+        <!-- Reloj Oficial Colombia (UTC-5) -->
+        <div id="badge-hora-colombia" class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-amber-50 border-2 border-amber-300 text-xs font-black text-amber-950 shadow-sm" title="Hora Legal Oficial de la República de Colombia (UTC-5)">
+          <span class="text-sm">🇨🇴</span>
+          <div>
+            <div class="text-[9px] uppercase tracking-wider text-amber-800 font-extrabold leading-none">Hora Colombia</div>
+            <div id="reloj-colombia-txt" class="font-mono text-xs font-black text-amber-950 mt-0.5">--:--:--</div>
+          </div>
+        </div>
+
         <div id="ia-status-badge" class="hidden sm:flex items-center gap-1.5 px-3 py-2 rounded-xl bg-indigo-50 border-2 border-indigo-200 text-xs font-black text-indigo-900 shadow-sm" title="Motor de IA Google Gemini">
           <span class="w-2.5 h-2.5 rounded-full bg-indigo-600 animate-pulse"></span>
           <span id="ia-status-text">Gemini IA</span>

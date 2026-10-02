@@ -2,13 +2,73 @@
 
 let datosDepartamentales = [];
 let filtroActual = 'todos';
+let offsetTiempoColombiaMs = 0;
 
 document.addEventListener('DOMContentLoaded', () => {
+  inicializarRelojColombia();
   verificarSesionAdmin();
   verificarEstadoIA();
   cargarTableroDepartamental();
   cargarEstadoKardex();
 });
+
+// Sincronización con Hora Legal de Colombia (America/Bogota, UTC-5)
+async function inicializarRelojColombia() {
+  try {
+    const tInicio = Date.now();
+    const res = await fetch('/api/tiempo-colombia');
+    if (res.ok) {
+      const data = await res.json();
+      const tFin = Date.now();
+      const rtt = tFin - tInicio;
+      const serverTimeMs = new Date(data.hora_colombiana_iso).getTime() + (rtt / 2);
+      offsetTiempoColombiaMs = serverTimeMs - tFin;
+
+      actualizarDisplayRelojColombia();
+      setInterval(actualizarDisplayRelojColombia, 1000);
+      actualizarOpcionesMesAdmin(data);
+    }
+  } catch (e) {
+    console.warn("Reloj Colombia:", e);
+  }
+}
+
+function obtenerFechaHoraColombiaActual() {
+  return new Date(Date.now() + offsetTiempoColombiaMs);
+}
+
+function actualizarDisplayRelojColombia() {
+  const el = document.getElementById('reloj-colombia-txt');
+  if (!el) return;
+  const nowCo = obtenerFechaHoraColombiaActual();
+  const partes = nowCo.toLocaleTimeString('es-CO', {
+    timeZone: 'America/Bogota',
+    hour12: true,
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit'
+  });
+  el.textContent = partes;
+}
+
+function actualizarOpcionesMesAdmin(data) {
+  if (!data || !data.meses_bloqueados) return;
+  const selectMesAdmin = document.getElementById('select-mes-admin');
+  if (!selectMesAdmin) return;
+
+  const mapaBloqueados = {};
+  data.meses_bloqueados.forEach(b => {
+    mapaBloqueados[b.mes] = b;
+  });
+
+  Array.from(selectMesAdmin.options).forEach(opt => {
+    const val = opt.value;
+    if (mapaBloqueados[val]) {
+      const bInfo = mapaBloqueados[val];
+      opt.textContent = `${bInfo.nombre} (En curso)`;
+    }
+  });
+}
 
 async function verificarEstadoIA() {
   try {

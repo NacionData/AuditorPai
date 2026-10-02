@@ -21,6 +21,7 @@ import urllib.request
 import urllib.error
 import io
 
+from engine.timezone_co import ahora_colombia, ahora_colombia_str
 from engine.cruce_deposito import limpiar_cache_kardex, obtener_info_kardex_actual
 from engine.validator_movimiento import cargar_lotes_google_sheet
 
@@ -35,14 +36,14 @@ CREDENTIALS_FILE = os.path.join(STORAGE_DIR, "google_drive_credentials.json")
 os.makedirs(CATALOGOS_DIR, exist_ok=True)
 
 def calcular_proximo_ultimo_dia(fecha=None):
-    """Calcula la fecha y hora del próximo último día de mes para la programación."""
+    """Calcula la fecha y hora del próximo último día de mes para la programación (Hora Legal Colombia UTC-5)."""
     if fecha is None:
-        fecha = datetime.datetime.now()
+        fecha = ahora_colombia()
     
     ano = fecha.year
     mes = fecha.month
     ultimo_dia_mes = calendar.monthrange(ano, mes)[1]
-    fecha_cierre_actual = datetime.datetime(ano, mes, ultimo_dia_mes, 23, 30, 0)
+    fecha_cierre_actual = fecha.replace(day=ultimo_dia_mes, hour=23, minute=30, second=0, microsecond=0)
     
     if fecha > fecha_cierre_actual:
         # Ya pasó el cierre de este mes, calcular para el siguiente mes
@@ -53,7 +54,7 @@ def calcular_proximo_ultimo_dia(fecha=None):
             sig_ano = ano
             sig_mes = mes + 1
         ultimo_dia_sig = calendar.monthrange(sig_ano, sig_mes)[1]
-        return datetime.datetime(sig_ano, sig_mes, ultimo_dia_sig, 23, 30, 0)
+        return fecha.replace(year=sig_ano, month=sig_mes, day=ultimo_dia_sig, hour=23, minute=30, second=0, microsecond=0)
     
     return fecha_cierre_actual
 
@@ -231,7 +232,7 @@ def descargar_kardex_google(url_o_id: str = None):
     # Obtener metadatos actualizados del archivo
     info_kardex = obtener_info_kardex_actual()
     info_kardex["total_lotes"] = total_lotes
-    now_str = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    now_str = ahora_colombia_str()
 
     tamano_kb = round(len(contenido_bytes) / 1024, 1)
     msg_ok = f"Kardex oficial y Catálogo Maestro de Lotes sincronizados exitosamente desde Google Sheets ({tamano_kb} KB, {total_lotes} lotes activos catalogados)."
@@ -257,7 +258,7 @@ def descargar_kardex_google(url_o_id: str = None):
 
 def verificar_y_ejecutar_sync_programada():
     """
-    Evalúa si corresponde ejecutar la sincronización automática del Kardex y Lotes:
+    Evalúa si corresponde ejecutar la sincronización automática del Kardex y Lotes (Hora Legal Colombia):
     - Se ejecuta el último día de cada mes (y el día 1 como puesta al día si estuvo apagado).
     - Ejecuta actualización periódica durante el mes si han pasado más de 6 horas en horario hábil.
     """
@@ -265,7 +266,7 @@ def verificar_y_ejecutar_sync_programada():
     if not cfg.get("auto_sync") or not cfg.get("url_origen"):
         return False
 
-    ahora = datetime.datetime.now()
+    ahora = ahora_colombia()
     hoy = ahora.date()
     ultimo_dia_mes = calendar.monthrange(hoy.year, hoy.month)[1]
     
