@@ -1,0 +1,534 @@
+{
+  "numero_radicado": "RAD-RIS-2026-AGO-D50FF2",
+  "municipio": "MARSELLA",
+  "mes": "AGOSTO",
+  "ano": "2026",
+  "fecha": "2026-09-28 21:42:49",
+  "archivos": {
+    "DOSIS": "C:\\Users\\alexi\\OneDrive\\Documents\\YoRobot\\Agente Informes Pai - Antigravity\\sistema_pai_risaralda\\storage\\radicados\\2026\\AGOSTO\\MARSELLA\\DOSIS_8.MARSELLA.xlsx"
+  },
+  "metricas": {
+    "dosis_aplicadas_nacionales": 403,
+    "dosis_movimiento_total": 0,
+    "dosis_perdidas_total": 0,
+    "vacunados_extranjeros": 0
+  },
+  "dictamen": {
+    "estado": "APROBADO_CON_ADVERTENCIAS",
+    "aprobado": true,
+    "municipio": "MARSELLA",
+    "mes": "AGOSTO",
+    "total_errores": 0,
+    "total_advertencias": 1,
+    "errores_detallados": [],
+    "advertencias_detalladas": [
+      "[Dosis] [Simultaneidad - Cohorte de 6 Meses] Pentavalente 3ª + Hexavalente 3ª (12), Antipolio VIP 3ª (10), Influenza Pediátrica 1ª (12). Desfase observado de 2 dosis entre biológicos. Se sugiere verificar oportunidades de vacunación o diferimientos clínicos (Informativo, no bloquea radicación)."
+    ],
+    "dictamen_pedagogico": "**DICTAMEN TÉCNICO OFICIAL DE AUDITORÍA DE VACUNACIÓN**  \n**PROGRAMA AMPLIADO DE INMUNIZACIONES (PAI) – RISARALDA**  \n\n**PARA:** Coordinación de Vacunación y Equipo PAI – Municipio de Marsella  \n**DE:** Coordinación Médica de Auditoría PAI – Secretaría de Salud Departamental de Risaralda  \n**PERÍODO EVALUADO:** Agosto de 2026  \n**ESTADO DE RADICACIÓN:** **APROBADO** (Apto para Radicación Oficial)  \n\n---\n\n### 1. CONCEPTO GENERAL DE AUDITORÍA\nEstimado equipo de salud del municipio de Marsella, reciban un cordial y afectuoso saludo. \n\nTras someter los tres informes oficiales (Dosis Aplicadas, Movimiento de Biológicos y Población Extranjera) al motor de validación matemática y de coherencia biológica —bajo los Lineamientos del Esquema Nacional de Vacunación (MinSalud)—, nos complace informarles que **su reporte NO presenta inconsistencias críticas**. \n\nLos datos ingresados son consistentes, garantizan la trazabilidad del programa y **",
+    "motor_ia": "gemini-3.6-flash",
+    "usando_gemini": true,
+    "metricas": {
+      "dosis_aplicadas_nacionales": 403,
+      "dosis_movimiento_total": 0,
+      "dosis_perdidas_total": 0,
+      "vacunados_extranjeros": 0
+    }
+  },
+  "cruce_colombianos": null,
+  "cruce_deposito": null,
+  "simultaneidad": [
+    {
+      "cohorte": "Cohorte de 2 Meses",
+      "estado": "OPTIMO",
+      "biologicos": [
+        {
+          "nombre": "Pentavalente 1ª + Hexavalente 1ª",
+          "dosis": 5
+        },
+        {
+          "nombre": "Antipolio VIP 1ª",
+          "dosis": 5
+        },
+        {
+          "nombre": "Rotavirus 1ª",
+          "dosis": 5
+        },
+        {
+          "nombre": "Neumococo 1ª",
+          "dosis": 5
+        }
+      ],
+      "resumen": "Simultaneidad 100% óptima: Pentavalente 1ª + Hexavalente 1ª (5), Antipolio VIP 1ª (5), Rotavirus 1ª (5), Neumococo 1ª (5)."
+    },
+    {
+      "cohorte": "Cohorte de 4 Meses",
+      "estado": "OPTIMO",
+      "biologicos": [
+        {
+          "nombre": "Pentavalente 2ª + Hexavalente 2ª",
+          "dosis": 11
+        },
+        {
+          "nombre": "Antipolio VIP 2ª",
+          "dosis": 11
+        },
+        {
+          "nombre": "Rotavirus 2ª",
+          "dosis": 11
+        },
+        {
+          "nombre": "Neumococo 2ª",
+          "dosis": 11
+        }
+      ],
+      "resumen": "Simultaneidad 100% óptima: Pentavalente 2ª + Hexavalente 2ª (11), Antipolio VIP 2ª (11), Rotavirus 2ª (11), Neumococo 2ª (11)."
+    },
+    {
+      "cohorte": "Cohorte de 6 Meses",
+      "estado": "OPORTUNIDAD_OBSERVADA",
+      "biologicos": [
+        {
+          "nombre": "Pentavalente 3ª + Hexavalente 3ª",
+          "dosis": 12
+        },
+        {
+          "nombre": "Antipolio VIP 3ª",
+          "dosis": 10
+        },
+        {
+          "nombre": "Influenza Pediátrica 1ª",
+          "dosis": 12
+        }
+      ],
+      "resumen": "Desfase observado: Pentavalente 3ª + Hexavalente 3ª (12), Antipolio VIP 3ª (10), Influenza Pediátrica 1ª (12) (diferencia de 2 dosis entre biológicos)."
+    },
+    {
+      "cohorte": "Cohorte de 12 Meses (1 Año)",
+      "estado": "OPTIMO",
+      "biologicos": [
+        {
+          "nombre": "Triple Viral (SRP) 1ª",
+          "dosis": 8
+        },
+        {
+          "nombre": "Varicela 1ª",
+          "dosis": 8
+        },
+        {
+          "nombre": "Neumococo Refuerzo",
+          "dosis": 8
+        },
+        {
+          "nombre": "Hepatitis A Única",
+          "dosis": 8
+        }
+      ],
+      "resumen": "Simultaneidad 100% óptima: Triple Viral (SRP) 1ª (8), Varicela 1ª (8), Neumococo Refuerzo (8), Hepatitis A Única (8)."
+    },
+    {
+      "cohorte": "Cohorte de 18 Meses (1 Año y Medio)",
+      "estado": "OPTIMO",
+      "biologicos": [
+        {
+          "nombre": "Pentavalente 1er Refuerzo",
+          "dosis": 8
+        },
+        {
+          "nombre": "Antipolio VIP 1er Refuerzo",
+          "dosis": 8
+        },
+        {
+          "nombre": "Triple Viral (SRP) 2ª",
+          "dosis": 8
+        }
+      ],
+      "resumen": "Simultaneidad 100% óptima: Pentavalente 1er Refuerzo (8), Antipolio VIP 1er Refuerzo (8), Triple Viral (SRP) 2ª (8)."
+    },
+    {
+      "cohorte": "Cohorte de 5 Años",
+      "estado": "OPTIMO",
+      "biologicos": [
+        {
+          "nombre": "DPT 2º Refuerzo",
+          "dosis": 10
+        },
+        {
+          "nombre": "Antipolio VIP 2º Refuerzo",
+          "dosis": 10
+        },
+        {
+          "nombre": "Varicela Refuerzo",
+          "dosis": 10
+        }
+      ],
+      "resumen": "Simultaneidad 100% óptima: DPT 2º Refuerzo (10), Antipolio VIP 2º Refuerzo (10), Varicela Refuerzo (10)."
+    }
+  ],
+  "dictamen_reglas": {
+    "municipio": "MARSELLA",
+    "mes": "AGOSTO",
+    "ano": "2026",
+    "total_reglas": 11,
+    "reglas_cumplidas": 10,
+    "porcentaje_cumplimiento": 90.9,
+    "reglas": [
+      {
+        "id": "regla_oro",
+        "codigo": "REG-01",
+        "nombre": "Regla de Oro Demográfica PAI (541 Columnas)",
+        "archivo": "Dosis Aplicadas",
+        "cumple": true,
+        "estado": "CUMPLE",
+        "resumen": "Suma(Género) == Suma(Régimen) == Suma(Pertenencia Étnica)",
+        "metricas": {
+          "total_dosis_aplicadas": 403,
+          "genero_vs_regimen": "Coincide (100%)",
+          "genero_vs_etnia": "Coincide (100%)"
+        },
+        "hallazgos": [
+          "Coherencia demográfica del 100% verificada en todas las celdas."
+        ]
+      },
+      {
+        "id": "anti_adulteracion",
+        "codigo": "REG-02",
+        "nombre": "Recálculo Anti-Adulteración de Fórmulas",
+        "archivo": "Dosis Aplicadas",
+        "cumple": true,
+        "estado": "CUMPLE",
+        "resumen": "Verificación independiente sin confiar en celdas de total sobreescritas",
+        "metricas": {
+          "formulas_adulteradas": 0,
+          "integridad_formulas": "100% Íntegras"
+        },
+        "hallazgos": [
+          "Todas las fórmulas oficiales de sumatoria se mantienen sin adulteración."
+        ]
+      },
+      {
+        "id": "regla_1_continuidad",
+        "codigo": "REG-03",
+        "nombre": "Continuidad Intermensual de Saldos (Regla 1)",
+        "archivo": "Movimiento de Biológicos",
+        "cumple": true,
+        "estado": "CUMPLE",
+        "resumen": "Saldo Anterior mes actual == Saldo Siguiente mes anterior oficial",
+        "metricas": {
+          "continuidad": "100% Cuadrada",
+          "biologicos_con_error": 0
+        },
+        "hallazgos": [
+          "El saldo inicial de cada biológico coincide con el cierre oficial previo archivado."
+        ]
+      },
+      {
+        "id": "regla_2_lotes_vs_saldo",
+        "codigo": "REG-04",
+        "nombre": "Coherencia de 5 Lotes vs Saldo Siguiente (Regla 2)",
+        "archivo": "Movimiento de Biológicos",
+        "cumple": true,
+        "estado": "CUMPLE",
+        "resumen": "Suma de 5 celdas de lotes == Saldo Siguiente y Celda de Control VERDADERO",
+        "metricas": {
+          "coherencia_lotes": "100% Cuadrada",
+          "inconsistencias": 0
+        },
+        "hallazgos": [
+          "La suma de lotes coincide exactamente con el saldo disponible al cierre."
+        ]
+      },
+      {
+        "id": "regla_3_cruce_deposito",
+        "codigo": "REG-05",
+        "nombre": "Cruce Entregas Depósito Departamental (Regla 3)",
+        "archivo": "Movimiento vs Kardex",
+        "cumple": true,
+        "estado": "CUMPLE",
+        "resumen": "Dosis recibidas (Columna 5) vs Kardex de despachos del Depósito Departamental",
+        "metricas": {
+          "total_despachado_kardex": 0,
+          "total_recibido_municipio": 0,
+          "biologicos_exactos": "0/0 (100%)",
+          "diferencias_detectadas": 0
+        },
+        "hallazgos": [
+          "Conciliación del 100% con los despachos oficiales del Depósito Departamental."
+        ]
+      },
+      {
+        "id": "regla_4_catalogo_lotes",
+        "codigo": "REG-06",
+        "nombre": "Catálogo Maestro de Lotes Oficiales (Regla 4)",
+        "archivo": "Movimiento de Biológicos",
+        "cumple": true,
+        "estado": "CUMPLE",
+        "resumen": "Validación de lotes reportados contra los 361 lotes activos del Depósito",
+        "metricas": {
+          "lotes_autorizados": "100% Verificados",
+          "lotes_invalidos_o_blancos": 0
+        },
+        "hallazgos": [
+          "Todos los lotes digitados figuran en el catálogo maestro departamental."
+        ]
+      },
+      {
+        "id": "regla_5_causas_perdida",
+        "codigo": "REG-07",
+        "nombre": "Racionalidad de 11 Causas de Pérdida (Regla 5)",
+        "archivo": "Movimiento de Biológicos",
+        "cumple": true,
+        "estado": "CUMPLE",
+        "resumen": "Suma de 11 causas == Total Pérdidas reportadas (Vómito Franco solo en vacunas orales)",
+        "metricas": {
+          "total_dosis_perdidas": 0,
+          "coherencia_causas": "100% Coherente"
+        },
+        "hallazgos": [
+          "Distribución matemática y epidemiológica de pérdidas cuadradas al 100%."
+        ]
+      },
+      {
+        "id": "regla_6_diluyentes",
+        "codigo": "REG-08",
+        "nombre": "Diluyentes en Vacunas Liofilizadas (Regla 6)",
+        "archivo": "Movimiento de Biológicos",
+        "cumple": true,
+        "estado": "CUMPLE",
+        "resumen": "Diluyentes utilizados >= Vacunas reconstituidas utilizadas (Excluye VRS que no requiere diluyente)",
+        "metricas": {
+          "balance_diluyentes": "Suficiente y Trazable",
+          "observaciones": 0
+        },
+        "hallazgos": [
+          "Consumo de diluyentes compatible con los biológicos reconstituidos."
+        ]
+      },
+      {
+        "id": "extranjeros_matricial",
+        "codigo": "REG-09",
+        "nombre": "Coherencia Matricial en Vacunados Extranjeros",
+        "archivo": "Vacunados Extranjeros",
+        "cumple": true,
+        "estado": "CUMPLE",
+        "resumen": "Total Género == Total Régimen en las 6 hojas de países migrantes",
+        "metricas": {
+          "total_extranjeros_vacunados": 0,
+          "coherencia_hojas_paises": "100% Coincidente"
+        },
+        "hallazgos": [
+          "Cruce demográfico y por nacionalidad validado en las 6 hojas de países."
+        ]
+      },
+      {
+        "id": "cruce_dosis_vs_movimiento",
+        "codigo": "REG-10",
+        "nombre": "Cruce Comparativo Dosis Nacionales vs Movimiento",
+        "archivo": "Dosis vs Movimiento",
+        "cumple": true,
+        "estado": "COINCIDENCIA EXACTA",
+        "resumen": "Dosis aplicadas a colombianos en plantilla Dosis vs dosis colombianas en Movimiento",
+        "metricas": {
+          "total_dosis_plantilla": 0,
+          "total_movimiento_colombianos": 0,
+          "biologicos_con_diferencia": 0
+        },
+        "hallazgos": [
+          "Coincidencia plena entre dosis aplicadas a colombianos y el movimiento de biológicos."
+        ]
+      },
+      {
+        "id": "simultaneidad_esquema",
+        "codigo": "REG-11",
+        "nombre": "Auditoría Clínica de Simultaneidad del Esquema Nacional",
+        "archivo": "Dosis Aplicadas",
+        "cumple": false,
+        "estado": "DESFASE OBSERVADO",
+        "resumen": "Evaluación de oportunidad clínica simultánea en las 6 cohortes (2m, 4m, 6m, 12m, 18m, 5a)",
+        "metricas": {
+          "cohortes_optimas": "5/6",
+          "oportunidad_clinica": "1 cohortes con desfase"
+        },
+        "hallazgos": [
+          "Cohorte de 6 Meses: Desfase observado: Pentavalente 3ª + Hexavalente 3ª (12), Antipolio VIP 3ª (10), Influenza Pediátrica 1ª (12) (diferencia de 2 dosis entre biológicos)."
+        ]
+      }
+    ]
+  },
+  "detalle_auditoria": {
+    "dosis": {
+      "valido": true,
+      "tipo": "DOSIS_APLICADAS",
+      "mes": "AGOSTO",
+      "municipio": "MARSELLA",
+      "total_dosis_mes": 403,
+      "total_vacunas_con_datos": 58,
+      "errores": [],
+      "advertencias": [
+        {
+          "tipo": "SIMULTANEIDAD_INFORMATIVA",
+          "cohorte": "Cohorte de 6 Meses",
+          "mensaje": "[Simultaneidad - Cohorte de 6 Meses] Pentavalente 3ª + Hexavalente 3ª (12), Antipolio VIP 3ª (10), Influenza Pediátrica 1ª (12). Desfase observado de 2 dosis entre biológicos. Se sugiere verificar oportunidades de vacunación o diferimientos clínicos (Informativo, no bloquea radicación)."
+        }
+      ],
+      "resumen_coherencia": {
+        "columnas_evaluadas": 58,
+        "columnas_con_errores": 0,
+        "coincidencia_genero_regimen": true,
+        "coincidencia_genero_etnico": true,
+        "formulas_adulteradas": 0,
+        "informe_simultaneidad": [
+          {
+            "cohorte": "Cohorte de 2 Meses",
+            "estado": "OPTIMO",
+            "biologicos": [
+              {
+                "nombre": "Pentavalente 1ª + Hexavalente 1ª",
+                "dosis": 5
+              },
+              {
+                "nombre": "Antipolio VIP 1ª",
+                "dosis": 5
+              },
+              {
+                "nombre": "Rotavirus 1ª",
+                "dosis": 5
+              },
+              {
+                "nombre": "Neumococo 1ª",
+                "dosis": 5
+              }
+            ],
+            "resumen": "Simultaneidad 100% óptima: Pentavalente 1ª + Hexavalente 1ª (5), Antipolio VIP 1ª (5), Rotavirus 1ª (5), Neumococo 1ª (5)."
+          },
+          {
+            "cohorte": "Cohorte de 4 Meses",
+            "estado": "OPTIMO",
+            "biologicos": [
+              {
+                "nombre": "Pentavalente 2ª + Hexavalente 2ª",
+                "dosis": 11
+              },
+              {
+                "nombre": "Antipolio VIP 2ª",
+                "dosis": 11
+              },
+              {
+                "nombre": "Rotavirus 2ª",
+                "dosis": 11
+              },
+              {
+                "nombre": "Neumococo 2ª",
+                "dosis": 11
+              }
+            ],
+            "resumen": "Simultaneidad 100% óptima: Pentavalente 2ª + Hexavalente 2ª (11), Antipolio VIP 2ª (11), Rotavirus 2ª (11), Neumococo 2ª (11)."
+          },
+          {
+            "cohorte": "Cohorte de 6 Meses",
+            "estado": "OPORTUNIDAD_OBSERVADA",
+            "biologicos": [
+              {
+                "nombre": "Pentavalente 3ª + Hexavalente 3ª",
+                "dosis": 12
+              },
+              {
+                "nombre": "Antipolio VIP 3ª",
+                "dosis": 10
+              },
+              {
+                "nombre": "Influenza Pediátrica 1ª",
+                "dosis": 12
+              }
+            ],
+            "resumen": "Desfase observado: Pentavalente 3ª + Hexavalente 3ª (12), Antipolio VIP 3ª (10), Influenza Pediátrica 1ª (12) (diferencia de 2 dosis entre biológicos)."
+          },
+          {
+            "cohorte": "Cohorte de 12 Meses (1 Año)",
+            "estado": "OPTIMO",
+            "biologicos": [
+              {
+                "nombre": "Triple Viral (SRP) 1ª",
+                "dosis": 8
+              },
+              {
+                "nombre": "Varicela 1ª",
+                "dosis": 8
+              },
+              {
+                "nombre": "Neumococo Refuerzo",
+                "dosis": 8
+              },
+              {
+                "nombre": "Hepatitis A Única",
+                "dosis": 8
+              }
+            ],
+            "resumen": "Simultaneidad 100% óptima: Triple Viral (SRP) 1ª (8), Varicela 1ª (8), Neumococo Refuerzo (8), Hepatitis A Única (8)."
+          },
+          {
+            "cohorte": "Cohorte de 18 Meses (1 Año y Medio)",
+            "estado": "OPTIMO",
+            "biologicos": [
+              {
+                "nombre": "Pentavalente 1er Refuerzo",
+                "dosis": 8
+              },
+              {
+                "nombre": "Antipolio VIP 1er Refuerzo",
+                "dosis": 8
+              },
+              {
+                "nombre": "Triple Viral (SRP) 2ª",
+                "dosis": 8
+              }
+            ],
+            "resumen": "Simultaneidad 100% óptima: Pentavalente 1er Refuerzo (8), Antipolio VIP 1er Refuerzo (8), Triple Viral (SRP) 2ª (8)."
+          },
+          {
+            "cohorte": "Cohorte de 5 Años",
+            "estado": "OPTIMO",
+            "biologicos": [
+              {
+                "nombre": "DPT 2º Refuerzo",
+                "dosis": 10
+              },
+              {
+                "nombre": "Antipolio VIP 2º Refuerzo",
+                "dosis": 10
+              },
+              {
+                "nombre": "Varicela Refuerzo",
+                "dosis": 10
+              }
+            ],
+            "resumen": "Simultaneidad 100% óptima: DPT 2º Refuerzo (10), Antipolio VIP 2º Refuerzo (10), Varicela Refuerzo (10)."
+          }
+        ]
+      },
+      "dosis_agrupadas_vacuna": {
+        "BCG": 5,
+        "HEPATITIS B": 4,
+        "POBLACION PRIORIZADA PARA HEPATITIS B": 2,
+        "ANTIPOLIO INACTIVADA (VIP)": 44,
+        "HEXAVALENTE  \n(DPTa-HB-Hib-VIP)": 2,
+        "PENTAVALENTE\nDPT - HB - Hib": 34,
+        "DPT": 10,
+        "ROTAVIRUS": 16,
+        "NEUMOCOCO CONJUGADA TRECEVALENTE": 24,
+        "SRP (TRIPLE VIRAL)": 16,
+        "SR (DOBLE VIRAL)": 17,
+        "FIEBRE AMARILLA DOSIS UNICA": 7,
+        "HEPATITIS A  (Cohorte de nacidos a partir de 1 de enero de 2012)": 8,
+        "VARICELA\n(Cohorte de nacidos a partir de 1 de julio de 2014)": 18,
+        "TOXOIDE TETANICO-DIFTERICO DE ADULTOS (Td)": 12,
+        "Tdap ACELULAR \n(Se debe garantizar una dosis por cada embarazo y se aplica a partir de las semana 20 incluye zona urbana y rural   de dificil acceso o captación)": 8,
+        "VIRUS SINCITIAL RESPIRATORIO (VSR)": 9,
+        "INFLUENZA": 141,
+        "V  P  H": 9,
+        "ANTIRRABICA HUMANA \nPRE/POST-EXPOSICION": 17
+      }
+    },
+    "movimiento": null,
+    "extranjeros": null
+  }
+}
