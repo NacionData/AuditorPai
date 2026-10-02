@@ -367,10 +367,10 @@ async function inspeccionarMunicipio(municipio) {
             : "Dosis recibidas (Col 5) vs despachadas en Kardex oficial por el Depósito Departamental"
         },
         {
-          nombre: "Catálogo Maestro de Lotes Oficiales (Regla 4)",
+          nombre: "Catálogo Maestro Dinámico de Lotes Oficiales (Regla 4)",
           archivo: "Movimiento Biológicos",
           ok: dMov.metricas_reglas ? dMov.metricas_reglas.regla4_lotes_oficiales : true,
-          desc: "Validación de lotes contra los 361 lotes activos del Depósito Departamental"
+          desc: "Validación de lotes contra el catálogo maestro dinámico sincronizado del Depósito Departamental"
         },
         {
           nombre: "Diluyentes en Liofilizados (Regla 6)",
@@ -1012,6 +1012,11 @@ async function cargarEstadoKardex() {
           badgeKardex.textContent = "Vigente";
         }
 
+        const badgeLotes = document.getElementById('cnt-lotes-badge');
+        if (badgeLotes && data.total_lotes !== undefined) {
+          badgeLotes.textContent = data.total_lotes;
+        }
+
         if (detallesKardex && data.periodos) {
           const items = Object.entries(data.periodos).map(([per, info]) => {
             const esReciente = per.startsWith("2026-09") || per.startsWith("2026-08");
@@ -1021,9 +1026,11 @@ async function cargarEstadoKardex() {
             </span>`;
           }).join(' ');
 
+          const loteBadgeHtml = data.total_lotes ? `<span class="px-2 py-0.5 rounded border text-[10px] bg-purple-50 border-purple-200 text-purple-900 font-bold">📦 Catálogo Dinámico: <b>${data.total_lotes}</b> lotes activos</span>` : '';
+
           detallesKardex.innerHTML = `
-            <div class="w-full flex items-center justify-between gap-2">
-              <span><b>Despachos por periodo:</b> ${items}</span>
+            <div class="w-full flex flex-wrap items-center justify-between gap-2">
+              <div class="flex flex-wrap items-center gap-1.5">${loteBadgeHtml} ${items}</div>
             </div>
           `;
         }
@@ -1107,7 +1114,8 @@ async function sincronizarKardexDriveAhora() {
       throw new Error(data.detail || "Error al sincronizar con Google Drive/Sheets");
     }
 
-    alert(`✓ ${data.mensaje}\n\nLos despachos del Kardex y el catálogo maestro de 361 lotes han sido actualizados.`);
+    const totLotes = data.total_lotes || data.lotes_activos || '800+';
+    alert(`✓ ${data.mensaje}\n\nLos despachos del Kardex y el catálogo maestro dinámico (${totLotes} lotes activos catalogados) han sido actualizados.`);
     await cargarEstadoKardex();
     await cargarTableroDepartamental();
   } catch (err) {

@@ -10,6 +10,7 @@ del archivo Movimiento Mensual de Biológicos e Insumos.
 
 import os
 import re
+import json
 import datetime
 import unicodedata
 import openpyxl
@@ -328,11 +329,21 @@ def obtener_info_kardex_actual():
             "municipios": sorted(list(v["municipios"]))
         }
 
+    json_path = os.path.join(base_dir, "storage", "catalogos", "lotes_maestros.json")
+    total_lotes = 0
+    if os.path.exists(json_path):
+        try:
+            with open(json_path, "r", encoding="utf-8") as jf:
+                total_lotes = len(json.load(jf))
+        except Exception:
+            pass
+
     return {
         "existe": True,
         "nombre": "deposito_risaralda.xlsx",
         "fecha": fecha_mod,
         "tamano_kb": tamano_kb,
+        "total_lotes": total_lotes,
         "hojas": sheets,
         "periodos": resumen_periodos
     }

@@ -1,272 +1,4838 @@
-[
-  {
-    "lote": "0374MA082",
-    "insumo": "Vacuna de BCG (Bacilo de Calmette y Guérin) Liofilizada",
+{
+  "0375MA027": {
+    "insumo": "BCG",
+    "vencimiento": "2027-06-29",
     "laboratorio": "Serum",
-    "vencimiento": "31/01/2027"
+    "fuente": "Kardex 15 Septiembre 2026"
   },
-  {
-    "lote": "0375MA027",
-    "insumo": "",
+  "0325Q010C": {
+    "insumo": "Antihepatitis B Pediatrica",
+    "vencimiento": "2028-03-30",
     "laboratorio": "Serum",
-    "vencimiento": "30/06/2027"
+    "fuente": "Kardex 15 Septiembre 2026"
   },
-  {
-    "lote": "“VERDADERO” INDICA QUE LA CANTIDAD POR LOTE, COINCIDE CON EL SALDO QUE INICIA AL MES SIGUIENTE. \"FALSO\" NO COINICIDE.",
-    "insumo": "",
+  "0345L003B": {
+    "insumo": "Antihepatitis B Adultos",
+    "vencimiento": "2027-12-31",
+    "laboratorio": "Serum",
+    "fuente": "Kardex 15 Septiembre 2026"
+  },
+  "2435007A": {
+    "insumo": "Anti Polio Inactivo (VIP)",
+    "vencimiento": "2027-05-13",
     "laboratorio": "",
-    "vencimiento": ""
+    "fuente": "Kardex 15 Septiembre 2026"
   },
-  {
-    "lote": "0324L013A",
-    "insumo": "Vacuna de Hepatitis B Recombinante Pediátrica - Liquida",
-    "laboratorio": "Serum",
-    "vencimiento": "30/11/2027"
-  },
-  {
-    "lote": "0324L013B",
-    "insumo": "",
-    "laboratorio": "Serum",
-    "vencimiento": "30/11/2027"
-  },
-  {
-    "lote": "0325Q010B",
-    "insumo": "",
-    "laboratorio": "Sinovac",
-    "vencimiento": "25/04/2028"
-  },
-  {
-    "lote": "0325Q010C",
-    "insumo": "",
-    "laboratorio": "Serum",
-    "vencimiento": "31/03/2028"
-  },
-  {
-    "lote": "0345L003B",
-    "insumo": "Vacuna de Hepatitis B Recombinante Adultos - Liquida",
-    "laboratorio": "Serum",
-    "vencimiento": "31/12/2027"
-  },
-  {
-    "lote": "2526003A",
-    "insumo": "Vacuna de Poliovirus Inactiva IPV - Liquida",
-    "laboratorio": "Bilthoven Biologicals BV",
-    "vencimiento": "12/06/2028"
-  },
-  {
-    "lote": "2522006A",
-    "insumo": "",
-    "laboratorio": "Bilthoven Biologicals BV",
-    "vencimiento": "25/02/2028"
-  },
-  {
-    "lote": "MB202602003",
-    "insumo": "",
-    "laboratorio": "Sinovac",
-    "vencimiento": "02/02/2028"
-  },
-  {
-    "lote": "2855X002C",
-    "insumo": "Vacuna de Difteria - Tos ferina (Celula completa) - Tétanos - Hepatitis B - Haemophilus influenzae tipo B (DTwP-HepB-Hib) PENTAVALENTE PEDIÁTRICA - Liquida",
-    "laboratorio": "Serum",
-    "vencimiento": "30/06/2027"
-  },
-  {
-    "lote": "2855X001A",
-    "insumo": "",
-    "laboratorio": "Serum",
-    "vencimiento": "30/06/2027"
-  },
-  {
-    "lote": "2855X008E",
-    "insumo": "",
-    "laboratorio": "Serum",
-    "vencimiento": "31/08/2027"
-  },
-  {
-    "lote": "Y3C49",
-    "insumo": "Vacuna de Difteria - Tétanos - Tos ferina acelular - Poliovirus inactivado - Hepatitis B - Haemophilus influenzae tipo B (DTaP-IPV-HepB-Hib (HEXAVALENTE ACELULAR) - Liquida",
-    "laboratorio": "Sanofi Pasteur",
-    "vencimiento": "29/02/2028"
-  },
-  {
-    "lote": "2825Q005A",
-    "insumo": "Vacuna de Difteria, Tétano y Tosferina (DPT)- Liquida",
-    "laboratorio": "Serum",
-    "vencimiento": "28/02/2027"
-  },
-  {
-    "lote": "2825X014A",
-    "insumo": "",
-    "laboratorio": "Serum",
-    "vencimiento": "30/09/2027"
-  },
-  {
-    "lote": "4CA34C1",
-    "insumo": "Vacuna de Difteria-Tétanos-Tos ferina acelular Pertussis (DTaP) Pediátrica - Liquida",
-    "laboratorio": "Sanofi Pasteur",
-    "vencimiento": "31/05/2027"
-  },
-  {
-    "lote": "4CA03C1",
-    "insumo": "",
-    "laboratorio": "Sanofi Pasteur",
-    "vencimiento": ""
-  },
-  {
-    "lote": "AROLE487AA",
-    "insumo": "Vacuna de Rotavirus Liquida (administración oral)",
-    "laboratorio": "Glaxo SmithKline",
-    "vencimiento": "31/01/2028"
-  },
-  {
-    "lote": "LK3156",
-    "insumo": "Vacuna Antineumocócica Conjugada (13-valente) PCV13 - Liquida",
-    "laboratorio": "PFIZER",
-    "vencimiento": "31/05/2027"
-  },
-  {
-    "lote": "LR6371",
-    "insumo": "",
-    "laboratorio": "PFIZER",
-    "vencimiento": "30/09/2027"
-  },
-  {
-    "lote": "ND3068",
-    "insumo": "",
-    "laboratorio": "PFIZER",
-    "vencimiento": "31/07/2028"
-  },
-  {
-    "lote": "0133N146B",
-    "insumo": "Vacuna de Sarampión, Rubeola y Paperas (SRP) (Cepa Leningrado-Zagreb) Liofilizado - Vial x 01 dosis - TRIPLE VIRAL",
-    "laboratorio": "Serum",
-    "vencimiento": "30/09/2026"
-  },
-  {
-    "lote": "0134N093A",
-    "insumo": "",
-    "laboratorio": "Serum",
-    "vencimiento": "30/04/2027"
-  },
-  {
-    "lote": "0134N096A",
-    "insumo": "",
-    "laboratorio": "Serum",
-    "vencimiento": "30/04/2027"
-  },
-  {
-    "lote": "0135AB117",
-    "insumo": "",
-    "laboratorio": "Serum",
-    "vencimiento": "31/12/2027"
-  },
-  {
-    "lote": "Y3D32",
-    "insumo": "Vacuna de Fiebre Amarilla (Antiamarilica) Liofilizada",
-    "laboratorio": "Sanofi Pasteur",
-    "vencimiento": "30/04/2027"
-  },
-  {
-    "lote": "Y3H33",
-    "insumo": "",
-    "laboratorio": "Sanofi Pasteur",
-    "vencimiento": "31/08/2027"
-  },
-  {
-    "lote": "515",
-    "insumo": "",
+  "2522006A": {
+    "insumo": "Anti Polio Inactivo (VIP)",
+    "vencimiento": "2028-02-25",
     "laboratorio": "",
-    "vencimiento": "30/11/2027"
+    "fuente": "Kardex 15 Septiembre 2026"
   },
-  {
-    "lote": "AB202404013",
-    "insumo": "Vacuna de Hepatitis A Pediátrica - Liquida",
+  "2526003A": {
+    "insumo": "Anti Polio Inactivo (VIP)",
+    "vencimiento": "2028-06-11",
+    "laboratorio": "",
+    "fuente": "Kardex 15 Septiembre 2026"
+  },
+  "MB202602003": {
+    "insumo": "Anti Polio Inactivo (VIP)",
+    "vencimiento": "2028-02-02",
     "laboratorio": "Sinovac",
-    "vencimiento": "21/10/2027"
+    "fuente": "Kardex 15 Septiembre 2026"
   },
-  {
-    "lote": "AB202410043",
-    "insumo": "",
-    "laboratorio": "Sinovac",
-    "vencimiento": "25/04/2028"
-  },
-  {
-    "lote": "B202411048",
-    "insumo": "",
-    "laboratorio": "Sinovac",
-    "vencimiento": "03/05/2028"
-  },
-  {
-    "lote": "BB202506051",
-    "insumo": "Vacuna de Varicela Cepa OKA Liofilizada - Vial x 01 dosis",
-    "laboratorio": "Sinovac",
-    "vencimiento": "12/06/2027"
-  },
-  {
-    "lote": "BB202506052",
-    "insumo": "",
-    "laboratorio": "Sinovac",
-    "vencimiento": "16/06/2027"
-  },
-  {
-    "lote": "B202507054",
-    "insumo": "",
-    "laboratorio": "Sinovac",
-    "vencimiento": "05/07/2027"
-  },
-  {
-    "lote": "2335L013D",
-    "insumo": "",
+  "2855X002C": {
+    "insumo": "Pentavalente PAI",
+    "vencimiento": "2027-06-29",
     "laboratorio": "Serum",
-    "vencimiento": "30/04/2028"
+    "fuente": "Kardex 15 Septiembre 2026"
   },
-  {
-    "lote": "AROLE419AA",
-    "insumo": "Vacuna de Rotavirus Liquida (administración oral)",
+  "2855X008E": {
+    "insumo": "Pentavalente PAI",
+    "vencimiento": "2027-08-30",
+    "laboratorio": "",
+    "fuente": "Kardex 15 Septiembre 2026"
+  },
+  "2855X008F": {
+    "insumo": "Pentavalente PAI",
+    "vencimiento": "2027-08-30",
+    "laboratorio": "Serum",
+    "fuente": "Kardex 15 Septiembre 2026"
+  },
+  "Y3C49": {
+    "insumo": "HEXAVALENTE",
+    "vencimiento": "2028-02-29",
+    "laboratorio": "Sanofi Pasteur",
+    "fuente": "Kardex 15 Septiembre 2026"
+  },
+  "2825X014A": {
+    "insumo": "DPT",
+    "vencimiento": "2027-09-29",
+    "laboratorio": "Serum",
+    "fuente": "Kardex 15 Septiembre 2026"
+  },
+  "AROLE487AA": {
+    "insumo": "Rotavirus",
+    "vencimiento": "2028-01-31",
     "laboratorio": "Glaxo SmithKline",
-    "vencimiento": "30/09/2027"
+    "fuente": "Kardex 15 Septiembre 2026"
   },
-  {
-    "lote": "0126N030",
-    "insumo": "Vacuna de Sarampión Rubeola (SR) Liofilizada - Vial x 01 dosis -DOBLE VIRAL",
+  "LR6371": {
+    "insumo": "NEUMOCOCO 13 VALENTE",
+    "vencimiento": "2027-09-29",
+    "laboratorio": "",
+    "fuente": "Kardex 15 Septiembre 2026"
+  },
+  "MX5348": {
+    "insumo": "NEUMOCOCO 13 VALENTE",
+    "vencimiento": "2028-08-30",
+    "laboratorio": "",
+    "fuente": "Kardex 15 Septiembre 2026"
+  },
+  "ND3068": {
+    "insumo": "NEUMOCOCO 13 VALENTE",
+    "vencimiento": "2028-07-30",
+    "laboratorio": "",
+    "fuente": "Kardex 15 Septiembre 2026"
+  },
+  "ND4338": {
+    "insumo": "NEUMOCOCO 13 VALENTE",
+    "vencimiento": "2028-08-30",
+    "laboratorio": "PFIZER",
+    "fuente": "Kardex 15 Septiembre 2026"
+  },
+  "0134N093A": {
+    "insumo": "Triple Viral",
+    "vencimiento": "2027-04-29",
     "laboratorio": "Serum",
-    "vencimiento": "2028-07-31"
+    "fuente": "Kardex 15 Septiembre 2026"
   },
-  {
-    "lote": "2334L016E",
-    "insumo": "Vacuna de Tétanos y difteria (Td) Adulto (Toxoide Diftérico) - Liquida",
+  "0134N096A": {
+    "insumo": "Triple Viral",
+    "vencimiento": "2027-04-29",
     "laboratorio": "Serum",
-    "vencimiento": "31/03/2027"
+    "fuente": "Kardex 15 Septiembre 2026"
   },
-  {
-    "lote": "0374MA071",
-    "insumo": "Vacuna de BCG (Bacilo de Calmette y Guérin) Liofilizada",
+  "0644S1004": {
+    "insumo": "Diluyente triple viral",
+    "vencimiento": "2029-08-31",
     "laboratorio": "Serum",
-    "vencimiento": "31/12/2026"
+    "fuente": "Kardex 15 Septiembre 2026"
   },
-  {
-    "lote": "0374MA072",
-    "insumo": "",
+  "0135AB117": {
+    "insumo": "Triple Viral",
+    "vencimiento": "2027-12-31",
     "laboratorio": "Serum",
-    "vencimiento": "31/12/2026"
+    "fuente": "Kardex 15 Septiembre 2026"
   },
-  {
-    "lote": "AROLE197AB",
-    "insumo": "Vacuna de Rotavirus Liquida (administración oral)",
-    "laboratorio": "Glaxo SmithKline",
-    "vencimiento": "28/02/2027"
+  "0135AB118": {
+    "insumo": "Triple Viral",
+    "vencimiento": "2027-12-30",
+    "laboratorio": "Serum",
+    "fuente": "Kardex 15 Septiembre 2026"
   },
-  {
-    "lote": "AROLE203AC",
-    "insumo": "",
-    "laboratorio": "Glaxo SmithKline",
-    "vencimiento": "31/03/2027"
+  "0096M004": {
+    "insumo": "Sarampión Rubéola",
+    "vencimiento": "2028-08-30",
+    "laboratorio": "",
+    "fuente": "Kardex 15 Septiembre 2026"
   },
-  {
-    "lote": "AB202403009",
-    "insumo": "Vacuna de Hepatitis A Pediátrica - Liquida",
+  "0096M005": {
+    "insumo": "Sarampión Rubéola",
+    "vencimiento": "2028-08-30",
+    "laboratorio": "Serum",
+    "fuente": "Kardex 15 Septiembre 2026"
+  },
+  "0126N030": {
+    "insumo": "Sarampión Rubéola",
+    "vencimiento": "2028-07-30",
+    "laboratorio": "",
+    "fuente": "Kardex 15 Septiembre 2026"
+  },
+  "AB202411048": {
+    "insumo": "Antihepatitis A Pediatrica",
+    "vencimiento": "2028-05-02",
     "laboratorio": "Sinovac",
-    "vencimiento": "04/09/2027"
+    "fuente": "Kardex 15 Septiembre 2026"
+  },
+  "B202507054": {
+    "insumo": "Varicela",
+    "vencimiento": "2027-07-04",
+    "laboratorio": "",
+    "fuente": "Kardex 15 Septiembre 2026"
+  },
+  "VFAP2504A": {
+    "insumo": "Varicela",
+    "vencimiento": "2027-09-22",
+    "laboratorio": "Fabricante",
+    "fuente": "Kardex 15 Septiembre 2026"
+  },
+  "2335L013D": {
+    "insumo": "TD Adulto",
+    "vencimiento": "2028-04-29",
+    "laboratorio": "Serum",
+    "fuente": "Kardex 15 Septiembre 2026"
+  },
+  "2335L030A": {
+    "insumo": "TD Adulto",
+    "vencimiento": "2028-09-29",
+    "laboratorio": "Serum",
+    "fuente": "Kardex 15 Septiembre 2026"
+  },
+  "5DA79D1": {
+    "insumo": "TdaP Acelular Gestante",
+    "vencimiento": "2028-09-29",
+    "laboratorio": "Sanofi Pasteur",
+    "fuente": "Kardex 15 Septiembre 2026"
+  },
+  "AC37B532AA": {
+    "insumo": "TdaP Acelular Gestante",
+    "vencimiento": "2028-12-31",
+    "laboratorio": "Glaxo SmithKline",
+    "fuente": "Kardex 15 Septiembre 2026"
+  },
+  "AC37B553AB": {
+    "insumo": "TdaP Acelular Gestante",
+    "vencimiento": "2029-08-30",
+    "laboratorio": "",
+    "fuente": "Kardex 15 Septiembre 2026"
+  },
+  "25526": {
+    "insumo": "Influenza Trivalente",
+    "vencimiento": "2027-02-28",
+    "laboratorio": "SEQIRUS",
+    "fuente": "Kardex 15 Septiembre 2026"
+  },
+  "NL0489": {
+    "insumo": "Virus Sincitial Respiratorio Gestante",
+    "vencimiento": "2029-03-30",
+    "laboratorio": "PFIZER",
+    "fuente": "Kardex 15 Septiembre 2026"
+  },
+  "Z004516": {
+    "insumo": "VPH",
+    "vencimiento": "2027-09-21",
+    "laboratorio": "MSD",
+    "fuente": "Kardex 15 Septiembre 2026"
+  },
+  "1485O043": {
+    "insumo": "Antirrábica Humana Intramuscular",
+    "vencimiento": "2028-03-30",
+    "laboratorio": "",
+    "fuente": "Kardex 15 Septiembre 2026"
+  },
+  "1485T035": {
+    "insumo": "Antirrábica Humana Intramuscular",
+    "vencimiento": "2028-03-30",
+    "laboratorio": "Serum",
+    "fuente": "Kardex 15 Septiembre 2026"
+  },
+  "P100819448": {
+    "insumo": "Inmunoglobulina Antirrábica Humana",
+    "vencimiento": "2028-03-23",
+    "laboratorio": "CSL BEHRING",
+    "fuente": "Kardex 15 Septiembre 2026"
+  },
+  "P100914432": {
+    "insumo": "Inmunoglobulina Antihepatitis B",
+    "vencimiento": "2028-07-08",
+    "laboratorio": "CSL BEHRING",
+    "fuente": "Kardex 15 Septiembre 2026"
+  },
+  "08AR25032": {
+    "insumo": "Inmunoglobulina Antirrábica Humana",
+    "vencimiento": "2027-07-31",
+    "laboratorio": "VINS BIOPRODUCTS LIMITED",
+    "fuente": "Kardex 15 Septiembre 2026"
+  },
+  "P100811768": {
+    "insumo": "Inmunoglobulina Antitetánica",
+    "vencimiento": "2027-10-30",
+    "laboratorio": "CSL BEHRING",
+    "fuente": "Kardex 15 Septiembre 2026"
+  },
+  "0704S4013": {
+    "insumo": "Diluyente BCG",
+    "vencimiento": "2028-09-29",
+    "laboratorio": "Serum",
+    "fuente": "Kardex 15 Septiembre 2026"
+  },
+  "0644S4017": {
+    "insumo": "Diluyente triple viral",
+    "vencimiento": "2029-08-30",
+    "laboratorio": "Serum",
+    "fuente": "Kardex 15 Septiembre 2026"
+  },
+  "0644S4023": {
+    "insumo": "Diluyente sarampión rubeóla",
+    "vencimiento": "2029-10-29",
+    "laboratorio": "Serum",
+    "fuente": "Kardex 15 Septiembre 2026"
+  },
+  "0685I140": {
+    "insumo": "Diluyente sarampión rubeóla",
+    "vencimiento": "2030-11-30",
+    "laboratorio": "Serum",
+    "fuente": "Kardex 15 Septiembre 2026"
+  },
+  "NC1908": {
+    "insumo": "COVID PFIZER LP.8.1",
+    "vencimiento": "2027-02-28",
+    "laboratorio": "PFIZER",
+    "fuente": "Kardex 15 Septiembre 2026"
+  },
+  "4CA34C1": {
+    "insumo": "DPTa Acelular Pediatrico",
+    "vencimiento": "2027-05-31",
+    "laboratorio": "Sanofi Pasteur",
+    "fuente": "Kardex 15 Septiembre 2026"
+  },
+  "0644S4014": {
+    "insumo": "Diluyente sarampión rubeóla",
+    "vencimiento": "2029-08-30",
+    "laboratorio": "",
+    "fuente": "Kardex 15 Septiembre 2026"
+  },
+  "0644S4022": {
+    "insumo": "Diluyente sarampión rubeóla",
+    "vencimiento": "2029-09-30",
+    "laboratorio": "Serum",
+    "fuente": "Kardex 15 Septiembre 2026"
+  },
+  "0643S4003": {
+    "insumo": "Diluyente sarampión rubeóla",
+    "vencimiento": "2028-08-31",
+    "laboratorio": "Serum",
+    "fuente": "Kardex 15 Septiembre 2026"
+  },
+  "VFDP2512A": {
+    "insumo": "Diluyente varicela",
+    "vencimiento": "2028-11-09",
+    "laboratorio": "Fabricante",
+    "fuente": "Kardex 15 Septiembre 2026"
+  },
+  "90250603-1": {
+    "insumo": "Diluyente varicela",
+    "vencimiento": "2029-06-05",
+    "laboratorio": "Sinovac",
+    "fuente": "Kardex 15 Septiembre 2026"
+  },
+  "90250603": {
+    "insumo": "Diluyente varicela",
+    "vencimiento": "2029-06-05",
+    "laboratorio": "Sinovac",
+    "fuente": "Kardex 15 Septiembre 2026"
+  },
+  "902506031": {
+    "insumo": "Diluyente varicela",
+    "vencimiento": "2029-06-05",
+    "laboratorio": "Sinovac",
+    "fuente": "Kardex 15 Septiembre 2026"
+  },
+  "0644S4011": {
+    "insumo": "Diluyente triple viral",
+    "vencimiento": "2029-06-30",
+    "laboratorio": "Serum",
+    "fuente": "Kardex 15 Septiembre 2026"
+  },
+  "0654S4018": {
+    "insumo": "Diluyente Antirrábica",
+    "vencimiento": "2029-08-31",
+    "laboratorio": "Serum",
+    "fuente": "Kardex 15 Septiembre 2026"
+  },
+  "NOAPLICA": {
+    "insumo": "Carné Vacunación Niño Esquema Regular",
+    "vencimiento": "2030-05-27",
+    "laboratorio": "Imprenta Nacional de Colombia",
+    "fuente": "Kardex 15 Septiembre 2026"
+  },
+  "PAPELERIA": {
+    "insumo": "Carné Vacunación Adulto Esquema Regular",
+    "vencimiento": "2029-12-31",
+    "laboratorio": "Imprenta Nacional de Colombia",
+    "fuente": "Kardex 15 Septiembre 2026"
+  },
+  "20250903": {
+    "insumo": "Jeringa 25 G x 5/8 AD",
+    "vencimiento": "2030-09-02",
+    "laboratorio": "YIXIN China",
+    "fuente": "Kardex 15 Septiembre 2026"
+  },
+  "20260325": {
+    "insumo": "Jeringa 25 G x 5/8 AD",
+    "vencimiento": "2031-03-24",
+    "laboratorio": "",
+    "fuente": "Kardex 15 Septiembre 2026"
+  },
+  "20260321": {
+    "insumo": "Jeringa 25 G x 5/8 AD",
+    "vencimiento": "2031-03-20",
+    "laboratorio": "JIANGXI SANXIN MEDTEC",
+    "fuente": "Kardex 15 Septiembre 2026"
+  },
+  "252216": {
+    "insumo": "Jeringa 22 G x 1 1/2 AD",
+    "vencimiento": "2027-08-30",
+    "laboratorio": "",
+    "fuente": "Kardex 15 Septiembre 2026"
+  },
+  "23FA1": {
+    "insumo": "Jeringa 25 G x 5/8 AD",
+    "vencimiento": "2028-05-31",
+    "laboratorio": "Fabricante",
+    "fuente": "Kardex 15 Septiembre 2026"
+  },
+  "2407226": {
+    "insumo": "Jeringa 22 G x 1 1/2",
+    "vencimiento": "2029-07-29",
+    "laboratorio": "SANAVITA",
+    "fuente": "Kardex 15 Septiembre 2026"
+  },
+  "622202": {
+    "insumo": "Jeringa 26 G x 3/8 AD",
+    "vencimiento": "2027-02-28",
+    "laboratorio": "MEDECO",
+    "fuente": "Kardex 15 Septiembre 2026"
+  },
+  "622204": {
+    "insumo": "Jeringa 26 G x 3/8 AD",
+    "vencimiento": "2027-02-28",
+    "laboratorio": "Fabricante",
+    "fuente": "Kardex 15 Septiembre 2026"
+  },
+  "662203": {
+    "insumo": "Jeringa 26 G x 3/8 AD",
+    "vencimiento": "2027-09-30",
+    "laboratorio": "",
+    "fuente": "Kardex 15 Septiembre 2026"
+  },
+  "202208": {
+    "insumo": "Jeringa 23G1 Convencional COVID-19",
+    "vencimiento": "2027-02-28",
+    "laboratorio": "Rymco",
+    "fuente": "Kardex 15 Septiembre 2026"
+  },
+  "515": {
+    "insumo": "Antiamarílica",
+    "vencimiento": "2027-11-30",
+    "laboratorio": "",
+    "fuente": "Kardex 15 Septiembre 2026"
+  },
+  "262": {
+    "insumo": "Diluyente fiebre amarilla",
+    "vencimiento": "2028-04-29",
+    "laboratorio": "CHUMAKOV",
+    "fuente": "Kardex 15 Septiembre 2026"
+  },
+  "Y4X19": {
+    "insumo": "Diluyente fiebre amarilla",
+    "vencimiento": "2027-08-30",
+    "laboratorio": "Sanofi Pasteur",
+    "fuente": "Kardex 15 Septiembre 2026"
+  },
+  "0373MA117": {
+    "insumo": "BCG",
+    "vencimiento": "2026-06-30",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "2423003A": {
+    "insumo": "Anti Polio Inactivo (VIP)",
+    "vencimiento": "2027-01-30",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "2429006A": {
+    "insumo": "Anti Polio Inactivo (VIP)",
+    "vencimiento": "2027-03-04",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "2413007A": {
+    "insumo": "Anti Polio Inactivo (VIP)",
+    "vencimiento": "2027-01-30",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "0323Q014D": {
+    "insumo": "Antihepatitis B Pediatrica",
+    "vencimiento": "2026-04-30",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "0323X019E": {
+    "insumo": "Antihepatitis B Pediatrica",
+    "vencimiento": "2026-05-30",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "0324Q002D": {
+    "insumo": "Antihepatitis B Pediatrica",
+    "vencimiento": "2027-05-30",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "0343Q010C": {
+    "insumo": "Antihepatitis B Adultos",
+    "vencimiento": "2026-07-30",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "0343Q005A": {
+    "insumo": "Antihepatitis B Adultos",
+    "vencimiento": "2026-04-30",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "2854X013D": {
+    "insumo": "Pentavalente PAI",
+    "vencimiento": "2026-11-30",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "2853X021F": {
+    "insumo": "Pentavalente PAI",
+    "vencimiento": "2026-04-30",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "2853X020E": {
+    "insumo": "Pentavalente PAI",
+    "vencimiento": "2026-04-30",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "2853X020B": {
+    "insumo": "Pentavalente PAI",
+    "vencimiento": "2026-04-30",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "2854X013E": {
+    "insumo": "Pentavalente PAI",
+    "vencimiento": "2026-11-30",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "221100624A": {
+    "insumo": "DPT",
+    "vencimiento": "2026-11-30",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "AROLD846AA": {
+    "insumo": "Rotavirus",
+    "vencimiento": "2026-03-30",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "AROLE032BA": {
+    "insumo": "Rotavirus",
+    "vencimiento": "2026-03-30",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "AROLE075AA": {
+    "insumo": "Rotavirus",
+    "vencimiento": "2026-10-30",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "AROLE193AA": {
+    "insumo": "Rotavirus",
+    "vencimiento": "2027-01-30",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "HW2963": {
+    "insumo": "NEUMOCOCO 13 VALENTE",
+    "vencimiento": "2026-11-30",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "HJ5277": {
+    "insumo": "NEUMOCOCO 13 VALENTE",
+    "vencimiento": "2026-06-30",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "HJ5276": {
+    "insumo": "NEUMOCOCO 13 VALENTE",
+    "vencimiento": "2026-07-30",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "HJ5275": {
+    "insumo": "NEUMOCOCO 13 VALENTE",
+    "vencimiento": "2026-06-30",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "LE5775": {
+    "insumo": "NEUMOCOCO 13 VALENTE",
+    "vencimiento": "2027-02-28",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "P100791842": {
+    "insumo": "Influenza Trivalente Pediátrica",
+    "vencimiento": "2026-03-30",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "U8666BA": {
+    "insumo": "Influenza Trivalente Pediátrica",
+    "vencimiento": "2026-01-15",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "0133N146B": {
+    "insumo": "Triple Viral",
+    "vencimiento": "2026-09-30",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "0133N140B": {
+    "insumo": "Triple Viral",
+    "vencimiento": "2026-08-30",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "0133N121A": {
+    "insumo": "Triple Viral",
+    "vencimiento": "2026-06-30",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "Y3D18": {
+    "insumo": "Antiamarílica",
+    "vencimiento": "2027-04-30",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "23F0031": {
+    "insumo": "Antiamarílica",
+    "vencimiento": "2026-06-30",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "231VFC003Z": {
+    "insumo": "Antiamarílica",
+    "vencimiento": "2026-01-30",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "232VFC006Z": {
+    "insumo": "Antiamarílica",
+    "vencimiento": "2026-02-28",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "4CA03C1": {
+    "insumo": "DPTa Acelular Pediatrico",
+    "vencimiento": "2026-10-30",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "Y012446": {
+    "insumo": "VPH",
+    "vencimiento": "2026-05-30",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "Y014828": {
+    "insumo": "VPH",
+    "vencimiento": "2027-05-31",
+    "laboratorio": "MERCK SHARP DOHME",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "Y011071": {
+    "insumo": "VPH",
+    "vencimiento": "2026-05-30",
+    "laboratorio": "MERCK SHARP DOHME",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "X023853": {
+    "insumo": "VPH",
+    "vencimiento": "2026-04-20",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "2334X006A": {
+    "insumo": "TD Adulto",
+    "vencimiento": "2026-12-30",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "P100700727": {
+    "insumo": "Inmunoglobulina Antihepatitis B",
+    "vencimiento": "2027-04-08",
+    "laboratorio": "CSL BEHRING",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "0094W002": {
+    "insumo": "Sarampión Rubéola",
+    "vencimiento": "2027-11-30",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "0094W003": {
+    "insumo": "Sarampión Rubéola",
+    "vencimiento": "2027-01-30",
+    "laboratorio": "Serum",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "AC37B466AA": {
+    "insumo": "TdaP Acelular Gestante",
+    "vencimiento": "2027-03-30",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "2CA74C2": {
+    "insumo": "TdaP Acelular Gestante",
+    "vencimiento": "2026-04-30",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "2CA78C1": {
+    "insumo": "TdaP Acelular Gestante",
+    "vencimiento": "2026-06-30",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "Y008031": {
+    "insumo": "Antihepatitis A Pediatrica",
+    "vencimiento": "2026-07-25",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "Y005285": {
+    "insumo": "Antihepatitis A Pediatrica",
+    "vencimiento": "2026-07-21",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "Z002927": {
+    "insumo": "Varicela",
+    "vencimiento": "2027-01-14",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "Z002992": {
+    "insumo": "Varicela",
+    "vencimiento": "2027-01-15",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "Y008900": {
+    "insumo": "Varicela",
+    "vencimiento": "2026-02-26",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "RF5391224D": {
+    "insumo": "Inmunoglobulina Antirrábica Humana",
+    "vencimiento": "2027-06-30",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "Y1A06": {
+    "insumo": "Antirrábica Humana Intramuscular",
+    "vencimiento": "2026-12-30",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "202102": {
+    "insumo": "Jeringa 22 G x 1 1/2 AD",
+    "vencimiento": "2026-09-30",
+    "laboratorio": "MEDECO",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "192104": {
+    "insumo": "Jeringa 22 G x 1 1/2 AD",
+    "vencimiento": "2026-05-30",
+    "laboratorio": "SANAVITA",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "AR13158": {
+    "insumo": "Jeringa 22 G x 1 1/2",
+    "vencimiento": "2027-03-30",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "AR13095": {
+    "insumo": "Jeringa 22 G x 1 1/2",
+    "vencimiento": "2026-09-30",
+    "laboratorio": "NUBENCO",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "CW13132-5": {
+    "insumo": "Jeringa 23 G x 1",
+    "vencimiento": "2027-01-30",
+    "laboratorio": "NUBENCO",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "CW13132": {
+    "insumo": "Jeringa 23 G x 1",
+    "vencimiento": "2027-01-30",
+    "laboratorio": "NUBENCO",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "CW131325": {
+    "insumo": "Jeringa 23 G x 1",
+    "vencimiento": "2027-01-30",
+    "laboratorio": "NUBENCO",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "AR13133-7": {
+    "insumo": "Jeringa 23 G x 1",
+    "vencimiento": "2027-02-28",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "AR13133": {
+    "insumo": "Jeringa 23 G x 1",
+    "vencimiento": "2027-02-28",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "AR131337": {
+    "insumo": "Jeringa 23 G x 1",
+    "vencimiento": "2027-02-28",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "20220110": {
+    "insumo": "Jeringa 23 G x 1",
+    "vencimiento": "2027-01-09",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "L2101001": {
+    "insumo": "Jeringa 23 G x 1",
+    "vencimiento": "2026-04-30",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "552212": {
+    "insumo": "Jeringa 25 G x 5/8 AD",
+    "vencimiento": "2027-06-30",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "552214": {
+    "insumo": "Jeringa 25 G x 5/8 AD",
+    "vencimiento": "2027-06-30",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "662202": {
+    "insumo": "Jeringa 26 G x 3/8 AD",
+    "vencimiento": "2027-02-28",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "582102": {
+    "insumo": "Jeringa 26 G x 3/8 AD",
+    "vencimiento": "2026-05-30",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "Y4X12": {
+    "insumo": "Diluyente fiebre amarilla",
+    "vencimiento": "2027-04-30",
+    "laboratorio": "Fabricante",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "0643S1010": {
+    "insumo": "Diluyente triple viral",
+    "vencimiento": "2028-04-30",
+    "laboratorio": "Serum",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "0641S4002": {
+    "insumo": "Diluyente triple viral",
+    "vencimiento": "2025-12-30",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "0641S4005": {
+    "insumo": "Diluyente triple viral",
+    "vencimiento": "2025-12-30",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "0704S4001": {
+    "insumo": "Diluyente BCG",
+    "vencimiento": "2027-12-30",
+    "laboratorio": "Serum",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "Y018532": {
+    "insumo": "Diluyente varicela",
+    "vencimiento": "2027-06-03",
+    "laboratorio": "MSD",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "Z004247": {
+    "insumo": "Diluyente varicela",
+    "vencimiento": "2027-06-13",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "0641S4009": {
+    "insumo": "Diluyente sarampión rubeóla",
+    "vencimiento": "2026-01-30",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "0641S4008": {
+    "insumo": "Diluyente sarampión rubeóla",
+    "vencimiento": "2026-01-30",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "0643S4002": {
+    "insumo": "Diluyente sarampión rubeóla",
+    "vencimiento": "2028-04-30",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "712401": {
+    "insumo": "Jeringa 26 G x 3/8 AD",
+    "vencimiento": "2029-03-30",
+    "laboratorio": "Fabricante",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "233DFC008D": {
+    "insumo": "Diluyente fiebre amarilla",
+    "vencimiento": "2028-03-30",
+    "laboratorio": "Fabricante",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "248DFC022D": {
+    "insumo": "Diluyente fiebre amarilla",
+    "vencimiento": "2029-08-30",
+    "laboratorio": "Fabricante",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "P100762736": {
+    "insumo": "Inmunoglobulina Antirrábica Humana",
+    "vencimiento": "2027-09-11",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "RA5150325C": {
+    "insumo": "Inmunoglobulina Antirrábica Humana",
+    "vencimiento": "2027-09-30",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "318": {
+    "insumo": "Antiamarílica",
+    "vencimiento": "2027-05-31",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "063": {
+    "insumo": "Diluyente fiebre amarilla",
+    "vencimiento": "2027-10-31",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "P100586017": {
+    "insumo": "Inmunoglobulina Antirrábica Humana",
+    "vencimiento": "2026-04-30",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "P100734570": {
+    "insumo": "Inmunoglobulina Antihepatitis B",
+    "vencimiento": "2027-02-12",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "X1A74": {
+    "insumo": "Antirrábica Humana Intramuscular",
+    "vencimiento": "2026-04-30",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "P100524590": {
+    "insumo": "Inmunoglobulina Antirrábica Humana",
+    "vencimiento": "2025-11-30",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "MEO450": {
+    "insumo": "COVID PFIZER JN1",
+    "vencimiento": "2026-07-31",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "2334L010B": {
+    "insumo": "TD Adulto",
+    "vencimiento": "2027-01-31",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "AROLE197AB": {
+    "insumo": "Rotavirus",
+    "vencimiento": "2027-02-28",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "P100756726": {
+    "insumo": "Inmunoglobulina Antihepatitis B",
+    "vencimiento": "2027-10-09",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "AB202403008": {
+    "insumo": "Antihepatitis A Pediatrica",
+    "vencimiento": "2027-09-04",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "0324L013A": {
+    "insumo": "Antihepatitis B Pediatrica",
+    "vencimiento": "2027-11-30",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "3CA50C1": {
+    "insumo": "TdaP Acelular Gestante",
+    "vencimiento": "2027-09-30",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "2854X041B": {
+    "insumo": "Pentavalente PAI",
+    "vencimiento": "2027-04-30",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "0654S4015": {
+    "insumo": "Diluyente Antirrábica",
+    "vencimiento": "2029-07-31",
+    "laboratorio": "Serum",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "0344X002C": {
+    "insumo": "Antihepatitis B Adultos",
+    "vencimiento": "2027-06-30",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "LK3152": {
+    "insumo": "NEUMOCOCO 13 VALENTE",
+    "vencimiento": "2026-05-31",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "0374MA071": {
+    "insumo": "BCG",
+    "vencimiento": "2026-12-31",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "0704S4011": {
+    "insumo": "Diluyente BCG",
+    "vencimiento": "2028-06-30",
+    "laboratorio": "Serum",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "1484T128": {
+    "insumo": "Antirrábica Humana Intramuscular",
+    "vencimiento": "2027-10-31",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "Y3D32": {
+    "insumo": "Antiamarílica",
+    "vencimiento": "2027-04-30",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "Y4X16": {
+    "insumo": "Diluyente fiebre amarilla",
+    "vencimiento": "2027-06-30",
+    "laboratorio": "Sanofi Pasteur",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "V50525006": {
+    "insumo": "Influenza Trivalente",
+    "vencimiento": "2026-02-09",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "X026696": {
+    "insumo": "Diluyente varicela",
+    "vencimiento": "2026-03-18",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "AROLEO193AA": {
+    "insumo": "Rotavirus",
+    "vencimiento": "2027-06-01",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "AROLE203AC": {
+    "insumo": "Rotavirus",
+    "vencimiento": "2027-03-31",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "AB202403009": {
+    "insumo": "Antihepatitis A Pediatrica",
+    "vencimiento": "2027-09-04",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "AB202404013": {
+    "insumo": "Antihepatitis A Pediatrica",
+    "vencimiento": "2027-10-21",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "0324L013B": {
+    "insumo": "Antihepatitis B Pediatrica",
+    "vencimiento": "2027-11-30",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "BB202506051": {
+    "insumo": "Varicela",
+    "vencimiento": "2027-06-12",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "2855X001A": {
+    "insumo": "Pentavalente PAI",
+    "vencimiento": "2027-06-30",
+    "laboratorio": "Serum",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "LK3156": {
+    "insumo": "NEUMOCOCO 13 VALENTE",
+    "vencimiento": "2027-05-31",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "0374MA072": {
+    "insumo": "BCG",
+    "vencimiento": "2026-12-31",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "Y3H33": {
+    "insumo": "Antiamarílica",
+    "vencimiento": "2027-08-31",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "2334L016E": {
+    "insumo": "TD Adulto",
+    "vencimiento": "2027-03-01",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "08AR25015": {
+    "insumo": "Inmunoglobulina Antirrábica Humana",
+    "vencimiento": "2027-05-01",
+    "laboratorio": "VINS BIOPRODUCTS LIMITED",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "MH8217": {
+    "insumo": "Virus Sincitial Respiratorio Gestante",
+    "vencimiento": "2027-06-30",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "AR13133-8": {
+    "insumo": "Jeringa 23 G x 1",
+    "vencimiento": "2027-03-01",
+    "laboratorio": "NUBENCO",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "AR131338": {
+    "insumo": "Jeringa 23 G x 1",
+    "vencimiento": "2027-03-01",
+    "laboratorio": "NUBENCO",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "U86668A": {
+    "insumo": "Influenza Trivalente Pediátrica",
+    "vencimiento": "2026-01-15",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "220049": {
+    "insumo": "Jeringa 23 G x 1 1/2 AD",
+    "vencimiento": "2027-01-01",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "CW13132-4": {
+    "insumo": "Jeringa 23 G x 1",
+    "vencimiento": "2027-01-01",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "CW131324": {
+    "insumo": "Jeringa 23 G x 1",
+    "vencimiento": "2027-01-01",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "64354002": {
+    "insumo": "Diluyente sarampión rubeóla",
+    "vencimiento": "2028-04-01",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "MT6633": {
+    "insumo": "COVID PFIZER JN1",
+    "vencimiento": "2026-12-31",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "64354003": {
+    "insumo": "Diluyente sarampión rubeóla",
+    "vencimiento": "",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "NC6343": {
+    "insumo": "Virus Sincitial Respiratorio Gestante",
+    "vencimiento": "2027-10-31",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "64351010": {
+    "insumo": "Diluyente triple viral",
+    "vencimiento": "",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "06343S4003": {
+    "insumo": "Diluyente sarampión rubeóla",
+    "vencimiento": "",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "2825Q005A": {
+    "insumo": "DPT",
+    "vencimiento": "2027-02-28",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "AROLE419AA": {
+    "insumo": "Rotavirus",
+    "vencimiento": "2027-09-30",
+    "laboratorio": "Glaxo SmithKline",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "AB202410043": {
+    "insumo": "Antihepatitis A Pediatrica",
+    "vencimiento": "2028-04-25",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "Y017576": {
+    "insumo": "VPH",
+    "vencimiento": "2027-06-05",
+    "laboratorio": "MERCK SHARP DOHME",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "0325Q010B": {
+    "insumo": "Antihepatitis B Pediatrica",
+    "vencimiento": "2028-03-31",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "BB202506052": {
+    "insumo": "Varicela",
+    "vencimiento": "2027-06-16",
+    "laboratorio": "Sinovac",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "0654S4016": {
+    "insumo": "Diluyente Antirrábica",
+    "vencimiento": "2029-07-31",
+    "laboratorio": "Serum",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "0374MA082": {
+    "insumo": "BCG",
+    "vencimiento": "2027-01-31",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "0704S1005": {
+    "insumo": "Diluyente BCG",
+    "vencimiento": "2028-08-31",
+    "laboratorio": "Serum",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "0095M002": {
+    "insumo": "Sarampión Rubéola",
+    "vencimiento": "2027-11-30",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "1485T007": {
+    "insumo": "Antirrábica Humana Intramuscular",
+    "vencimiento": "2028-01-31",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "08AR25031": {
+    "insumo": "Inmunoglobulina Antirrábica Humana",
+    "vencimiento": "2027-07-31",
+    "laboratorio": "VINS BIOPRODUCTS LIMITED",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "2406054": {
+    "insumo": "Jeringa 22 G x 1 1/2",
+    "vencimiento": "2029-06-30",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "2600761-00": {
+    "insumo": "Influenza Trivalente Pediátrica",
+    "vencimiento": "2027-01-31",
+    "laboratorio": "BUTANTAN",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "2600761": {
+    "insumo": "Influenza Trivalente Pediátrica",
+    "vencimiento": "2027-01-31",
+    "laboratorio": "BUTANTAN",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "260076100": {
+    "insumo": "Influenza Trivalente Pediátrica",
+    "vencimiento": "2027-01-31",
+    "laboratorio": "BUTANTAN",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "V50526002": {
+    "insumo": "Influenza Trivalente",
+    "vencimiento": "2027-01-29",
+    "laboratorio": "GC BIOPHARMA CORP",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "0096M003": {
+    "insumo": "Sarampión Rubéola",
+    "vencimiento": "2028-07-31",
+    "laboratorio": "Serum",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "0095MA002": {
+    "insumo": "Sarampión Rubéola",
+    "vencimiento": "",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "YCA34C1": {
+    "insumo": "TdaP Acelular Gestante",
+    "vencimiento": "",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "V50526006": {
+    "insumo": "Influenza Trivalente",
+    "vencimiento": "2027-02-08",
+    "laboratorio": "GC BIOPHARMA CORP",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "NJ0375": {
+    "insumo": "Virus Sincitial Respiratorio Gestante",
+    "vencimiento": "2029-01-31",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "3058112": {
+    "insumo": "COVID MODERNA PEDIÁTRICA",
+    "vencimiento": "2026-10-31",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "AR13133-10": {
+    "insumo": "Jeringa 23 G x 1",
+    "vencimiento": "2027-04-30",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "AR1313310": {
+    "insumo": "Jeringa 23 G x 1",
+    "vencimiento": "2027-04-30",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "NJ0379": {
+    "insumo": "Virus Sincitial Respiratorio Gestante",
+    "vencimiento": "2029-02-28",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "B202602003": {
+    "insumo": "Anti Polio Inactivo (VIP)",
+    "vencimiento": "",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "B202411048": {
+    "insumo": "Antihepatitis A Pediatrica",
+    "vencimiento": "",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "220270": {
+    "insumo": "Jeringa 23 G x 1 1/2 AD",
+    "vencimiento": "2027-07-30",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "0244J11": {
+    "insumo": "Jeringa 22 G x 1 1/2 AD",
+    "vencimiento": "2028-12-31",
+    "laboratorio": "Fabricante",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "23340166E": {
+    "insumo": "TD Adulto",
+    "vencimiento": "",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "P100646141": {
+    "insumo": "Inmunoglobulina Antihepatitis B",
+    "vencimiento": "2026-11-27",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "P100666739": {
+    "insumo": "Inmunoglobulina Antihepatitis B",
+    "vencimiento": "2027-02-12",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "0372MA082": {
+    "insumo": "BCG",
+    "vencimiento": "2025-03-29",
+    "laboratorio": "",
+    "fuente": "Kardex 10 Julio 2025"
+  },
+  "BIOLÓGICOS / INSUMOS": {
+    "insumo": "Biológicos / Insumos",
+    "vencimiento": "",
+    "laboratorio": "",
+    "fuente": "Inventario Real"
+  },
+  "BIOLÓGICOS": {
+    "insumo": "Biológicos / Insumos",
+    "vencimiento": "",
+    "laboratorio": "",
+    "fuente": "Inventario Real"
+  },
+  "BIOLGICOSINSUMOS": {
+    "insumo": "Biológicos / Insumos",
+    "vencimiento": "",
+    "laboratorio": "",
+    "fuente": "Inventario Real"
+  },
+  "39": {
+    "insumo": "39",
+    "vencimiento": "",
+    "laboratorio": "",
+    "fuente": "Inventario Real"
+  },
+  "BIOLÓGICO / INSUMO": {
+    "insumo": "Biológico / Insumo",
+    "vencimiento": "",
+    "laboratorio": "",
+    "fuente": "Inventario Real"
+  },
+  "BIOLÓGICO": {
+    "insumo": "Biológico / Insumo",
+    "vencimiento": "",
+    "laboratorio": "",
+    "fuente": "Inventario Real"
+  },
+  "BIOLGICOINSUMO": {
+    "insumo": "Biológico / Insumo",
+    "vencimiento": "",
+    "laboratorio": "",
+    "fuente": "Inventario Real"
+  },
+  "ANTI POLIO INACTIVO (VIP)": {
+    "insumo": "Anti Polio Inactivo (VIP)",
+    "vencimiento": "",
+    "laboratorio": "",
+    "fuente": "Inventario Real"
+  },
+  "ANTIPOLIOINACTIVOVIP": {
+    "insumo": "Anti Polio Inactivo (VIP)",
+    "vencimiento": "",
+    "laboratorio": "",
+    "fuente": "Inventario Real"
+  },
+  "ANTIAMARÍLICA": {
+    "insumo": "Antiamarílica",
+    "vencimiento": "",
+    "laboratorio": "",
+    "fuente": "Inventario Real"
+  },
+  "ANTIAMARLICA": {
+    "insumo": "Antiamarílica",
+    "vencimiento": "",
+    "laboratorio": "",
+    "fuente": "Inventario Real"
+  },
+  "ANTIHEPATITIS A PEDIATRICA": {
+    "insumo": "Antihepatitis A Pediatrica",
+    "vencimiento": "",
+    "laboratorio": "",
+    "fuente": "Inventario Real"
+  },
+  "ANTIHEPATITISAPEDIATRICA": {
+    "insumo": "Antihepatitis A Pediatrica",
+    "vencimiento": "",
+    "laboratorio": "",
+    "fuente": "Inventario Real"
+  },
+  "ANTIHEPATITIS B ADULTOS": {
+    "insumo": "Antihepatitis B Adultos",
+    "vencimiento": "",
+    "laboratorio": "",
+    "fuente": "Inventario Real"
+  },
+  "ANTIHEPATITISBADULTOS": {
+    "insumo": "Antihepatitis B Adultos",
+    "vencimiento": "",
+    "laboratorio": "",
+    "fuente": "Inventario Real"
+  },
+  "ANTIHEPATITIS B PEDIATRICA": {
+    "insumo": "Antihepatitis B Pediatrica",
+    "vencimiento": "",
+    "laboratorio": "",
+    "fuente": "Inventario Real"
+  },
+  "ANTIHEPATITISBPEDIATRICA": {
+    "insumo": "Antihepatitis B Pediatrica",
+    "vencimiento": "",
+    "laboratorio": "",
+    "fuente": "Inventario Real"
+  },
+  "ANTIRRÁBICA HUMANA INTRAMUSCULAR": {
+    "insumo": "Antirrábica Humana Intramuscular",
+    "vencimiento": "",
+    "laboratorio": "",
+    "fuente": "Inventario Real"
+  },
+  "ANTIRRBICAHUMANAINTRAMUSCULAR": {
+    "insumo": "Antirrábica Humana Intramuscular",
+    "vencimiento": "",
+    "laboratorio": "",
+    "fuente": "Inventario Real"
+  },
+  "BCG": {
+    "insumo": "BCG",
+    "vencimiento": "",
+    "laboratorio": "",
+    "fuente": "Inventario Real"
+  },
+  "COVID PFIZER LP.8.1": {
+    "insumo": "COVID PFIZER LP.8.1",
+    "vencimiento": "",
+    "laboratorio": "",
+    "fuente": "Inventario Real"
+  },
+  "COVIDPFIZERLP81": {
+    "insumo": "COVID PFIZER LP.8.1",
+    "vencimiento": "",
+    "laboratorio": "",
+    "fuente": "Inventario Real"
+  },
+  "DPT": {
+    "insumo": "DPT",
+    "vencimiento": "",
+    "laboratorio": "",
+    "fuente": "Inventario Real"
+  },
+  "DPTA ACELULAR PEDIATRICO": {
+    "insumo": "DPTa Acelular Pediatrico",
+    "vencimiento": "",
+    "laboratorio": "",
+    "fuente": "Inventario Real"
+  },
+  "DPTAACELULARPEDIATRICO": {
+    "insumo": "DPTa Acelular Pediatrico",
+    "vencimiento": "",
+    "laboratorio": "",
+    "fuente": "Inventario Real"
+  },
+  "HEXAVALENTE": {
+    "insumo": "HEXAVALENTE",
+    "vencimiento": "",
+    "laboratorio": "",
+    "fuente": "Inventario Real"
+  },
+  "INFLUENZA TRIVALENTE": {
+    "insumo": "Influenza Trivalente",
+    "vencimiento": "",
+    "laboratorio": "",
+    "fuente": "Inventario Real"
+  },
+  "INFLUENZATRIVALENTE": {
+    "insumo": "Influenza Trivalente",
+    "vencimiento": "",
+    "laboratorio": "",
+    "fuente": "Inventario Real"
+  },
+  "INMUNOGLOBULINA ANTIHEPATITIS B": {
+    "insumo": "Inmunoglobulina Antihepatitis B",
+    "vencimiento": "",
+    "laboratorio": "",
+    "fuente": "Inventario Real"
+  },
+  "INMUNOGLOBULINAANTIHEPATITISB": {
+    "insumo": "Inmunoglobulina Antihepatitis B",
+    "vencimiento": "",
+    "laboratorio": "",
+    "fuente": "Inventario Real"
+  },
+  "INMUNOGLOBULINA ANTIRRÁBICA HUMANA": {
+    "insumo": "Inmunoglobulina Antirrábica Humana",
+    "vencimiento": "",
+    "laboratorio": "",
+    "fuente": "Inventario Real"
+  },
+  "INMUNOGLOBULINAANTIRRBICAHUMANA": {
+    "insumo": "Inmunoglobulina Antirrábica Humana",
+    "vencimiento": "",
+    "laboratorio": "",
+    "fuente": "Inventario Real"
+  },
+  "INMUNOGLOBULINA ANTITETÁNICA": {
+    "insumo": "Inmunoglobulina Antitetánica",
+    "vencimiento": "",
+    "laboratorio": "",
+    "fuente": "Inventario Real"
+  },
+  "INMUNOGLOBULINAANTITETNICA": {
+    "insumo": "Inmunoglobulina Antitetánica",
+    "vencimiento": "",
+    "laboratorio": "",
+    "fuente": "Inventario Real"
+  },
+  "NEUMOCOCO 13 VALENTE": {
+    "insumo": "NEUMOCOCO 13 VALENTE",
+    "vencimiento": "",
+    "laboratorio": "",
+    "fuente": "Inventario Real"
+  },
+  "NEUMOCOCO13VALENTE": {
+    "insumo": "NEUMOCOCO 13 VALENTE",
+    "vencimiento": "",
+    "laboratorio": "",
+    "fuente": "Inventario Real"
+  },
+  "PENTAVALENTE PAI": {
+    "insumo": "Pentavalente PAI",
+    "vencimiento": "",
+    "laboratorio": "",
+    "fuente": "Inventario Real"
+  },
+  "PENTAVALENTEPAI": {
+    "insumo": "Pentavalente PAI",
+    "vencimiento": "",
+    "laboratorio": "",
+    "fuente": "Inventario Real"
+  },
+  "ROTAVIRUS": {
+    "insumo": "Rotavirus",
+    "vencimiento": "",
+    "laboratorio": "",
+    "fuente": "Inventario Real"
+  },
+  "SARAMPIÓN RUBÉOLA": {
+    "insumo": "Sarampión Rubéola",
+    "vencimiento": "",
+    "laboratorio": "",
+    "fuente": "Inventario Real"
+  },
+  "SARAMPINRUBOLA": {
+    "insumo": "Sarampión Rubéola",
+    "vencimiento": "",
+    "laboratorio": "",
+    "fuente": "Inventario Real"
+  },
+  "TD ADULTO": {
+    "insumo": "TD Adulto",
+    "vencimiento": "",
+    "laboratorio": "",
+    "fuente": "Inventario Real"
+  },
+  "TDADULTO": {
+    "insumo": "TD Adulto",
+    "vencimiento": "",
+    "laboratorio": "",
+    "fuente": "Inventario Real"
+  },
+  "TDAP ACELULAR GESTANTE": {
+    "insumo": "TdaP Acelular Gestante",
+    "vencimiento": "",
+    "laboratorio": "",
+    "fuente": "Inventario Real"
+  },
+  "TDAPACELULARGESTANTE": {
+    "insumo": "TdaP Acelular Gestante",
+    "vencimiento": "",
+    "laboratorio": "",
+    "fuente": "Inventario Real"
+  },
+  "TRIPLE VIRAL": {
+    "insumo": "Triple Viral",
+    "vencimiento": "",
+    "laboratorio": "",
+    "fuente": "Inventario Real"
+  },
+  "TRIPLEVIRAL": {
+    "insumo": "Triple Viral",
+    "vencimiento": "",
+    "laboratorio": "",
+    "fuente": "Inventario Real"
+  },
+  "VARICELA": {
+    "insumo": "Varicela",
+    "vencimiento": "",
+    "laboratorio": "",
+    "fuente": "Inventario Real"
+  },
+  "VIRUS SINCITIAL RESPIRATORIO GESTANTE": {
+    "insumo": "Virus Sincitial Respiratorio Gestante",
+    "vencimiento": "",
+    "laboratorio": "",
+    "fuente": "Inventario Real"
+  },
+  "VIRUSSINCITIALRESPIRATORIOGESTANTE": {
+    "insumo": "Virus Sincitial Respiratorio Gestante",
+    "vencimiento": "",
+    "laboratorio": "",
+    "fuente": "Inventario Real"
+  },
+  "VPH": {
+    "insumo": "VPH",
+    "vencimiento": "",
+    "laboratorio": "",
+    "fuente": "Inventario Real"
+  },
+  "DILUYENTE ANTIRRÁBICA": {
+    "insumo": "Diluyente Antirrábica",
+    "vencimiento": "",
+    "laboratorio": "",
+    "fuente": "Inventario Real"
+  },
+  "DILUYENTEANTIRRBICA": {
+    "insumo": "Diluyente Antirrábica",
+    "vencimiento": "",
+    "laboratorio": "",
+    "fuente": "Inventario Real"
+  },
+  "DILUYENTE BCG": {
+    "insumo": "Diluyente BCG",
+    "vencimiento": "",
+    "laboratorio": "",
+    "fuente": "Inventario Real"
+  },
+  "DILUYENTEBCG": {
+    "insumo": "Diluyente BCG",
+    "vencimiento": "",
+    "laboratorio": "",
+    "fuente": "Inventario Real"
+  },
+  "DILUYENTE FIEBRE AMARILLA": {
+    "insumo": "Diluyente fiebre amarilla",
+    "vencimiento": "",
+    "laboratorio": "",
+    "fuente": "Inventario Real"
+  },
+  "DILUYENTEFIEBREAMARILLA": {
+    "insumo": "Diluyente fiebre amarilla",
+    "vencimiento": "",
+    "laboratorio": "",
+    "fuente": "Inventario Real"
+  },
+  "DILUYENTE SARAMPIÓN RUBEÓLA": {
+    "insumo": "Diluyente sarampión rubeóla",
+    "vencimiento": "",
+    "laboratorio": "",
+    "fuente": "Inventario Real"
+  },
+  "DILUYENTESARAMPINRUBELA": {
+    "insumo": "Diluyente sarampión rubeóla",
+    "vencimiento": "",
+    "laboratorio": "",
+    "fuente": "Inventario Real"
+  },
+  "DILUYENTE TRIPLE VIRAL": {
+    "insumo": "Diluyente triple viral",
+    "vencimiento": "",
+    "laboratorio": "",
+    "fuente": "Inventario Real"
+  },
+  "DILUYENTETRIPLEVIRAL": {
+    "insumo": "Diluyente triple viral",
+    "vencimiento": "",
+    "laboratorio": "",
+    "fuente": "Inventario Real"
+  },
+  "DILUYENTE VARICELA": {
+    "insumo": "Diluyente varicela",
+    "vencimiento": "",
+    "laboratorio": "",
+    "fuente": "Inventario Real"
+  },
+  "DILUYENTEVARICELA": {
+    "insumo": "Diluyente varicela",
+    "vencimiento": "",
+    "laboratorio": "",
+    "fuente": "Inventario Real"
+  },
+  "JERINGA 22 G X 1 1/2": {
+    "insumo": "Jeringa 22 G x 1 1/2",
+    "vencimiento": "",
+    "laboratorio": "",
+    "fuente": "Inventario Real"
+  },
+  "JERINGA 22 G X 1 1": {
+    "insumo": "Jeringa 22 G x 1 1/2",
+    "vencimiento": "",
+    "laboratorio": "",
+    "fuente": "Inventario Real"
+  },
+  "JERINGA22GX112": {
+    "insumo": "Jeringa 22 G x 1 1/2",
+    "vencimiento": "",
+    "laboratorio": "",
+    "fuente": "Inventario Real"
+  },
+  "JERINGA 22 G X 1 1/2 AD": {
+    "insumo": "Jeringa 22 G x 1 1/2 AD",
+    "vencimiento": "",
+    "laboratorio": "",
+    "fuente": "Inventario Real"
+  },
+  "JERINGA22GX112AD": {
+    "insumo": "Jeringa 22 G x 1 1/2 AD",
+    "vencimiento": "",
+    "laboratorio": "",
+    "fuente": "Inventario Real"
+  },
+  "JERINGA 23G1 CONVENCIONAL COVID-19": {
+    "insumo": "Jeringa 23G1 Convencional COVID-19",
+    "vencimiento": "",
+    "laboratorio": "",
+    "fuente": "Inventario Real"
+  },
+  "JERINGA 23G1 CONVENCIONAL COVID": {
+    "insumo": "Jeringa 23G1 Convencional COVID-19",
+    "vencimiento": "",
+    "laboratorio": "",
+    "fuente": "Inventario Real"
+  },
+  "JERINGA23G1CONVENCIONALCOVID19": {
+    "insumo": "Jeringa 23G1 Convencional COVID-19",
+    "vencimiento": "",
+    "laboratorio": "",
+    "fuente": "Inventario Real"
+  },
+  "JERINGA 25 G X 5/8 AD": {
+    "insumo": "Jeringa 25 G x 5/8 AD",
+    "vencimiento": "",
+    "laboratorio": "",
+    "fuente": "Inventario Real"
+  },
+  "JERINGA 25 G X 5": {
+    "insumo": "Jeringa 25 G x 5/8 AD",
+    "vencimiento": "",
+    "laboratorio": "",
+    "fuente": "Inventario Real"
+  },
+  "JERINGA25GX58AD": {
+    "insumo": "Jeringa 25 G x 5/8 AD",
+    "vencimiento": "",
+    "laboratorio": "",
+    "fuente": "Inventario Real"
+  },
+  "JERINGA 26 G X 3/8 AD": {
+    "insumo": "Jeringa 26 G x 3/8 AD",
+    "vencimiento": "",
+    "laboratorio": "",
+    "fuente": "Inventario Real"
+  },
+  "JERINGA 26 G X 3": {
+    "insumo": "Jeringa 26 G x 3/8 AD",
+    "vencimiento": "",
+    "laboratorio": "",
+    "fuente": "Inventario Real"
+  },
+  "JERINGA26GX38AD": {
+    "insumo": "Jeringa 26 G x 3/8 AD",
+    "vencimiento": "",
+    "laboratorio": "",
+    "fuente": "Inventario Real"
+  },
+  "CARNÉ VACUNACIÓN ADULTO ESQUEMA REGULAR": {
+    "insumo": "Carné Vacunación Adulto Esquema Regular",
+    "vencimiento": "",
+    "laboratorio": "",
+    "fuente": "Inventario Real"
+  },
+  "CARNVACUNACINADULTOESQUEMAREGULAR": {
+    "insumo": "Carné Vacunación Adulto Esquema Regular",
+    "vencimiento": "",
+    "laboratorio": "",
+    "fuente": "Inventario Real"
+  },
+  "CARNÉ VACUNACIÓN INTERNACIONAL FIEBRE AMARILLA": {
+    "insumo": "Carné Vacunación Internacional Fiebre Amarilla",
+    "vencimiento": "",
+    "laboratorio": "",
+    "fuente": "Inventario Real"
+  },
+  "CARNVACUNACININTERNACIONALFIEBREAMARILLA": {
+    "insumo": "Carné Vacunación Internacional Fiebre Amarilla",
+    "vencimiento": "",
+    "laboratorio": "",
+    "fuente": "Inventario Real"
+  },
+  "CARNÉ VACUNACIÓN NIÑO ESQUEMA REGULAR": {
+    "insumo": "Carné Vacunación Niño Esquema Regular",
+    "vencimiento": "",
+    "laboratorio": "",
+    "fuente": "Inventario Real"
+  },
+  "CARNVACUNACINNIOESQUEMAREGULAR": {
+    "insumo": "Carné Vacunación Niño Esquema Regular",
+    "vencimiento": "",
+    "laboratorio": "",
+    "fuente": "Inventario Real"
+  },
+  "0703S1005": {
+    "insumo": "Diluyente BCG",
+    "vencimiento": "2027-02-28",
+    "laboratorio": "Serum",
+    "fuente": "Vencimientos"
+  },
+  "0702S4003": {
+    "insumo": "Diluyente BCG",
+    "vencimiento": "2026-04-30",
+    "laboratorio": "Serum",
+    "fuente": "Vencimientos"
+  },
+  "238DFC092D": {
+    "insumo": "Diluyente fiebre amarilla",
+    "vencimiento": "2028-08-31",
+    "laboratorio": "Fabricante",
+    "fuente": "Vencimientos"
+  },
+  "246DFC008D": {
+    "insumo": "Diluyente fiebre amarilla",
+    "vencimiento": "2029-06-30",
+    "laboratorio": "Fabricante",
+    "fuente": "Vencimientos"
+  },
+  "63": {
+    "insumo": "Diluyente fiebre amarilla",
+    "vencimiento": "2027-10-31",
+    "laboratorio": "CHUMAKOV",
+    "fuente": "Vencimientos"
+  },
+  "233DFC007D": {
+    "insumo": "Diluyente fiebre amarilla",
+    "vencimiento": "2028-03-31",
+    "laboratorio": "Bio-Manguinhos/FIOCRUZ",
+    "fuente": "Vencimientos"
+  },
+  "X4X021V": {
+    "insumo": "Diluyente fiebre amarilla",
+    "vencimiento": "2026-01-31",
+    "laboratorio": "Sanofi Pasteur",
+    "fuente": "Vencimientos"
+  },
+  "0681S1243": {
+    "insumo": "Diluyente sarampión rubeóla",
+    "vencimiento": "2026-06-30",
+    "laboratorio": "Fabricante",
+    "fuente": "Vencimientos"
+  },
+  "0681S1242": {
+    "insumo": "Diluyente sarampión rubeóla",
+    "vencimiento": "2026-06-30",
+    "laboratorio": "Fabricante",
+    "fuente": "Vencimientos"
+  },
+  "0689S1250": {
+    "insumo": "Diluyente sarampión rubeóla",
+    "vencimiento": "2024-09-30",
+    "laboratorio": "",
+    "fuente": "Vencimientos"
+  },
+  "0673S1030": {
+    "insumo": "Diluyente triple viral",
+    "vencimiento": "2028-03-31",
+    "laboratorio": "Serum",
+    "fuente": "Vencimientos"
+  },
+  "0673S1029": {
+    "insumo": "Diluyente triple viral",
+    "vencimiento": "2028-02-28",
+    "laboratorio": "Serum",
+    "fuente": "Vencimientos"
+  },
+  "Y008218": {
+    "insumo": "Diluyente varicela",
+    "vencimiento": "2026-07-27",
+    "laboratorio": "MERCK SHARP DOHME",
+    "fuente": "Vencimientos"
+  },
+  "Y016553": {
+    "insumo": "Diluyente varicela",
+    "vencimiento": "2026-10-16",
+    "laboratorio": "MSD",
+    "fuente": "Vencimientos"
+  },
+  "Y004330": {
+    "insumo": "Diluyente varicela",
+    "vencimiento": "2026-04-04",
+    "laboratorio": "MERCK SHARP DOHME",
+    "fuente": "Vencimientos"
+  },
+  "2333X043B": {
+    "insumo": "TD Adulto",
+    "vencimiento": "2026-10-31",
+    "laboratorio": "Serum",
+    "fuente": "Vencimientos"
+  },
+  "Y014509": {
+    "insumo": "Varicela",
+    "vencimiento": "2026-08-27",
+    "laboratorio": "MERCK SHARP DOHME",
+    "fuente": "Vencimientos"
+  },
+  "200034": {
+    "insumo": "Jeringa 22 G x 1 1/2 AD",
+    "vencimiento": "2025-05-30",
+    "laboratorio": "SANAVITA",
+    "fuente": "Conteos Aleatorios"
+  },
+  "230050": {
+    "insumo": "Influenza Trivalente Adulto",
+    "vencimiento": "2024-02-01",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "V50523001": {
+    "insumo": "Influenza Trivalente Pediátrica",
+    "vencimiento": "2024-01-26",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "O122W108": {
+    "insumo": "SARAMPIÓN - RUBÉOLA",
+    "vencimiento": "",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "0131N071B": {
+    "insumo": "TRIPLE VIRAL",
+    "vencimiento": "2024-08-01",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "20210520": {
+    "insumo": "JERINGA 22 G X 1 1/2",
+    "vencimiento": "2026-05-19",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "20210503": {
+    "insumo": "JERINGA 23 G X 1",
+    "vencimiento": "2026-05-02",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "0640S4032": {
+    "insumo": "DILUYENTE TRIPLE VIRAL",
+    "vencimiento": "2025-07-01",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "0122W108": {
+    "insumo": "SARAMPIÓN - RUBÉOLA",
+    "vencimiento": "2025-05-31",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "AROLD094AA": {
+    "insumo": "ROTAVIRUS",
+    "vencimiento": "2023-09-30",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "N02122213": {
+    "insumo": "INMONOGLOBULINA ANTIHEPATITIS B",
+    "vencimiento": "2024-12-31",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "U1E071V": {
+    "insumo": "ANTIRRÁBICA HUMANA INTRAMUSCULAR",
+    "vencimiento": "2023-08-31",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "0372MA052": {
+    "insumo": "B.C.G.",
+    "vencimiento": "2024-12-31",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "492116": {
+    "insumo": "JERINGA 25 G X 5/8 AD",
+    "vencimiento": "2026-09-30",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "202201005": {
+    "insumo": "ANTIHEPATITIS A PEDIATRICA",
+    "vencimiento": "2025-07-22",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "1801O086": {
+    "insumo": "ANTIPOLIO VOP",
+    "vencimiento": "2023-11-01",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "2207004": {
+    "insumo": "ANTIPOLIO INACTIVO VIP",
+    "vencimiento": "2024-11-01",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "U1E07V": {
+    "insumo": "ANTIRRÁBICA HUMANA INTRAMUSCULAR",
+    "vencimiento": "2023-08-01",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "2822X002A": {
+    "insumo": "D.P.T.",
+    "vencimiento": "2024-04-01",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "EX8589": {
+    "insumo": "NEUMOCOCO POLISACARIDO 13 VALENTE",
+    "vencimiento": "2024-03-01",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "2851Y033D": {
+    "insumo": "PENTAVALENTE PAI",
+    "vencimiento": "2024-05-01",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "AROLD091AA": {
+    "insumo": "ROTAVIRUS",
+    "vencimiento": "2023-09-01",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "C5874AB": {
+    "insumo": "TDAP ACELULAR GESTANTES",
+    "vencimiento": "2024-03-01",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "W032802": {
+    "insumo": "VARICELA",
+    "vencimiento": "2024-06-08",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "213VFC036Z": {
+    "insumo": "ANTIAMARÍLICA",
+    "vencimiento": "2024-03-30",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "200036": {
+    "insumo": "JERINGA 22 G X 1 1/2 AD",
+    "vencimiento": "2025-05-01",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "21PDFC011Z": {
+    "insumo": "DILUYENTE FIEBRE AMARILLA",
+    "vencimiento": "2026-11-01",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "W034591": {
+    "insumo": "DILUYENTE VARICELA",
+    "vencimiento": "2025-06-10",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "0321Q018D": {
+    "insumo": "ANTIHEPATITIS B PEDIATRICA",
+    "vencimiento": "2024-11-01",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "18/01O086": {
+    "insumo": "ANTIPOLIO VOP",
+    "vencimiento": "2023-11-01",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "V5053001": {
+    "insumo": "Influenza Trivalente Pediátrica",
+    "vencimiento": "2024-01-26",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "0371MA077": {
+    "insumo": "B.C.G.",
+    "vencimiento": "2024-04-01",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "21PDFC014Z": {
+    "insumo": "DILUYENTE FIEBRE AMARILLA",
+    "vencimiento": "2026-11-01",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "230047": {
+    "insumo": "Influenza Trivalente Adulto",
+    "vencimiento": "2024-02-29",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "AROLD093AA": {
+    "insumo": "ROTAVIRUS",
+    "vencimiento": "2023-09-01",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "G0045P": {
+    "insumo": "VPH",
+    "vencimiento": "2025-01-25",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "0640S4034": {
+    "insumo": "DILUYENTE TRIPLE VIRAL",
+    "vencimiento": "2025-07-01",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "2332L004B": {
+    "insumo": "TD ADULTO",
+    "vencimiento": "2025-02-01",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "UVX21004": {
+    "insumo": "ANTIHEPATITIS B ADULTOS",
+    "vencimiento": "2024-05-02",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "FR4895": {
+    "insumo": "NEUMOCOCO POLISACARIDO 13 VALENTE",
+    "vencimiento": "2024-11-01",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "2851X040D": {
+    "insumo": "PENTAVALENTE PAI",
+    "vencimiento": "2024-05-01",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "0701S4003": {
+    "insumo": "DILUYENTE BCG",
+    "vencimiento": "2025-05-01",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "0322Y009B": {
+    "insumo": "ANTIHEPATITIS B PEDIATRICA",
+    "vencimiento": "2025-06-01",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "228VFC039Z": {
+    "insumo": "ANTIAMARÍLICA",
+    "vencimiento": "2025-08-31",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "2208016": {
+    "insumo": "ANTIPOLIO INACTIVO VIP",
+    "vencimiento": "2024-11-25",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "0371MA093": {
+    "insumo": "B.C.G.",
+    "vencimiento": "2024-06-01",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "201G21A": {
+    "insumo": "COVID JANSSEN",
+    "vencimiento": "2023-08-01",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "PCB0019": {
+    "insumo": "COVID PFIZER",
+    "vencimiento": "2023-05-31",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "C5893AB": {
+    "insumo": "DPTA ACELULAR PEDIATRICO",
+    "vencimiento": "2023-05-31",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "2822X003B": {
+    "insumo": "D.P.T.",
+    "vencimiento": "2024-05-31",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "0132N069B": {
+    "insumo": "TRIPLE VIRAL",
+    "vencimiento": "2025-07-30",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "0640S4043": {
+    "insumo": "DILUYENTE TRIPLE VIRAL",
+    "vencimiento": "2025-10-30",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "2207004A": {
+    "insumo": "ANTIPOLIO INACTIVO VIP",
+    "vencimiento": "2024-11-01",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "0131N107B": {
+    "insumo": "TRIPLE VIRAL",
+    "vencimiento": "2024-12-01",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "2024-06-08 00:00:00": {
+    "insumo": "VARICELA",
+    "vencimiento": "2024-06-08",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "2024": {
+    "insumo": "VARICELA",
+    "vencimiento": "2024-06-08",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "20240608000000": {
+    "insumo": "VARICELA",
+    "vencimiento": "2024-06-08",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "18010086": {
+    "insumo": "ANTIPOLIO VOP",
+    "vencimiento": "2023-11-01",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "2208016A": {
+    "insumo": "ANTIPOLIO INACTIVO VIP",
+    "vencimiento": "2024-11-25",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "C5877AB": {
+    "insumo": "TDAP ACELULAR GESTANTES",
+    "vencimiento": "2024-04-01",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "W017443": {
+    "insumo": "VPH",
+    "vencimiento": "2025-01-30",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "2101001": {
+    "insumo": "JERINGA 23 G X 1 AD",
+    "vencimiento": "2026-04-01",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "W3C591V": {
+    "insumo": "ANTIAMARÍLICA",
+    "vencimiento": "2025-02-28",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "2234001A": {
+    "insumo": "ANTIPOLIO INACTIVO VIP",
+    "vencimiento": "2025-02-15",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "N02I222I3": {
+    "insumo": "INMONOGLOBULINA ANTIHEPATITIS B",
+    "vencimiento": "2024-12-31",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "W027736": {
+    "insumo": "ANTIHEPATITIS A PEDIATRICA",
+    "vencimiento": "2024-12-10",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "2CA54C1": {
+    "insumo": "DPTA ACELULAR PEDIATRICO",
+    "vencimiento": "2025-03-31",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "0323Q005F": {
+    "insumo": "ANTIHEPATITIS B PEDIATRICA",
+    "vencimiento": "2026-01-31",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "0132N071B": {
+    "insumo": "TRIPLE VIRAL",
+    "vencimiento": "2025-07-31",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "U1F061V": {
+    "insumo": "ANTIRRÁBICA HUMANA INTRAMUSCULAR",
+    "vencimiento": "2023-09-30",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "2851Y037B": {
+    "insumo": "PENTAVALENTE PAI",
+    "vencimiento": "2024-05-31",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "W4X061V": {
+    "insumo": "DILUYENTE FIEBRE AMARILLA",
+    "vencimiento": "2025-08-31",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "AR13131-4": {
+    "insumo": "JERINGA 23 G X 1",
+    "vencimiento": "2027-01-31",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "AR13131": {
+    "insumo": "JERINGA 23 G X 1",
+    "vencimiento": "2027-01-31",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "AR131314": {
+    "insumo": "JERINGA 23 G X 1",
+    "vencimiento": "2027-01-31",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "2101023": {
+    "insumo": "JERINGA 22 G X 1 1/2",
+    "vencimiento": "2026-01-31",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "492117": {
+    "insumo": "JERINGA 25 G X 5/8 AD",
+    "vencimiento": "2026-09-30",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "582101": {
+    "insumo": "JERINGA 26 G X 3/8 AD",
+    "vencimiento": "2026-05-01",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "V4X181V": {
+    "insumo": "DILUYENTE FIEBRE AMARILLA",
+    "vencimiento": "2024-11-01",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "2021053": {
+    "insumo": "JERINGA 23 G X 1",
+    "vencimiento": "2026-05-02",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "AR13131-2": {
+    "insumo": "JERINGA 23 G X 1",
+    "vencimiento": "2027-01-01",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "AR131312": {
+    "insumo": "JERINGA 23 G X 1",
+    "vencimiento": "2027-01-01",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "044A23A": {
+    "insumo": "COVID MODERNA PEDIATRICA",
+    "vencimiento": "2023-11-16",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "2F1077A": {
+    "insumo": "COVID PFIZER",
+    "vencimiento": "2023-09-30",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "2030992": {
+    "insumo": "DILUYENTE COVID PFIZER",
+    "vencimiento": "2024-03-31",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "90268": {
+    "insumo": "JERINGA 22 G X 1 1/2 AD",
+    "vencimiento": "2024-08-01",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "1386696": {
+    "insumo": "DILUYENTE COVID PFIZER",
+    "vencimiento": "2023-08-31",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "071MA077": {
+    "insumo": "B.C.G.",
+    "vencimiento": "2024-04-01",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "122W108": {
+    "insumo": "SARAMPIÓN - RUBÉOLA",
+    "vencimiento": "2025-05-01",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "0132N073B": {
+    "insumo": "TRIPLE VIRAL",
+    "vencimiento": "2025-07-01",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "P100572677": {
+    "insumo": "INMUNOGLOBULINA ANTIRRÁBICA HUMANA",
+    "vencimiento": "2026-04-30",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "W032804": {
+    "insumo": "VARICELA",
+    "vencimiento": "2024-06-12",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "AR1313-4": {
+    "insumo": "JERINGA 23 G X 1",
+    "vencimiento": "2027-01-31",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "AR1313": {
+    "insumo": "JERINGA 23 G X 1",
+    "vencimiento": "2027-01-31",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "AR13134": {
+    "insumo": "JERINGA 23 G X 1",
+    "vencimiento": "2027-01-31",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "A44A23A": {
+    "insumo": "COVID MODERNA PEDIATRICA",
+    "vencimiento": "2023-08-17",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "0132N73B": {
+    "insumo": "TRIPLE VIRAL",
+    "vencimiento": "2025-07-31",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "228VFCC039Z": {
+    "insumo": "ANTIAMARÍLICA",
+    "vencimiento": "2025-08-31",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "702S4003": {
+    "insumo": "DILUYENTE BCG",
+    "vencimiento": "2026-04-01",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "2234001": {
+    "insumo": "ANTIPOLIO INACTIVO VIP",
+    "vencimiento": "2025-02-15",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "P100312637": {
+    "insumo": "INMUNOGLOBULINA ANTITETÁNICA",
+    "vencimiento": "2023-07-31",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "O44A23A": {
+    "insumo": "COVID MODERNA PEDIATRICA",
+    "vencimiento": "2023-09-16",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "W027726": {
+    "insumo": "ANTIHEPATITIS A PEDIATRICA",
+    "vencimiento": "2024-12-10",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "AROLD466AB": {
+    "insumo": "ROTAVIRUS",
+    "vencimiento": "2025-01-31",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "X011572": {
+    "insumo": "VPH",
+    "vencimiento": "2025-12-08",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "X015914": {
+    "insumo": "VPH",
+    "vencimiento": "2026-03-11",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "2CA77C3": {
+    "insumo": "DPTA ACELULAR PEDIATRICO",
+    "vencimiento": "2025-04-30",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "X019181": {
+    "insumo": "VARICELA",
+    "vencimiento": "2024-10-24",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "1480M091": {
+    "insumo": "ANTIRRÁBICA HUMANA INTRAMUSCULAR",
+    "vencimiento": "2023-11-30",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "0650S4011": {
+    "insumo": "DILUYENTE ANTIRRÁBICA",
+    "vencimiento": "2025-08-31",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "0650S4012": {
+    "insumo": "DILUYENTE ANTIRRÁBICA",
+    "vencimiento": "2025-08-31",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "X016007": {
+    "insumo": "DILUYENTE VARICELA",
+    "vencimiento": "2026-01-13",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "0640S40043": {
+    "insumo": "DILUYENTE TRIPLE VIRAL",
+    "vencimiento": "2025-10-31",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "N02I22213": {
+    "insumo": "INMONOGLOBULINA ANTIHEPATITIS B",
+    "vencimiento": "2024-12-31",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "W3D501V": {
+    "insumo": "ANTIAMARÍLICA",
+    "vencimiento": "2025-05-31",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "0122W109": {
+    "insumo": "SARAMPIÓN - RUBÉOLA",
+    "vencimiento": "2025-05-31",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "2235001A": {
+    "insumo": "ANTIPOLIO INACTIVO VIP",
+    "vencimiento": "2025-02-28",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "081T21013": {
+    "insumo": "INMUNOGLOBULINA ANTITETÁNICA",
+    "vencimiento": "2024-09-26",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "AROLD466AC": {
+    "insumo": "ROTAVIRUS",
+    "vencimiento": "2025-01-31",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "X002763": {
+    "insumo": "ANTIHEPATITIS A PEDIATRICA",
+    "vencimiento": "2025-04-24",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "C5898BC": {
+    "insumo": "TDAP ACELULAR GESTANTES",
+    "vencimiento": "2024-05-31",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "0133N004B": {
+    "insumo": "TRIPLE VIRAL",
+    "vencimiento": "2025-08-31",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "2852X003B": {
+    "insumo": "PENTAVALENTE PAI",
+    "vencimiento": "2024-06-30",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "2852Y009E": {
+    "insumo": "PENTAVALENTE PAI",
+    "vencimiento": "2024-08-01",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "0641S4003": {
+    "insumo": "DILUYENTE TRIPLE VIRAL",
+    "vencimiento": "2025-12-31",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "GJ8635": {
+    "insumo": "NEUMOCOCO POLISACARIDO 13 VALENTE",
+    "vencimiento": "2025-06-30",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "2235001": {
+    "insumo": "ANTIPOLIO INACTIVO VIP",
+    "vencimiento": "2025-02-28",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "V4X071V": {
+    "insumo": "DILUYENTE FIEBRE AMARILLA",
+    "vencimiento": "2024-03-31",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "703S1005": {
+    "insumo": "DILUYENTE BCG",
+    "vencimiento": "2027-02-28",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "X019170": {
+    "insumo": "VARICELA",
+    "vencimiento": "2024-10-19",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "X019175": {
+    "insumo": "VARICELA",
+    "vencimiento": "2024-10-19",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "X018275": {
+    "insumo": "DILUYENTE VARICELA",
+    "vencimiento": "2025-12-29",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "2333Q012B": {
+    "insumo": "TD ADULTO",
+    "vencimiento": "2026-03-31",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "AROL466AB": {
+    "insumo": "ROTAVIRUS",
+    "vencimiento": "2025-01-31",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "AROLD46AB": {
+    "insumo": "ROTAVIRUS",
+    "vencimiento": "2025-01-31",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "0640S1043": {
+    "insumo": "DILUYENTE TRIPLE VIRAL",
+    "vencimiento": "",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "0323Q014A": {
+    "insumo": "ANTIHEPATITIS B PEDIATRICA",
+    "vencimiento": "2026-04-30",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "010B23-2A": {
+    "insumo": "MODERNA BIVALENTE",
+    "vencimiento": "2024-03-25",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "010B23": {
+    "insumo": "MODERNA BIVALENTE",
+    "vencimiento": "2024-03-25",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "010B232A": {
+    "insumo": "MODERNA BIVALENTE",
+    "vencimiento": "2024-03-25",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "W3F431V": {
+    "insumo": "ANTIAMARÍLICA",
+    "vencimiento": "2025-06-30",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "2234002A": {
+    "insumo": "ANTIPOLIO INACTIVO VIP",
+    "vencimiento": "2025-03-28",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "P100583990": {
+    "insumo": "INMUNOGLOBULINA ANTIRRÁBICA HUMANA",
+    "vencimiento": "2026-04-30",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "AROLD750AA": {
+    "insumo": "ROTAVIRUS",
+    "vencimiento": "2025-10-31",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "X002772": {
+    "insumo": "ANTIHEPATITIS A PEDIATRICA",
+    "vencimiento": "2025-05-31",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "C5926AB": {
+    "insumo": "TDAP ACELULAR GESTANTES",
+    "vencimiento": "2024-08-31",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "0133N014B": {
+    "insumo": "TRIPLE VIRAL",
+    "vencimiento": "2025-09-30",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "X019188": {
+    "insumo": "VARICELA",
+    "vencimiento": "2024-10-30",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "2852X014B": {
+    "insumo": "PENTAVALENTE PAI",
+    "vencimiento": "2024-10-31",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "GW7663": {
+    "insumo": "NEUMOCOCO POLISACARIDO 13 VALENTE",
+    "vencimiento": "2025-12-31",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "0372G047": {
+    "insumo": "B.C.G.",
+    "vencimiento": "2024-11-30",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "X019579": {
+    "insumo": "DILUYENTE VARICELA",
+    "vencimiento": "2026-01-09",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "1481M028": {
+    "insumo": "ANTIRRÁBICA HUMANA INTRAMUSCULAR",
+    "vencimiento": "2024-06-30",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "0650S4013": {
+    "insumo": "DILUYENTE ANTIRRÁBICA",
+    "vencimiento": "2025-08-31",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "1481M091": {
+    "insumo": "ANTIRRÁBICA HUMANA INTRAMUSCULAR",
+    "vencimiento": "2023-11-30",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "522212": {
+    "insumo": "JERINGA 25 G X 5/8 AD",
+    "vencimiento": "2027-06-30",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "2234002": {
+    "insumo": "ANTIPOLIO INACTIVO VIP",
+    "vencimiento": "2025-02-28",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "010B023-2A": {
+    "insumo": "MODERNA BIVALENTE",
+    "vencimiento": "2024-01-08",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "010B023": {
+    "insumo": "MODERNA BIVALENTE",
+    "vencimiento": "2024-01-08",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "010B0232A": {
+    "insumo": "MODERNA BIVALENTE",
+    "vencimiento": "2024-01-08",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "N012122213": {
+    "insumo": "INMONOGLOBULINA ANTIHEPATITIS B",
+    "vencimiento": "2024-12-31",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "0701S4006": {
+    "insumo": "DILUYENTE BCG",
+    "vencimiento": "2025-05-31",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "2852X0033": {
+    "insumo": "PENTAVALENTE PAI",
+    "vencimiento": "2024-06-30",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "X019185": {
+    "insumo": "VARICELA",
+    "vencimiento": "2024-10-30",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "X1A641V": {
+    "insumo": "ANTIRRÁBICA HUMANA INTRAMUSCULAR",
+    "vencimiento": "2026-04-30",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "XA641V": {
+    "insumo": "ANTIRRÁBICA HUMANA INTRAMUSCULAR",
+    "vencimiento": "2026-04-30",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "010B-23-2A": {
+    "insumo": "MODERNA BIVALENTE",
+    "vencimiento": "2024-01-25",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "010B": {
+    "insumo": "MODERNA BIVALENTE",
+    "vencimiento": "2024-01-25",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "AROLD0750AA": {
+    "insumo": "ROTAVIRUS",
+    "vencimiento": "2025-10-30",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "0132NO69B": {
+    "insumo": "TRIPLE VIRAL",
+    "vencimiento": "2025-07-30",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "68151243": {
+    "insumo": "DILUYENTE SARAMPIÓN RUBEOLA",
+    "vencimiento": "2026-06-30",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "AROLD7500AA": {
+    "insumo": "ROTAVIRUS",
+    "vencimiento": "2024-10-30",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "W3FA31V": {
+    "insumo": "ANTIAMARÍLICA",
+    "vencimiento": "2025-06-30",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "64154002": {
+    "insumo": "DILUYENTE VARICELA",
+    "vencimiento": "2025-12-30",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "17052023": {
+    "insumo": "ANTIRRÁBICA HUMANA INTRAMUSCULAR",
+    "vencimiento": "2026-04-30",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "W3B49": {
+    "insumo": "DILUYENTE ANTIRRÁBICA",
+    "vencimiento": "2026-04-30",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "202112131B": {
+    "insumo": "COVID SINOVAC",
+    "vencimiento": "2022-12-20",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "C5898CB": {
+    "insumo": "TDAP ACELULAR GESTANTES",
+    "vencimiento": "2024-05-30",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "W4X07": {
+    "insumo": "DILUYENTE FIEBRE AMARILLA",
+    "vencimiento": "2024-03-30",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "W4X06": {
+    "insumo": "DILUYENTE FIEBRE AMARILLA",
+    "vencimiento": "2025-08-30",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "X099579": {
+    "insumo": "DILUYENTE VARICELA",
+    "vencimiento": "2026-01-09",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "2852X003": {
+    "insumo": "PENTAVALENTE PAI",
+    "vencimiento": "2024-06-30",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "X01591V": {
+    "insumo": "VPH",
+    "vencimiento": "2026-03-11",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "AR13131-3": {
+    "insumo": "JERINGA 23 G X 1",
+    "vencimiento": "2027-01-30",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "AR131313": {
+    "insumo": "JERINGA 23 G X 1",
+    "vencimiento": "2027-01-30",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "L228VFC039Z": {
+    "insumo": "ANTIAMARÍLICA",
+    "vencimiento": "2025-08-30",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "641S4002": {
+    "insumo": "DILUYENTE TRIPLE VIRAL",
+    "vencimiento": "2025-08-30",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "C5898B": {
+    "insumo": "TDAP ACELULAR GESTANTES",
+    "vencimiento": "2024-05-30",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "W3F431W": {
+    "insumo": "ANTIAMARÍLICA",
+    "vencimiento": "2025-06-30",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "0650S4043": {
+    "insumo": "DILUYENTE TRIPLE VIRAL",
+    "vencimiento": "2025-08-30",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "2239002": {
+    "insumo": "ANTIPOLIO INACTIVO VIP",
+    "vencimiento": "2025-03-28",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "2852X019B": {
+    "insumo": "PENTAVALENTE PAI",
+    "vencimiento": "2024-10-31",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "0133NO14B": {
+    "insumo": "TRIPLE VIRAL",
+    "vencimiento": "2025-09-30",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "55221": {
+    "insumo": "JERINGA 25 G X 5/8 AD",
+    "vencimiento": "2027-06-30",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "W9X061V": {
+    "insumo": "DILUYENTE FIEBRE AMARILLA",
+    "vencimiento": "2025-08-30",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "2239001": {
+    "insumo": "ANTIPOLIO INACTIVO VIP",
+    "vencimiento": "2025-05-02",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "2852Y011D": {
+    "insumo": "PENTAVALENTE PAI",
+    "vencimiento": "2024-10-31",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "3CA03C4": {
+    "insumo": "DPTA ACELULAR PEDIATRICO",
+    "vencimiento": "2025-09-30",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "AROLD838BA": {
+    "insumo": "ROTAVIRUS",
+    "vencimiento": "2026-03-31",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "GX1912": {
+    "insumo": "NEUMOCOCO POLISACARIDO 13 VALENTE",
+    "vencimiento": "2025-12-31",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "0153N002B": {
+    "insumo": "TRIPLE VIRAL",
+    "vencimiento": "2025-10-31",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "0091N009B": {
+    "insumo": "SARAMPIÓN - RUBÉOLA",
+    "vencimiento": "2024-12-31",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "P100554644": {
+    "insumo": "INMONOGLOBULINA ANTIHEPATITIS B",
+    "vencimiento": "2026-03-06",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "202112132B": {
+    "insumo": "COVID SINOVAC",
+    "vencimiento": "2024-06-09",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "W4XO61V": {
+    "insumo": "DILUYENTE FIEBRE AMARILLA",
+    "vencimiento": "2025-08-31",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "552215": {
+    "insumo": "JERINGA 25 G X 5/8 AD",
+    "vencimiento": "2027-06-30",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "67351029": {
+    "insumo": "DILUYENTE SARAMPIÓN RUBEOLA",
+    "vencimiento": "2028-02-28",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "223901": {
+    "insumo": "ANTIPOLIO INACTIVO VIP",
+    "vencimiento": "2025-05-02",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "0372M052": {
+    "insumo": "B.C.G.",
+    "vencimiento": "2024-12-31",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "28524010": {
+    "insumo": "PENTAVALENTE PAI",
+    "vencimiento": "2024-10-31",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "70351005": {
+    "insumo": "DILUYENTE BCG",
+    "vencimiento": "2027-02-28",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "W4X0614": {
+    "insumo": "DILUYENTE FIEBRE AMARILLA",
+    "vencimiento": "2025-08-30",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "3WP431V": {
+    "insumo": "ANTIAMARÍLICA",
+    "vencimiento": "2025-06-30",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "010823-2A": {
+    "insumo": "MODERNA BIVALENTE",
+    "vencimiento": "2024-03-13",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "010823": {
+    "insumo": "MODERNA BIVALENTE",
+    "vencimiento": "2024-03-13",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "0108232A": {
+    "insumo": "MODERNA BIVALENTE",
+    "vencimiento": "2024-03-13",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "90272": {
+    "insumo": "JERINGA 26 G X 3/8 AD",
+    "vencimiento": "2024-08-30",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "X028656": {
+    "insumo": "VPH",
+    "vencimiento": "2026-09-18",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "X025813": {
+    "insumo": "VARICELA",
+    "vencimiento": "2025-10-31",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "X025105": {
+    "insumo": "VARICELA",
+    "vencimiento": "2025-10-18",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "2239001A": {
+    "insumo": "ANTIPOLIO INACTIVO VIP",
+    "vencimiento": "",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "2852YO11D": {
+    "insumo": "PENTAVALENTE PAI",
+    "vencimiento": "2024-10-31",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "2333L021C": {
+    "insumo": "TD ADULTO",
+    "vencimiento": "2026-05-31",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "202207044": {
+    "insumo": "ANTIHEPATITIS A PEDIATRICA",
+    "vencimiento": "2026-01-10",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "2CA77C1": {
+    "insumo": "DPTA ACELULAR PEDIATRICO",
+    "vencimiento": "2025-04-30",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "C5987AB": {
+    "insumo": "TDAP ACELULAR GESTANTES",
+    "vencimiento": "2025-02-28",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "0133N915A": {
+    "insumo": "TRIPLE VIRAL",
+    "vencimiento": "2025-09-30",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "X027615": {
+    "insumo": "VARICELA",
+    "vencimiento": "2025-11-29",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "X1A485V": {
+    "insumo": "ANTIRRÁBICA HUMANA INTRAMUSCULAR",
+    "vencimiento": "2026-04-30",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "2852Y011E": {
+    "insumo": "PENTAVALENTE PAI",
+    "vencimiento": "2024-10-31",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "X024174": {
+    "insumo": "DILUYENTE VARICELA",
+    "vencimiento": "2026-02-18",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "X3H80": {
+    "insumo": "DILUYENTE ANTIRRÁBICA",
+    "vencimiento": "2026-04-30",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "552216": {
+    "insumo": "JERINGA 25 G X 5/8 AD",
+    "vencimiento": "2027-06-30",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "552217": {
+    "insumo": "JERINGA 25 G X 5/8 AD",
+    "vencimiento": "2027-06-30",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "AR0LD838BA": {
+    "insumo": "ROTAVIRUS",
+    "vencimiento": "2025-03-31",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "1921104": {
+    "insumo": "JERINGA 22 G X 1 1/2 AD",
+    "vencimiento": "2026-05-30",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "2022010": {
+    "insumo": "JERINGA 23 G X 1",
+    "vencimiento": "2027-01-09",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "W4X61V": {
+    "insumo": "DILUYENTE FIEBRE AMARILLA",
+    "vencimiento": "2025-08-30",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "6831293": {
+    "insumo": "DILUYENTE TRIPLE VIRAL",
+    "vencimiento": "2025-06-30",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "2852X011D": {
+    "insumo": "PENTAVALENTE PAI",
+    "vencimiento": "2024-10-31",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "0681S1293": {
+    "insumo": "DILUYENTE TRIPLE VIRAL",
+    "vencimiento": "2026-06-30",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "372MA082": {
+    "insumo": "B.C.G.",
+    "vencimiento": "2025-05-31",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "AR0LD838A": {
+    "insumo": "ROTAVIRUS",
+    "vencimiento": "2026-06-30",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "231FC0037": {
+    "insumo": "ANTIAMARÍLICA",
+    "vencimiento": "2026-01-31",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "5052023": {
+    "insumo": "ANTIRRÁBICA HUMANA INTRAMUSCULAR",
+    "vencimiento": "2026-04-30",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "64154003": {
+    "insumo": "DILUYENTE TRIPLE VIRAL",
+    "vencimiento": "2025-12-31",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "0343Q014A": {
+    "insumo": "ANTIHEPATITIS B PEDIATRICA",
+    "vencimiento": "2026-04-30",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "010B23-2AA": {
+    "insumo": "MODERNA BIVALENTE",
+    "vencimiento": "2024-04-22",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "010B232AA": {
+    "insumo": "MODERNA BIVALENTE",
+    "vencimiento": "2024-04-22",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "0133N015A": {
+    "insumo": "TRIPLE VIRAL",
+    "vencimiento": "2025-09-30",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "2331VFC003Z": {
+    "insumo": "ANTIAMARÍLICA",
+    "vencimiento": "2026-01-31",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "6414002": {
+    "insumo": "DILUYENTE BCG",
+    "vencimiento": "2025-12-31",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "X026692": {
+    "insumo": "DILUYENTE VARICELA",
+    "vencimiento": "2026-03-18",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "192108": {
+    "insumo": "JERINGA 22 G X 1 1/2 AD",
+    "vencimiento": "2026-05-30",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "0641S9003": {
+    "insumo": "DILUYENTE TRIPLE VIRAL",
+    "vencimiento": "2025-12-31",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "X1A4485V": {
+    "insumo": "ANTIRRÁBICA HUMANA INTRAMUSCULAR",
+    "vencimiento": "2026-04-30",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "0673S1024": {
+    "insumo": "DILUYENTE TRIPLE VIRAL",
+    "vencimiento": "2028-02-29",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "C5926B": {
+    "insumo": "TDAP ACELULAR GESTANTES",
+    "vencimiento": "2024-08-30",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "0101323-2A": {
+    "insumo": "MODERNA BIVALENTE",
+    "vencimiento": "2024-04-25",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "0101323": {
+    "insumo": "MODERNA BIVALENTE",
+    "vencimiento": "2024-04-25",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "01013232A": {
+    "insumo": "MODERNA BIVALENTE",
+    "vencimiento": "2024-04-25",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Junio"
+  },
+  "2139003A": {
+    "insumo": "ANTIPOLIO INACTIVO VIP",
+    "vencimiento": "2024-04-19",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "2851X021E": {
+    "insumo": "PENTAVALENTE PAI",
+    "vencimiento": "2023-12-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "0131NOGYA": {
+    "insumo": "TRIPLE VIRAL",
+    "vencimiento": "2024-11-05",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "130M33B": {
+    "insumo": "TRIPLE VIRAL",
+    "vencimiento": "2023-10-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "V3N211V": {
+    "insumo": "ANTIAMARÍLICA",
+    "vencimiento": "2024-11-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "220046": {
+    "insumo": "JERINGA 23 G X 1",
+    "vencimiento": "2027-02-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "64954044": {
+    "insumo": "DILUYENTE TRIPLE VIRAL",
+    "vencimiento": "2024-07-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "64954040": {
+    "insumo": "DILUYENTE TRIPLE VIRAL",
+    "vencimiento": "2024-07-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "64954047": {
+    "insumo": "DILUYENTE TRIPLE VIRAL",
+    "vencimiento": "2024-07-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "0131N064A": {
+    "insumo": "TRIPLE VIRAL",
+    "vencimiento": "2024-07-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "0131N054A": {
+    "insumo": "TRIPLE VIRAL",
+    "vencimiento": "2024-05-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "0122W016": {
+    "insumo": "SARAMPIÓN - RUBÉOLA",
+    "vencimiento": "2024-10-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "472104": {
+    "insumo": "JERINGA 25 G X 5/8 AD",
+    "vencimiento": "2026-04-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "0649S4044": {
+    "insumo": "DILUYENTE TRIPLE VIRAL",
+    "vencimiento": "2024-07-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "0649S4045": {
+    "insumo": "DILUYENTE TRIPLE VIRAL",
+    "vencimiento": "2024-07-02",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "0681S1149": {
+    "insumo": "DILUYENTE SARAMPIÓN RUBEOLA",
+    "vencimiento": "2026-03-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "2851X021D": {
+    "insumo": "PENTAVALENTE PAI",
+    "vencimiento": "2023-12-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "64054047": {
+    "insumo": "DILUYENTE TRIPLE VIRAL",
+    "vencimiento": "2024-07-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "2331LO27C": {
+    "insumo": "VPH",
+    "vencimiento": "2024-08-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "P100446231": {
+    "insumo": "ANTIRRÁBICA HUMANA INTRAMUSCULAR",
+    "vencimiento": "2025-01-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "1801086": {
+    "insumo": "ANTIPOLIO VOP",
+    "vencimiento": "2023-11-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "2139003": {
+    "insumo": "ANTIPOLIO INACTIVO VIP",
+    "vencimiento": "2024-04-19",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "03210013D": {
+    "insumo": "ANTIHEPATITIS B PEDIATRICA",
+    "vencimiento": "2024-08-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "AROLD059AB": {
+    "insumo": "ROTAVIRUS",
+    "vencimiento": "2023-09-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "0131N064B": {
+    "insumo": "TRIPLE VIRAL",
+    "vencimiento": "2024-06-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "01122W016": {
+    "insumo": "SARAMPIÓN - RUBÉOLA",
+    "vencimiento": "2024-10-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "FR4897": {
+    "insumo": "NEUMOCOCO POLISACARIDO 13 VALENTE",
+    "vencimiento": "2024-02-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "681151149": {
+    "insumo": "DILUYENTE SARAMPIÓN RUBEOLA",
+    "vencimiento": "2026-03-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "140H21001": {
+    "insumo": "INMONOGLOBULINA ANTIHEPATITIS B",
+    "vencimiento": "2023-07-13",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "200056": {
+    "insumo": "JERINGA 25 G X 5/8 AD",
+    "vencimiento": "2025-07-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "P100421751": {
+    "insumo": "INMUNOGLOBULINA ANTIRRÁBICA HUMANA",
+    "vencimiento": "2024-03-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "2821X026A": {
+    "insumo": "D.P.T.",
+    "vencimiento": "2023-10-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "2331L027C": {
+    "insumo": "TD ADULTO",
+    "vencimiento": "2024-08-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "AC37B391AC": {
+    "insumo": "TDAP ACELULAR GESTANTES",
+    "vencimiento": "2023-07-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "W004802": {
+    "insumo": "ANTIHEPATITIS A PEDIATRICA",
+    "vencimiento": "2024-01-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "W016949": {
+    "insumo": "VARICELA",
+    "vencimiento": "2024-03-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "W027452": {
+    "insumo": "DILUYENTE VARICELA",
+    "vencimiento": "2025-02-17",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "037MA031": {
+    "insumo": "B.C.G.",
+    "vencimiento": "2024-04-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "70154006": {
+    "insumo": "DILUYENTE BCG",
+    "vencimiento": "2025-05-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "0371MA031": {
+    "insumo": "B.C.G.",
+    "vencimiento": "2024-01-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "0321Q018B": {
+    "insumo": "ANTIHEPATITIS B PEDIATRICA",
+    "vencimiento": "2024-11-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "2851Y022A": {
+    "insumo": "PENTAVALENTE PAI",
+    "vencimiento": "2023-12-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "18Q1086": {
+    "insumo": "ANTIPOLIO VOP",
+    "vencimiento": "2023-11-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "AROLDO774A": {
+    "insumo": "ROTAVIRUS",
+    "vencimiento": "2023-09-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "EX88589": {
+    "insumo": "NEUMOCOCO POLISACARIDO 13 VALENTE",
+    "vencimiento": "2024-03-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "W023679": {
+    "insumo": "VARICELA",
+    "vencimiento": "2024-05-25",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "U1E071B": {
+    "insumo": "ANTIRRÁBICA HUMANA INTRAMUSCULAR",
+    "vencimiento": "2023-08-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "E100446231": {
+    "insumo": "INMUNOGLOBULINA ANTIRRÁBICA HUMANA",
+    "vencimiento": "2025-01-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "MO7147204": {
+    "insumo": "INMONOGLOBULINA ANTIHEPATITIS B",
+    "vencimiento": "2024-05-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "644954044": {
+    "insumo": "DILUYENTE TRIPLE VIRAL",
+    "vencimiento": "2024-07-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "U021758": {
+    "insumo": "DILUYENTE VARICELA",
+    "vencimiento": "2023-10-03",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "U030206": {
+    "insumo": "DILUYENTE VARICELA",
+    "vencimiento": "2024-01-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "U3F76": {
+    "insumo": "DILUYENTE ANTIRRÁBICA",
+    "vencimiento": "2023-08-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "0371NA031": {
+    "insumo": "B.C.G.",
+    "vencimiento": "2024-01-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "RP-S-PD-12-20": {
+    "insumo": "GOTERO",
+    "vencimiento": "",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "RPSPD1220": {
+    "insumo": "GOTERO",
+    "vencimiento": "",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "AROLDO73A": {
+    "insumo": "ROTAVIRUS",
+    "vencimiento": "2023-09-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "AROLDO59AB": {
+    "insumo": "ROTAVIRUS",
+    "vencimiento": "2023-09-02",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "6504012": {
+    "insumo": "DILUYENTE ANTIRRÁBICA",
+    "vencimiento": "2023-08-02",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "7154003": {
+    "insumo": "DILUYENTE BCG",
+    "vencimiento": "2025-03-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "AROLD077AA": {
+    "insumo": "ROTAVIRUS",
+    "vencimiento": "2023-09-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "50839M1AC": {
+    "insumo": "PRUEBA RAPIDA DE MALARIA",
+    "vencimiento": "2024-09-20",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "20046": {
+    "insumo": "JERINGA 23 G X 1",
+    "vencimiento": "2027-01-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "18O10086": {
+    "insumo": "ANTIPOLIO VOP",
+    "vencimiento": "2023-11-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "AROLDO77AA": {
+    "insumo": "ROTAVIRUS",
+    "vencimiento": "2023-09-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "0131NO64B": {
+    "insumo": "TRIPLE VIRAL",
+    "vencimiento": "2023-09-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "0131NO64A": {
+    "insumo": "TRIPLE VIRAL",
+    "vencimiento": "2023-09-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "WO23679": {
+    "insumo": "VARICELA",
+    "vencimiento": "2024-05-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "WO23678": {
+    "insumo": "VARICELA",
+    "vencimiento": "2024-05-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "WO16949": {
+    "insumo": "VARICELA",
+    "vencimiento": "2024-05-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "WO16080": {
+    "insumo": "DILUYENTE VARICELA",
+    "vencimiento": "2025-03-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "WO27452": {
+    "insumo": "DILUYENTE VARICELA",
+    "vencimiento": "2025-03-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "0131NO54A": {
+    "insumo": "TRIPLE VIRAL",
+    "vencimiento": "2024-05-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "0649S4047": {
+    "insumo": "DILUYENTE TRIPLE VIRAL",
+    "vencimiento": "2024-07-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "W032689": {
+    "insumo": "VARICELA",
+    "vencimiento": "2024-06-02",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "21PFC011Z": {
+    "insumo": "DILUYENTE FIEBRE AMARILLA",
+    "vencimiento": "2026-11-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "68151149": {
+    "insumo": "DILUYENTE SARAMPIÓN RUBEOLA",
+    "vencimiento": "2026-03-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "P100493954": {
+    "insumo": "INMUNOGLOBULINA ANTIRRÁBICA HUMANA",
+    "vencimiento": "2025-06-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "70154003": {
+    "insumo": "DILUYENTE BCG",
+    "vencimiento": "2025-03-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "031N054A": {
+    "insumo": "TRIPLE VIRAL",
+    "vencimiento": "2024-05-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "2200046": {
+    "insumo": "JERINGA 23 G X 1",
+    "vencimiento": "2027-01-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "181086": {
+    "insumo": "ANTIPOLIO VOP",
+    "vencimiento": "2023-11-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "AR13131-1": {
+    "insumo": "JERINGA 23 G X 1",
+    "vencimiento": "2027-01-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "AR131311": {
+    "insumo": "JERINGA 23 G X 1",
+    "vencimiento": "2027-01-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "06495K047": {
+    "insumo": "DILUYENTE TRIPLE VIRAL",
+    "vencimiento": "2024-07-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "90265": {
+    "insumo": "JERINGA 22 G X 1 1/2",
+    "vencimiento": "2024-08-31",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "64054029": {
+    "insumo": "DILUYENTE TRIPLE VIRAL",
+    "vencimiento": "2025-06-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "22077004": {
+    "insumo": "ANTIPOLIO INACTIVO VIP",
+    "vencimiento": "2024-11-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "AROLDO091AA": {
+    "insumo": "ROTAVIRUS",
+    "vencimiento": "2023-09-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "2022201005": {
+    "insumo": "ANTIHEPATITIS A PEDIATRICA",
+    "vencimiento": "2025-07-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "64054030": {
+    "insumo": "DILUYENTE TRIPLE VIRAL",
+    "vencimiento": "",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "AROLDO91AA": {
+    "insumo": "ROTAVIRUS",
+    "vencimiento": "2023-09-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "2331L8027C": {
+    "insumo": "TD ADULTO",
+    "vencimiento": "2024-08-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "C5893NB": {
+    "insumo": "TDAP ACELULAR PEDIATRICA",
+    "vencimiento": "2023-05-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "644054030": {
+    "insumo": "DILUYENTE TRIPLE VIRAL",
+    "vencimiento": "2025-07-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "64954035": {
+    "insumo": "DILUYENTE TRIPLE VIRAL",
+    "vencimiento": "2024-06-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "RAC-242": {
+    "insumo": "ANTIRRÁBICA HUMANA INTRAMUSCULAR",
+    "vencimiento": "2024-08-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "RAC": {
+    "insumo": "ANTIRRÁBICA HUMANA INTRAMUSCULAR",
+    "vencimiento": "2024-08-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "RAC242": {
+    "insumo": "ANTIRRÁBICA HUMANA INTRAMUSCULAR",
+    "vencimiento": "2024-08-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "2851X04D": {
+    "insumo": "PENTAVALENTE PAI",
+    "vencimiento": "2024-05-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "WO17443": {
+    "insumo": "VPH",
+    "vencimiento": "2025-01-30",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "213VFC0362": {
+    "insumo": "ANTIAMARÍLICA",
+    "vencimiento": "2024-03-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "W034S1": {
+    "insumo": "DILUYENTE VARICELA",
+    "vencimiento": "2025-06-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "L21PDC011Z": {
+    "insumo": "DILUYENTE FIEBRE AMARILLA",
+    "vencimiento": "2026-11-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "21PDFCO11Z": {
+    "insumo": "DILUYENTE FIEBRE AMARILLA",
+    "vencimiento": "2026-11-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "U023497": {
+    "insumo": "VPH",
+    "vencimiento": "2023-06-30",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "L213VFC036Z": {
+    "insumo": "ANTIAMARÍLICA",
+    "vencimiento": "2024-03-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "0640S4029": {
+    "insumo": "DILUYENTE TRIPLE VIRAL",
+    "vencimiento": "2025-06-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "213VFCO36Z": {
+    "insumo": "ANTIAMARÍLICA",
+    "vencimiento": "2024-03-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "472105": {
+    "insumo": "JERINGA 25 G X 5/8 AD",
+    "vencimiento": "2026-04-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "U1ED71V": {
+    "insumo": "ANTIRRÁBICA HUMANA INTRAMUSCULAR",
+    "vencimiento": "",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "492113": {
+    "insumo": "JERINGA 25 G X 5/8 AD",
+    "vencimiento": "2026-09-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "03224009B": {
+    "insumo": "ANTIHEPATITIS B PEDIATRICA",
+    "vencimiento": "2025-06-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "0123W108": {
+    "insumo": "SARAMPIÓN - RUBÉOLA",
+    "vencimiento": "2025-05-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "64054032": {
+    "insumo": "DILUYENTE TRIPLE VIRAL",
+    "vencimiento": "2025-07-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "037MA077": {
+    "insumo": "B.C.G.",
+    "vencimiento": "2024-04-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "0122W208": {
+    "insumo": "SARAMPIÓN - RUBÉOLA",
+    "vencimiento": "2025-02-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "0701SA4003": {
+    "insumo": "DILUYENTE BCG",
+    "vencimiento": "2025-03-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "2418010086": {
+    "insumo": "ANTIPOLIO VOP",
+    "vencimiento": "2023-11-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "2861X040D": {
+    "insumo": "PENTAVALENTE PAI",
+    "vencimiento": "2024-05-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "L213WFCD36Z": {
+    "insumo": "ANTIAMARÍLICA",
+    "vencimiento": "2024-03-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "L21PDFC011Z": {
+    "insumo": "DILUYENTE FIEBRE AMARILLA",
+    "vencimiento": "2026-11-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "P100501808": {
+    "insumo": "INMUNOGLOBULINA ANTIRRÁBICA HUMANA",
+    "vencimiento": "2025-08-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "701S4003": {
+    "insumo": "DILUYENTE BCG",
+    "vencimiento": "",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "2122213": {
+    "insumo": "INMONOGLOBULINA ANTIHEPATITIS B",
+    "vencimiento": "",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "285Y0330": {
+    "insumo": "PENTAVALENTE PAI",
+    "vencimiento": "",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "64154012": {
+    "insumo": "DILUYENTE TRIPLE VIRAL",
+    "vencimiento": "",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "07002S4003": {
+    "insumo": "DILUYENTE BCG",
+    "vencimiento": "",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "22210520": {
+    "insumo": "JERINGA 22 G X 1 1/2",
+    "vencimiento": "2026-05-19",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "037MA093": {
+    "insumo": "B.C.G.",
+    "vencimiento": "2024-06-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "AROLDO34AB": {
+    "insumo": "ROTAVIRUS",
+    "vencimiento": "2023-08-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "200033": {
+    "insumo": "JERINGA 22 G X 1 1/2",
+    "vencimiento": "2025-05-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "28518040D": {
+    "insumo": "PENTAVALENTE PAI",
+    "vencimiento": "2024-05-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "UIE071V": {
+    "insumo": "ANTIRRÁBICA HUMANA INTRAMUSCULAR",
+    "vencimiento": "2023-08-01",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "0641S4012": {
+    "insumo": "DILUYENTE TRIPLE VIRAL",
+    "vencimiento": "2025-05-30",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "P201001": {
+    "insumo": "GOTERO",
+    "vencimiento": "2025-05-30",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "W016080": {
+    "insumo": "DILUYENTE VARICELA",
+    "vencimiento": "2025-05-30",
+    "laboratorio": "",
+    "fuente": "Kardex a 31 de Mayo"
+  },
+  "202112135B": {
+    "insumo": "COVID SINOVAC",
+    "vencimiento": "2022-12-02",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Abril 2024"
+  },
+  "65054008": {
+    "insumo": "DILUYENTE ANTIRRÁBICA",
+    "vencimiento": "2025-06-30",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Abril 2024"
+  },
+  "202131": {
+    "insumo": "JERINGA 23 G X 1",
+    "vencimiento": "2026-08-31",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Abril 2024"
+  },
+  "202124": {
+    "insumo": "JERINGA 23 G X 1",
+    "vencimiento": "2026-06-30",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Abril 2024"
+  },
+  "20210203": {
+    "insumo": "JERINGA 22 G X 1 1/2",
+    "vencimiento": "2026-02-02",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Abril 2024"
+  },
+  "192102": {
+    "insumo": "JERINGA 22 G X 1 1/2 AD",
+    "vencimiento": "2026-04-30",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Abril 2024"
+  },
+  "2208104": {
+    "insumo": "JERINGA 23 G X 1",
+    "vencimiento": "2027-07-30",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Abril 2024"
+  },
+  "016J23A": {
+    "insumo": "COVID MODERNA XBB1.5",
+    "vencimiento": "2024-10-06",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Abril 2024"
+  },
+  "V50524002": {
+    "insumo": "Influenza Trivalente Adulto",
+    "vencimiento": "2025-01-21",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Abril 2024"
+  },
+  "2400979-00": {
+    "insumo": "Influenza Trivalente Pediátrica",
+    "vencimiento": "2025-02-28",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Abril 2024"
+  },
+  "2400979": {
+    "insumo": "Influenza Trivalente Pediátrica",
+    "vencimiento": "2025-02-28",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Abril 2024"
+  },
+  "240097900": {
+    "insumo": "Influenza Trivalente Pediátrica",
+    "vencimiento": "2025-02-28",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Abril 2024"
+  },
+  "24G0079": {
+    "insumo": "ANTIAMARÍLICA",
+    "vencimiento": "2027-07-31",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Abril 2024"
+  },
+  "23K0650": {
+    "insumo": "ANTIAMARÍLICA",
+    "vencimiento": "2026-12-31",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Abril 2024"
+  },
+  "2823X013A": {
+    "insumo": "D.P.T.",
+    "vencimiento": "2025-08-30",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Abril 2024"
+  },
+  "032H23A": {
+    "insumo": "COVID MODERNA XBB1.5",
+    "vencimiento": "2024-10-25",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Abril 2024"
+  },
+  "X3A871V": {
+    "insumo": "ANTIAMARÍLICA",
+    "vencimiento": "2026-01-31",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Abril 2024"
+  },
+  "2308010A": {
+    "insumo": "ANTIPOLIO INACTIVO VIP",
+    "vencimiento": "2025-12-08",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Abril 2024"
+  },
+  "P100588110": {
+    "insumo": "INMONOGLOBULINA ANTIHEPATITIS B",
+    "vencimiento": "2026-05-30",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Abril 2024"
+  },
+  "202207045": {
+    "insumo": "ANTIHEPATITIS A PEDIATRICA",
+    "vencimiento": "2026-01-10",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Abril 2024"
+  },
+  "0153N003A": {
+    "insumo": "TRIPLE VIRAL",
+    "vencimiento": "2025-10-31",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Abril 2024"
+  },
+  "Y004451": {
+    "insumo": "VARICELA",
+    "vencimiento": "2026-02-19",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Abril 2024"
+  },
+  "2852Y013C": {
+    "insumo": "PENTAVALENTE PAI",
+    "vencimiento": "2024-10-31",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Abril 2024"
+  },
+  "GX5139": {
+    "insumo": "NEUMOCOCO POLISACARIDO 13 VALENTE",
+    "vencimiento": "2026-03-31",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Abril 2024"
+  },
+  "V50524003": {
+    "insumo": "Influenza Trivalente Adulto",
+    "vencimiento": "2025-01-23",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Abril 2024"
+  },
+  "X1A742V": {
+    "insumo": "ANTIRRÁBICA HUMANA INTRAMUSCULAR",
+    "vencimiento": "2026-04-30",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Abril 2024"
+  },
+  "Y004352": {
+    "insumo": "VPH",
+    "vencimiento": "2026-11-20",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Abril 2024"
+  },
+  "026J23A": {
+    "insumo": "COVID MODERNA XBB1.5",
+    "vencimiento": "2024-10-20",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Abril 2024"
+  },
+  "2328006A": {
+    "insumo": "ANTIPOLIO INACTIVO VIP",
+    "vencimiento": "2026-05-30",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Abril 2024"
+  },
+  "0153N003B": {
+    "insumo": "TRIPLE VIRAL",
+    "vencimiento": "2025-11-30",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Abril 2024"
+  },
+  "2853Z010": {
+    "insumo": "PENTAVALENTE PAI",
+    "vencimiento": "2025-11-30",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Abril 2024"
+  },
+  "0373MA047": {
+    "insumo": "B.C.G.",
+    "vencimiento": "2025-11-30",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Abril 2024"
+  },
+  "AMAA998A": {
+    "insumo": "MENINGOCOCO",
+    "vencimiento": "2025-07-31",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Abril 2024"
+  },
+  "0091N013A": {
+    "insumo": "SARAMPIÓN - RUBÉOLA",
+    "vencimiento": "2026-04-30",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Abril 2024"
+  },
+  "2333L037C": {
+    "insumo": "TD ADULTO",
+    "vencimiento": "2026-09-30",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Abril 2024"
+  },
+  "2823X022A": {
+    "insumo": "D.P.T.",
+    "vencimiento": "2026-04-30",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Abril 2024"
+  },
+  "2402012A": {
+    "insumo": "ANTIPOLIO INACTIVO VIP",
+    "vencimiento": "2026-10-17",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Abril 2024"
+  },
+  "AROLE054AA": {
+    "insumo": "ROTAVIRUS",
+    "vencimiento": "2026-10-31",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Abril 2024"
+  },
+  "0153N005A": {
+    "insumo": "TRIPLE VIRAL",
+    "vencimiento": "2025-12-31",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Abril 2024"
+  },
+  "Y011624": {
+    "insumo": "VARICELA",
+    "vencimiento": "2026-07-01",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Abril 2024"
+  },
+  "X1A601V": {
+    "insumo": "ANTIRRÁBICA HUMANA INTRAMUSCULAR",
+    "vencimiento": "2026-04-30",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Abril 2024"
+  },
+  "X021645": {
+    "insumo": "DILUYENTE VARICELA",
+    "vencimiento": "2026-05-08",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Abril 2024"
+  },
+  "23K0648": {
+    "insumo": "ANTIAMARÍLICA",
+    "vencimiento": "2026-11-30",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Abril 2024"
+  },
+  "2823X022B": {
+    "insumo": "D.P.T.",
+    "vencimiento": "2026-04-30",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Abril 2024"
+  },
+  "P100713561": {
+    "insumo": "INMUNOGLOBULINA ANTIRRÁBICA HUMANA",
+    "vencimiento": "2027-04-22",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Abril 2024"
+  },
+  "0153N005B": {
+    "insumo": "TRIPLE VIRAL",
+    "vencimiento": "2025-12-31",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Abril 2024"
+  },
+  "0673S1051": {
+    "insumo": "DILUYENTE TRIPLE VIRAL",
+    "vencimiento": "2026-04-30",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Abril 2024"
+  },
+  "0643S1019": {
+    "insumo": "DILUYENTE TRIPLE VIRAL",
+    "vencimiento": "2028-04-30",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Abril 2024"
+  },
+  "AR13133-9": {
+    "insumo": "JERINGA 23 G X 1",
+    "vencimiento": "2027-03-31",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Abril 2024"
+  },
+  "AR131339": {
+    "insumo": "JERINGA 23 G X 1",
+    "vencimiento": "2027-03-31",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Abril 2024"
+  },
+  "LN8430": {
+    "insumo": "PFIZER JN1",
+    "vencimiento": "2026-01-31",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Abril 2024"
+  },
+  "252220": {
+    "insumo": "JERINGA 22 G X 1 1/2 AD",
+    "vencimiento": "",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Abril 2024"
+  },
+  "AROLE074AE": {
+    "insumo": "ROTAVIRUS",
+    "vencimiento": "2026-10-31",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Abril 2024"
+  },
+  "Y018866": {
+    "insumo": "VARICELA",
+    "vencimiento": "2026-11-13",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Abril 2024"
+  },
+  "X016553": {
+    "insumo": "DILUYENTE VARICELA",
+    "vencimiento": "2026-10-16",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Abril 2024"
+  },
+  "00991N013E": {
+    "insumo": "SARAMPIÓN - RUBÉOLA",
+    "vencimiento": "2025-04-01",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Abril 2024"
+  },
+  "X3H90": {
+    "insumo": "DILUYENTE ANTIRRÁBICA",
+    "vencimiento": "2026-04-30",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Abril 2024"
+  },
+  "4018866": {
+    "insumo": "VARICELA",
+    "vencimiento": "2026-11-13",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Abril 2024"
+  },
+  "2333X0433": {
+    "insumo": "TD ADULTO",
+    "vencimiento": "2026-10-01",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Abril 2024"
+  },
+  "811019C": {
+    "insumo": "MODERNA JN.1",
+    "vencimiento": "2025-11-21",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Abril 2024"
+  },
+  "67351020": {
+    "insumo": "DILUYENTE TRIPLE VIRAL",
+    "vencimiento": "2028-02-01",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Abril 2024"
+  },
+  "233YX006A": {
+    "insumo": "TD ADULTO",
+    "vencimiento": "12-0206",
+    "laboratorio": "",
+    "fuente": "Kardex 1 Abril 2024"
+  },
+  "RAC 249": {
+    "insumo": "VACUNA ANIMAL ANTIRRABICA",
+    "vencimiento": "2025-07-01",
+    "laboratorio": "",
+    "fuente": "Kardex Vacuna Animal"
+  },
+  "RAC249": {
+    "insumo": "VACUNA ANIMAL ANTIRRABICA",
+    "vencimiento": "2025-07-01",
+    "laboratorio": "",
+    "fuente": "Kardex Vacuna Animal"
+  },
+  "2211154": {
+    "insumo": "JERINGA 23 G X 1",
+    "vencimiento": "2027-10-01",
+    "laboratorio": "",
+    "fuente": "Kardex Vacuna Animal"
+  },
+  "RAV249": {
+    "insumo": "VACUNA ANIMAL ANTIRRABICA",
+    "vencimiento": "2025-07-01",
+    "laboratorio": "",
+    "fuente": "Kardex Vacuna Animal"
+  },
+  "RAV251": {
+    "insumo": "VACUNA ANIMAL ANTIRRABICA",
+    "vencimiento": "2025-10-01",
+    "laboratorio": "",
+    "fuente": "Kardex Vacuna Animal"
+  },
+  "2019-12-01 00:00:00": {
+    "insumo": "",
+    "vencimiento": "-",
+    "laboratorio": "",
+    "fuente": "Kardex Vacuna Animal"
+  },
+  "2019": {
+    "insumo": "",
+    "vencimiento": "-",
+    "laboratorio": "",
+    "fuente": "Kardex Vacuna Animal"
+  },
+  "20191201000000": {
+    "insumo": "",
+    "vencimiento": "-",
+    "laboratorio": "",
+    "fuente": "Kardex Vacuna Animal"
   }
-]
+}

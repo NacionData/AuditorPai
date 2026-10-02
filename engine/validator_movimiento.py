@@ -58,71 +58,147 @@ def safe_num(val):
     except (ValueError, TypeError):
         return None
 
-def cargar_lotes_google_sheet():
+_LOTES_CACHE = {}
+_LOTES_MTIME = 0
+
+def sincronizar_catalogo_lotes_maestros(excel_path=None, json_path=None):
+    """
+    Escanea dinámicamente TODAS las hojas del Kardex oficial del Depósito Departamental
+    (Lotes, Vencimientos, Inventario Real, Conteos Aleatorios y todas las hojas de Kardex),
+    detectando de forma automática las columnas de lotes, insumos, fechas de vencimiento y laboratorios.
+    Guarda el catálogo en storage/catalogos/lotes_maestros.json y actualiza el caché en memoria.
+    """
+    global _LOTES_CACHE, _LOTES_MTIME
     base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    fpath = os.path.join(base_dir, "storage", "catalogos", "deposito_risaralda.xlsx")
-    json_path = os.path.join(base_dir, "storage", "catalogos", "lotes_maestros.json")
+    fpath = excel_path or os.path.join(base_dir, "storage", "catalogos", "deposito_risaralda.xlsx")
+    jpath = json_path or os.path.join(base_dir, "storage", "catalogos", "lotes_maestros.json")
+
     lotes_dict = {}
 
-    def registrar_lote(lote_raw, insumo="", fv="", lab=""):
+    def registrar_lote(lote_raw, insumo="", fv="", lab="", fuente=""):
         if not lote_raw:
             return
         lote_str = str(lote_raw).strip().upper()
         if lote_str.endswith(".0"):
             lote_str = lote_str[:-2]
-        if not lote_str or len(lote_str) < 2:
+        if not lote_str or len(lote_str) < 2 or lote_str in ["LOTE", "NO. LOTE", "NONE", "N/A", "CANTIDAD", "SALDO"]:
             return
         meta = {
             "insumo": str(insumo).strip() if insumo else "",
             "vencimiento": str(fv)[:10] if fv else "",
-            "laboratorio": str(lab).strip() if lab else ""
+            "laboratorio": str(lab).strip() if lab else "",
+            "fuente": fuente
         }
-        lotes_dict[lote_str] = meta
-        # Registrar variantes comunes (guión, barra, sin sufijo)
+        if lote_str not in lotes_dict:
+            lotes_dict[lote_str] = meta
+        else:
+            if not lotes_dict[lote_str].get("laboratorio") and lab:
+                lotes_dict[lote_str]["laboratorio"] = str(lab).strip()
+            if not lotes_dict[lote_str].get("vencimiento") and fv:
+                lotes_dict[lote_str]["vencimiento"] = str(fv)[:10]
+            if not lotes_dict[lote_str].get("insumo") and insumo:
+                lotes_dict[lote_str]["insumo"] = str(insumo).strip()
+
         for sep in ["/", "-"]:
             if sep in lote_str:
                 base_part = lote_str.split(sep)[0].strip()
                 if len(base_part) >= 3 and base_part not in lotes_dict:
                     lotes_dict[base_part] = meta
-        # Variante alfanumérica pura
         clean_alnum = re.sub(r'[^A-Z0-9]', '', lote_str)
-        if clean_alnum and clean_alnum not in lotes_dict:
+        if clean_alnum and len(clean_alnum) >= 3 and clean_alnum not in lotes_dict:
             lotes_dict[clean_alnum] = meta
 
-    # 1. Cargar desde JSON si existe
-    if os.path.exists(json_path):
-        try:
-            with open(json_path, "r", encoding="utf-8") as jf:
-                items = json.load(jf)
-                if isinstance(items, list):
-                    for it in items:
-                        if isinstance(it, dict) and it.get("lote"):
-                            registrar_lote(it.get("lote"), it.get("insumo", ""), it.get("vencimiento", ""), it.get("laboratorio", ""))
-                elif isinstance(items, dict):
-                    for k, v in items.items():
-                        registrar_lote(k, v.get("insumo", "") if isinstance(v, dict) else "", v.get("vencimiento", "") if isinstance(v, dict) else "", v.get("laboratorio", "") if isinstance(v, dict) else "")
-        except Exception as ej:
-            print(f"Error cargando lotes_maestros.json: {ej}")
-
-    # 2. Cargar desde libro Excel del Depósito
     if os.path.exists(fpath):
         try:
             wb = openpyxl.load_workbook(fpath, data_only=True, read_only=True)
-            for sname in ["Lotes", "Inventario Real", "Vencimientos", "Conteos Aleatorios"]:
-                if sname in wb.sheetnames:
-                    ws = wb[sname]
-                    for row in ws.iter_rows(min_row=2, max_row=600, min_col=1, max_col=12, values_only=True):
-                        insumo = row[1] if len(row) > 1 else ""
-                        lote = row[7] if len(row) > 7 else (row[6] if len(row) > 6 else "")
-                        fv = row[8] if len(row) > 8 else ""
-                        lab = row[9] if len(row) > 9 else ""
-                        if lote:
-                            registrar_lote(lote, insumo, fv, lab)
+            for sname in wb.sheetnames:
+                ws = wb[sname]
+                lote_col = None
+                insumo_col = None
+                fv_col = None
+                lab_col = None
+                header_found = False
+
+                for row in ws.iter_rows(values_only=True):
+                    if not header_found:
+                        row_str = [str(x or '').upper() for x in row]
+                        for idx, h in enumerate(row_str):
+                            if "LOTE" in h and lote_col is None:
+                                lote_col = idx
+                            if ("INSUMO" in h or "VACUNA" in h) and insumo_col is None:
+                                insumo_col = idx
+                            if ("VENCIMIENTO" in h or "FV" in h) and fv_col is None:
+                                fv_col = idx
+                            if ("LABORATORIO" in h or "LAB" in h) and lab_col is None:
+                                lab_col = idx
+                        if lote_col is not None:
+                            header_found = True
+                        continue
+
+                    if lote_col is not None and len(row) > lote_col:
+                        val = row[lote_col]
+                        if val:
+                            ins = row[insumo_col] if (insumo_col is not None and len(row) > insumo_col) else ""
+                            fv = row[fv_col] if (fv_col is not None and len(row) > fv_col) else ""
+                            lab = row[lab_col] if (lab_col is not None and len(row) > lab_col) else ""
+                            registrar_lote(val, ins, fv, lab, sname)
             wb.close()
         except Exception as e:
-            print(f"Error cargando lotes de Google Sheet: {e}")
+            print(f"Error escaneando lotes dinámicos de {fpath}: {e}")
+
+    # Guardar en archivo JSON permanente
+    if lotes_dict:
+        try:
+            os.makedirs(os.path.dirname(jpath), exist_ok=True)
+            with open(jpath, "w", encoding="utf-8") as f:
+                json.dump(lotes_dict, f, ensure_ascii=False, indent=2)
+        except Exception as ej:
+            print(f"Error guardando lotes_maestros.json: {ej}")
+
+    _LOTES_CACHE = lotes_dict
+    if os.path.exists(fpath):
+        _LOTES_MTIME = os.path.getmtime(fpath)
 
     return lotes_dict
+
+def cargar_lotes_google_sheet():
+    """
+    Carga el catálogo dinámico de lotes con caché en memoria.
+    Si el archivo de Kardex/Lotes ha cambiado en disco o el JSON no existe,
+    lo sincroniza automáticamente.
+    """
+    global _LOTES_CACHE, _LOTES_MTIME
+    base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    fpath = os.path.join(base_dir, "storage", "catalogos", "deposito_risaralda.xlsx")
+    json_path = os.path.join(base_dir, "storage", "catalogos", "lotes_maestros.json")
+
+    # Si ya está en memoria y el archivo en disco no ha sido modificado, retornar inmediatamente
+    if _LOTES_CACHE and os.path.exists(fpath):
+        if os.path.getmtime(fpath) <= _LOTES_MTIME:
+            return _LOTES_CACHE
+
+    # Si el archivo Excel es más reciente que el JSON o el caché está vacío, sincronizar
+    if os.path.exists(fpath):
+        f_mtime = os.path.getmtime(fpath)
+        j_mtime = os.path.getmtime(json_path) if os.path.exists(json_path) else 0
+        if not os.path.exists(json_path) or f_mtime > j_mtime:
+            return sincronizar_catalogo_lotes_maestros(fpath, json_path)
+
+    # Si el JSON existe y está vigente, cargarlo
+    if os.path.exists(json_path):
+        try:
+            with open(json_path, "r", encoding="utf-8") as jf:
+                _LOTES_CACHE = json.load(jf)
+                _LOTES_MTIME = os.path.getmtime(fpath) if os.path.exists(fpath) else os.path.getmtime(json_path)
+                return _LOTES_CACHE
+        except Exception as e:
+            print(f"Error leyendo lotes_maestros.json: {e}")
+
+    # Fallback: sincronizar desde Excel si existe
+    if os.path.exists(fpath):
+        return sincronizar_catalogo_lotes_maestros(fpath, json_path)
+
+    return {}
 
 def cargar_entregas_deposito(municipio, mes):
     base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))

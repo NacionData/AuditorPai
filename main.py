@@ -554,9 +554,10 @@ async def api_admin_subir_kardex(file: UploadFile = File(...)):
     limpiar_cache_kardex()
 
     try:
-        cargar_lotes_google_sheet()
+        from engine.validator_movimiento import sincronizar_catalogo_lotes_maestros
+        sincronizar_catalogo_lotes_maestros(dest_path)
     except Exception as e:
-        print(f"Error recargando lotes: {e}")
+        print(f"Error recargando catálogo dinámico de lotes: {e}")
 
     info = obtener_info_kardex_actual()
 

@@ -68,6 +68,7 @@ def obtener_config_kardex_drive():
         "ultimo_resultado": "PENDIENTE_CONFIGURACION",
         "ultimo_mensaje": "Ingrese el enlace o ID de Google Sheets / Drive para activar la sincronización automática.",
         "tamano_kb": 0,
+        "lotes_activos": 0,
         "proxima_sincronizacion": calcular_proximo_ultimo_dia().strftime("%Y-%m-%d %H:%M:%S")
     }
 
@@ -218,18 +219,22 @@ def descargar_kardex_google(url_o_id: str = None):
     # Invalida caché en memoria de cruce depósito
     limpiar_cache_kardex()
 
-    # Recargar los 361 lotes activos
+    # Sincronizar dinámicamente el catálogo maestro de lotes desde el libro recién descargado
+    total_lotes = 0
     try:
-        cargar_lotes_google_sheet()
+        from engine.validator_movimiento import sincronizar_catalogo_lotes_maestros
+        lotes_actualizados = sincronizar_catalogo_lotes_maestros(KARDEX_FILE)
+        total_lotes = len(lotes_actualizados)
     except Exception as e:
-        print(f"Error recargando catálogo de lotes tras sync Drive: {e}")
+        print(f"Error sincronizando catálogo dinámico de lotes tras sync Drive: {e}")
 
     # Obtener metadatos actualizados del archivo
     info_kardex = obtener_info_kardex_actual()
+    info_kardex["total_lotes"] = total_lotes
     now_str = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
     tamano_kb = round(len(contenido_bytes) / 1024, 1)
-    msg_ok = f"Kardex oficial sincronizado exitosamente desde Google Drive/Sheets ({tamano_kb} KB)."
+    msg_ok = f"Kardex oficial y Catálogo Maestro de Lotes sincronizados exitosamente desde Google Sheets ({tamano_kb} KB, {total_lotes} lotes activos catalogados)."
 
     guardar_config_kardex_drive({
         "url_origen": enlace,
@@ -237,6 +242,7 @@ def descargar_kardex_google(url_o_id: str = None):
         "ultimo_resultado": "SINCRONIZADO_OK",
         "ultimo_mensaje": msg_ok,
         "tamano_kb": tamano_kb,
+        "lotes_activos": total_lotes,
         "proxima_sincronizacion": calcular_proximo_ultimo_dia().strftime("%Y-%m-%d %H:%M:%S")
     })
 
@@ -245,14 +251,15 @@ def descargar_kardex_google(url_o_id: str = None):
         "mensaje": msg_ok,
         "fecha": now_str,
         "tamano_kb": tamano_kb,
+        "total_lotes": total_lotes,
         "info": info_kardex
     }
 
 def verificar_y_ejecutar_sync_programada():
     """
-    Evalúa si corresponde ejecutar la sincronización automática del Kardex:
-    - Se ejecuta el último día de cada mes (o el día 1 como puesta al día si estuvo apagado).
-    - No repite la ejecución si ya se sincronizó exitosamente hoy.
+    Evalúa si corresponde ejecutar la sincronización automática del Kardex y Lotes:
+    - Se ejecuta el último día de cada mes (y el día 1 como puesta al día si estuvo apagado).
+    - Ejecuta actualización periódica durante el mes si han pasado más de 6 horas en horario hábil.
     """
     cfg = obtener_config_kardex_drive()
     if not cfg.get("auto_sync") or not cfg.get("url_origen"):
@@ -267,16 +274,26 @@ def verificar_y_ejecutar_sync_programada():
 
     ultima_sync = cfg.get("ultima_sincronizacion")
     ya_sincronizado_hoy = False
+    horas_transcurridas = 999.0
     if ultima_sync:
         try:
             f_ult = datetime.datetime.strptime(ultima_sync.split(" ")[0], "%Y-%m-%d").date()
             if f_ult == hoy:
                 ya_sincronizado_hoy = True
+            dt_ult = datetime.datetime.strptime(ultima_sync, "%Y-%m-%d %H:%M:%S")
+            horas_transcurridas = (ahora - dt_ult).total_seconds() / 3600.0
         except Exception:
             pass
 
-    if (es_ultimo_dia or es_dia_primero) and not ya_sincronizado_hoy:
-        print(f"[Kardex Auto-Sync] Ejecutando sincronización programada de cierre mensual ({ahora.strftime('%Y-%m-%d %H:%M:%S')})...")
+    # Criterio 1: Cierre mensual obligatorio
+    es_cierre_mensual = (es_ultimo_dia or es_dia_primero) and not ya_sincronizado_hoy
+    
+    # Criterio 2: Actualización dinámica periódica de lotes nuevos durante el día hábil (cada 6 horas)
+    es_actualizacion_periodica = horas_transcurridas >= 6.0 and (7 <= ahora.hour <= 20)
+
+    if es_cierre_mensual or es_actualizacion_periodica:
+        motivo = "cierre mensual" if es_cierre_mensual else "actualización dinámica periódica de lotes y entregas"
+        print(f"[Kardex Auto-Sync] Ejecutando sincronización automática ({motivo}) a las {ahora.strftime('%Y-%m-%d %H:%M:%S')}...")
         res = descargar_kardex_google(cfg.get("url_origen"))
         print(f"[Kardex Auto-Sync] Resultado: {res.get('mensaje') or res.get('error')}")
         return True

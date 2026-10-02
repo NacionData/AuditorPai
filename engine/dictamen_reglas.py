@@ -154,18 +154,18 @@ def generar_dictamen_reglas_detallado(municipio, mes, ano, r_dosis, r_mov, r_ext
     })
 
     # =========================================================================
-    # REGLA 6: CATÁLOGO MAESTRO DE 361 LOTES OFICIALES (Regla 4)
+    # REGLA 6: CATÁLOGO MAESTRO DINÁMICO DE LOTES OFICIALES (Regla 4)
     # =========================================================================
     reg4_cumple = m_reglas.get("regla4_lotes_oficiales", True) and not any("REGLA_4" in e.get("regla", "") for e in (r_mov or {}).get("errores", []))
     err_reg4 = [e["mensaje"] for e in (r_mov or {}).get("errores", []) if "REGLA_4" in e.get("regla", "")]
     reglas.append({
         "id": "regla_4_catalogo_lotes",
         "codigo": "REG-06",
-        "nombre": "Catálogo Maestro de Lotes Oficiales (Regla 4)",
+        "nombre": "Catálogo Maestro Dinámico de Lotes Oficiales (Regla 4)",
         "archivo": "Movimiento de Biológicos",
         "cumple": reg4_cumple,
         "estado": "CUMPLE" if reg4_cumple else "LOTES NO AUTORIZADOS",
-        "resumen": "Validación de lotes reportados contra los 361 lotes activos del Depósito",
+        "resumen": "Validación de lotes reportados contra el catálogo maestro dinámico del Depósito",
         "metricas": {
             "lotes_autorizados": "100% Verificados" if reg4_cumple else "Lotes no autorizados detectados",
             "lotes_invalidos_o_blancos": len(err_reg4)
