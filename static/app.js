@@ -131,18 +131,51 @@ function inicializarVistaMunicipal() {
 
   const selectMes = document.getElementById('select-mes');
   if (selectMes) {
-    selectMes.removeEventListener('change', verificarEstadoRadicadoMunicipal);
-    selectMes.addEventListener('change', verificarEstadoRadicadoMunicipal);
+    selectMes.removeEventListener('change', onCambioMes);
+    selectMes.addEventListener('change', onCambioMes);
   }
+  actualizarBadgeMes();
   verificarEstadoRadicadoMunicipal();
+}
+
+function onCambioMes() {
+  const selectMes = document.getElementById('select-mes');
+  if (selectMes) {
+    selectMes.classList.remove('border-rose-500', 'bg-rose-50');
+  }
+  actualizarBadgeMes();
+  verificarEstadoRadicadoMunicipal();
+  actualizarEstadoBotonAuditar();
+}
+
+function actualizarBadgeMes() {
+  const selectMes = document.getElementById('select-mes');
+  const badge = document.getElementById('badge-mes-requerido');
+  if (!badge) return;
+
+  if (selectMes && selectMes.value) {
+    badge.textContent = 'Seleccionado';
+    badge.className = 'text-[10px] font-black text-emerald-700 bg-emerald-50 border border-emerald-300 px-2 py-0.5 rounded-full';
+  } else {
+    badge.textContent = 'Obligatorio';
+    badge.className = 'text-[10px] font-black text-rose-600 bg-rose-50 border border-rose-200 px-2 py-0.5 rounded-full';
+  }
 }
 
 async function verificarEstadoRadicadoMunicipal() {
   if (!usuarioSesion) return;
   const mun = usuarioSesion.municipio || 'PEREIRA';
-  const mes = document.getElementById('select-mes').value;
+  const selectMes = document.getElementById('select-mes');
+  const mes = selectMes ? selectMes.value : '';
   const banner = document.getElementById('banner-estado-municipal');
   if (!banner) return;
+
+  // Si aún no ha seleccionado el mes, mantener banner oculto
+  if (!mes) {
+    banner.innerHTML = '';
+    banner.classList.add('hidden');
+    return;
+  }
 
   try {
     const res = await fetch(`/api/municipio/estado/${mun}/${mes}`);
@@ -271,6 +304,81 @@ function configurarDropzone() {
   fileInput.addEventListener('change', (e) => {
     agregarArchivos(e.target.files);
   });
+
+  const modalSelect = document.getElementById('select-mes-modal');
+  if (modalSelect) {
+    modalSelect.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        confirmarMesSeleccionadoModal();
+      }
+    });
+  }
+
+  const modalEl = document.getElementById('modal-seleccionar-mes');
+  if (modalEl) {
+    modalEl.addEventListener('click', (e) => {
+      if (e.target === modalEl) {
+        cerrarModalSeleccionarMes();
+      }
+    });
+  }
+}
+
+// Modal de Selección Obligatoria de Mes
+let callbackDespuesDeSeleccionarMes = null;
+
+function abrirModalSeleccionarMes(callback = null) {
+  callbackDespuesDeSeleccionarMes = callback;
+  const modal = document.getElementById('modal-seleccionar-mes');
+  const modalSelect = document.getElementById('select-mes-modal');
+  const mainSelect = document.getElementById('select-mes');
+
+  if (modalSelect && mainSelect) {
+    modalSelect.value = mainSelect.value || '';
+  }
+  if (modal) {
+    modal.classList.remove('hidden');
+    if (modalSelect) {
+      setTimeout(() => modalSelect.focus(), 80);
+    }
+  }
+}
+
+function cerrarModalSeleccionarMes() {
+  const modal = document.getElementById('modal-seleccionar-mes');
+  if (modal) modal.classList.add('hidden');
+  callbackDespuesDeSeleccionarMes = null;
+}
+
+function confirmarMesSeleccionadoModal() {
+  const modalSelect = document.getElementById('select-mes-modal');
+  const val = modalSelect ? modalSelect.value : '';
+  if (!val) {
+    if (modalSelect) {
+      modalSelect.classList.add('border-rose-500', 'ring-4', 'ring-rose-200');
+      setTimeout(() => modalSelect.classList.remove('border-rose-500', 'ring-4', 'ring-rose-200'), 2500);
+    }
+    alert('Por favor selecciona el mes correspondiente a los informes que estás reportando.');
+    return;
+  }
+
+  const mainSelect = document.getElementById('select-mes');
+  if (mainSelect) {
+    mainSelect.value = val;
+    mainSelect.classList.remove('border-rose-500', 'bg-rose-50');
+    actualizarBadgeMes();
+  }
+
+  cerrarModalSeleccionarMes();
+  verificarEstadoRadicadoMunicipal();
+  actualizarEstadoBotonAuditar();
+
+  if (typeof callbackDespuesDeSeleccionarMes === 'function') {
+    const cb = callbackDespuesDeSeleccionarMes;
+    callbackDespuesDeSeleccionarMes = null;
+    cb();
+  }
 }
 
 function agregarArchivos(files) {
@@ -281,6 +389,12 @@ function agregarArchivos(files) {
   }
   renderizarListaArchivos();
   actualizarEstadoBotonAuditar();
+
+  // Si no se ha elegido el mes, preguntar de inmediato al usuario con el modal interactivo
+  const selectMes = document.getElementById('select-mes');
+  if (archivosSeleccionados.length > 0 && selectMes && !selectMes.value) {
+    abrirModalSeleccionarMes();
+  }
 }
 
 function removerArchivo(index) {
@@ -334,8 +448,18 @@ async function ejecutarAuditoria() {
   if (archivosSeleccionados.length === 0 || !usuarioSesion) return;
 
   const mun = usuarioSesion.municipio || document.getElementById('select-municipio').value;
-  const mes = document.getElementById('select-mes').value;
+  const selectMes = document.getElementById('select-mes');
+  const mes = selectMes ? selectMes.value : '';
   const ano = document.getElementById('input-ano').value;
+
+  if (!mes) {
+    if (selectMes) {
+      selectMes.classList.add('border-rose-500', 'bg-rose-50');
+      selectMes.focus();
+    }
+    abrirModalSeleccionarMes(() => ejecutarAuditoria());
+    return;
+  }
 
   const btn = document.getElementById('btn-auditar');
   const spinner = document.getElementById('audit-loading');

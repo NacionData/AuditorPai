@@ -206,8 +206,12 @@
         <!-- Mes y Año -->
         <div class="grid grid-cols-2 gap-3">
           <div class="space-y-2">
-            <label class="block text-xs font-black uppercase text-slate-800">Mes a Reportar</label>
-            <select id="select-mes" class="w-full bg-slate-50 border-2 border-slate-300 rounded-xl px-3 py-2.5 text-sm text-slate-900 font-black focus:outline-none focus:border-emerald-600 transition">
+            <label class="block text-xs font-black uppercase text-slate-800 flex items-center justify-between">
+              <span>Mes a Reportar</span>
+              <span id="badge-mes-requerido" class="text-[10px] font-black text-rose-600 bg-rose-50 border border-rose-200 px-2 py-0.5 rounded-full">Obligatorio</span>
+            </label>
+            <select id="select-mes" class="w-full bg-white border-2 border-slate-300 rounded-xl px-3 py-2.5 text-sm text-slate-900 font-black focus:outline-none focus:border-emerald-600 transition">
+              <option value="" disabled selected>-- Seleccione el mes --</option>
               <option value="ENERO">Enero</option>
               <option value="FEBRERO">Febrero</option>
               <option value="MARZO">Marzo</option>
@@ -215,7 +219,7 @@
               <option value="MAYO">Mayo</option>
               <option value="JUNIO">Junio</option>
               <option value="JULIO">Julio</option>
-              <option value="AGOSTO" selected>Agosto</option>
+              <option value="AGOSTO">Agosto</option>
               <option value="SEPTIEMBRE">Septiembre</option>
               <option value="OCTUBRE">Octubre</option>
               <option value="NOVIEMBRE">Noviembre</option>
@@ -360,6 +364,55 @@
         <button onclick="confirmarRadicacionConJustificacion()" class="py-3 px-5 rounded-xl bg-amber-600 hover:bg-amber-700 text-white text-xs font-black shadow-md transition flex items-center gap-2">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
           <span>Confirmar y Radicar con Justificación</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- MODAL DE SELECCIÓN OBLIGATORIA DEL MES                                    -->
+  <!-- ========================================================================= -->
+  <div id="modal-seleccionar-mes" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 md:p-8 space-y-6 shadow-2xl border-2 border-emerald-500 animate-in fade-in zoom-in-95 duration-200">
+      <div class="flex items-center gap-3">
+        <div class="w-12 h-12 rounded-2xl bg-emerald-100 border border-emerald-300 flex items-center justify-center text-2xl font-black">
+          📅
+        </div>
+        <div>
+          <h3 class="text-lg font-black text-slate-950">¿Qué mes deseas reportar?</h3>
+          <p class="text-xs font-bold text-slate-500">Selecciona el mes correspondiente a los informes que estás cargando</p>
+        </div>
+      </div>
+
+      <div class="space-y-3">
+        <label for="select-mes-modal" class="block text-xs font-black uppercase text-slate-700">Mes a enviar (Vigencia 2026):</label>
+        <select id="select-mes-modal" class="w-full bg-slate-50 border-2 border-slate-300 rounded-2xl px-4 py-3 text-base text-slate-900 font-black focus:outline-none focus:border-emerald-600 focus:bg-white focus:ring-4 focus:ring-emerald-100 transition">
+          <option value="" disabled selected>-- Elige el mes aquí --</option>
+          <option value="ENERO">Enero 2026</option>
+          <option value="FEBRERO">Febrero 2026</option>
+          <option value="MARZO">Marzo 2026</option>
+          <option value="ABRIL">Abril 2026</option>
+          <option value="MAYO">Mayo 2026</option>
+          <option value="JUNIO">Junio 2026</option>
+          <option value="JULIO">Julio 2026</option>
+          <option value="AGOSTO">Agosto 2026</option>
+          <option value="SEPTIEMBRE">Septiembre 2026</option>
+          <option value="OCTUBRE">Octubre 2026</option>
+          <option value="NOVIEMBRE">Noviembre 2026</option>
+          <option value="DICIEMBRE">Diciembre 2026</option>
+        </select>
+        <p class="text-[11px] text-amber-800 bg-amber-50 border border-amber-200 p-3 rounded-xl font-medium flex items-start gap-2">
+          <span>💡</span>
+          <span><b>Aviso:</b> Tus archivos de Dosis Aplicadas, Movimiento y Extranjeros deben pertenecer a este mismo mes para evitar rechazos en la auditoría.</span>
+        </p>
+      </div>
+
+      <div class="flex items-center gap-3 pt-2">
+        <button type="button" onclick="cerrarModalSeleccionarMes()" class="flex-1 py-3 px-4 rounded-xl border-2 border-slate-200 text-slate-700 text-xs font-bold hover:bg-slate-100 transition">
+          Cancelar
+        </button>
+        <button type="button" onclick="confirmarMesSeleccionadoModal()" class="flex-1 py-3 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-black shadow-md transition">
+          Confirmar Mes
         </button>
       </div>
     </div>

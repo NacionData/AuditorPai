@@ -183,8 +183,14 @@ async def api_auditar(
     ano: str = Form("2026"),
     archivos: list[UploadFile] = File(...)
 ):
+    if not mes or not mes.strip():
+        raise HTTPException(status_code=400, detail="Debe seleccionar el mes correspondiente a los informes que desea auditar.")
+    mes = mes.strip().upper()
+    MESES_VALIDOS = ["ENERO", "FEBRERO", "MARZO", "ABRIL", "MAYO", "JUNIO", "JULIO", "AGOSTO", "SEPTIEMBRE", "OCTUBRE", "NOVIEMBRE", "DICIEMBRE"]
+    if mes not in MESES_VALIDOS:
+        raise HTTPException(status_code=400, detail=f"El mes '{mes}' no es válido. Debe seleccionar un mes oficial de la lista.")
+
     municipio = municipio.upper()
-    mes = mes.upper()
     session_id = str(uuid.uuid4())[:8]
     upload_tmp = os.path.join(TEMP_DIR, f"{municipio}_{mes}_{session_id}")
     os.makedirs(upload_tmp, exist_ok=True)
@@ -926,7 +932,15 @@ def api_admin_aprobar_justificacion(
 @app.get("/api/municipio/estado/{municipio}/{mes}")
 def api_municipio_estado(municipio: str, mes: str, ano: str = "2026"):
     municipio = municipio.upper()
-    mes = mes.upper()
+    mes = (mes or "").strip().upper()
+    MESES_VALIDOS = ["ENERO", "FEBRERO", "MARZO", "ABRIL", "MAYO", "JUNIO", "JULIO", "AGOSTO", "SEPTIEMBRE", "OCTUBRE", "NOVIEMBRE", "DICIEMBRE"]
+    if not mes or mes not in MESES_VALIDOS:
+        return {
+            "estado": "NO_SELECCIONADO",
+            "municipio": municipio,
+            "mes": mes,
+            "ano": ano
+        }
     target_dir = os.path.join(RADICADOS_DIR, ano, mes, municipio)
     receipt_file = os.path.join(target_dir, "radicado.json")
     dev_file = os.path.join(target_dir, "estado_devolucion.json")
