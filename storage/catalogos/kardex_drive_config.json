@@ -3,10 +3,10 @@
   "auto_sync": true,
   "frecuencia": "ULTIMO_DIA_MES",
   "hora_programada": "23:30",
-  "ultima_sincronizacion": "2026-10-02 17:15:15",
+  "ultima_sincronizacion": "2026-10-02 17:53:34",
   "ultimo_resultado": "SINCRONIZADO_OK",
-  "ultimo_mensaje": "Kardex oficial y Catálogo Maestro de Lotes sincronizados exitosamente desde Google Sheets (1819.9 KB, 1113 lotes activos catalogados).",
-  "tamano_kb": 1819.9,
+  "ultimo_mensaje": "Kardex oficial y Catálogo Maestro de Lotes sincronizados exitosamente desde Google Sheets (1815.7 KB, 1035 lotes activos catalogados).",
+  "tamano_kb": 1815.7,
   "proxima_sincronizacion": "2026-10-31 23:30:00",
-  "lotes_activos": 1113
+  "lotes_activos": 1035
 }

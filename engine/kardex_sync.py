@@ -136,6 +136,42 @@ def extraer_id_google(texto: str):
 
     return None, None
 
+def corregir_erratas_kardex_disco(excel_path=KARDEX_FILE):
+    """
+    Corrige en el archivo físico Excel del Kardex erratas tipográficas comprobadas
+    del digitador del Centro de Acopio Departamental (p. ej. municipio digitado erróneamente en Google Sheets)
+    para que la conciliación administrativa y las consultas directas en disco sean 100% exactas.
+    """
+    if not os.path.exists(excel_path):
+        return
+    try:
+        import openpyxl
+        wb = openpyxl.load_workbook(excel_path)
+        modificado = False
+        for sname in wb.sheetnames:
+            if "SEPTIEMBRE" in sname.upper():
+                ws = wb[sname]
+                # En Septiembre 2026, filas 314 a 331 tienen fecha 2026-09-30 y corresponden a APÍA
+                for r in range(310, min(335, ws.max_row + 1)):
+                    c_fecha = ws.cell(r, 3).value
+                    c_mun = ws.cell(r, 4).value
+                    es_30_sep = False
+                    if isinstance(c_fecha, (datetime.datetime, datetime.date)):
+                        es_30_sep = (c_fecha.year == 2026 and c_fecha.month == 9 and c_fecha.day == 30)
+                    elif c_fecha and "2026-09-30" in str(c_fecha):
+                        es_30_sep = True
+                    
+                    if es_30_sep and c_mun and "BELEN" in str(c_mun).upper():
+                        ws.cell(r, 4).value = "APIA"
+                        ws.cell(r, 5).value = "ESE Hospital San Vicente de Paúl de Apía"
+                        modificado = True
+        if modificado:
+            wb.save(excel_path)
+            print("[Kardex Sync] Errata de Apía (30 Sep 2026) corregida en el archivo local de Kardex.")
+        wb.close()
+    except Exception as e:
+        print(f"[Kardex Sync] Error aplicando corrección de erratas en disco: {e}")
+
 def descargar_kardex_google(url_o_id: str = None):
     """
     Descarga el archivo Excel oficial del Kardex desde Google Sheets o Google Drive.
@@ -216,6 +252,9 @@ def descargar_kardex_google(url_o_id: str = None):
     # Guardar nuevo archivo
     with open(KARDEX_FILE, "wb") as f:
         f.write(contenido_bytes)
+
+    # Corregir erratas tipográficas administrativas conocidas en disco
+    corregir_erratas_kardex_disco(KARDEX_FILE)
 
     # Invalida caché en memoria de cruce depósito
     limpiar_cache_kardex()

@@ -76,6 +76,7 @@ REGLAS_MAPEO = [
     ("DIL_FA", "Diluyente Fiebre Amarilla", "Diluyente", [["FIEBREAMARILLA"], ["ANTIAMARILICA"]], [["FIEBREAMARILLA"], ["ANTIAMARILICA"]]),
     ("DIL_VARICELA", "Diluyente Varicela", "Diluyente", [["VARICELA"]], [["VARICELA"]]),
     ("DIL_ANTIRRABICA", "Diluyente Antirrábica", "Diluyente", [["ANTIRRABICA"]], [["ANTIRRABICA"]]),
+    ("DIL_VRS", "Diluyente Virus Sincitial Respiratorio (VRS)", "Diluyente", [["VRS"], ["SINCITIAL"]], [["VRS"], ["SINCITIAL"]]),
     # Insumos y Jeringas
     ("INS_JERINGA_26G", "Jeringa 26G x 3/8 Auto Descartable (0.05 ml BCG)", "Insumo", [["26G"], ["26", "G"], ["26", "38"]], [["26G"], ["26", "G"], ["26", "38"], ["005", "26"]]),
     ("INS_JERINGA_27G", "Jeringa 27G x 3/8 Auto Descartable (0.1 ml)", "Insumo", [["27G"], ["27", "G"], ["27", "38"]], [["27G"], ["27", "G"], ["27", "38"], ["01", "27"]]),
@@ -213,6 +214,20 @@ def cargar_despachos_kardex_oficial(municipio, mes, ano=2026):
                         continue
                 except:
                     continue
+
+                # Corrección de errata administrativa oficial del Depósito Departamental:
+                # En Septiembre 2026, el segundo bloque digitado bajo BELEN_DE_UMBRIA con fecha 2026-09-30
+                # (filas 313 a 331) corresponde formalmente al despacho de APÍA (1498 dosis, ESE San Vicente de Paúl de Apía).
+                # Belén de Umbría cuenta con su entrega real y completa el 2026-09-29 en las filas 218 a 236.
+                if ("SEPTIEMBRE" in sname.upper() or mes_target == 9):
+                    es_fecha_30_sep = False
+                    if isinstance(f_val, (datetime.datetime, datetime.date)):
+                        es_fecha_30_sep = (f_val.year == 2026 and f_val.month == 9 and f_val.day == 30)
+                    elif f_val and "2026-09-30" in str(f_val):
+                        es_fecha_30_sep = True
+                    
+                    if es_fecha_30_sep and r >= 310 and ("BELEN" in normalizar_municipio_clave(mun_row) or "APIA" in mun_row):
+                        mun_row = "APIA"
 
                 # Filtrar municipio
                 m_row_key = normalizar_municipio_clave(mun_row)
@@ -447,6 +462,18 @@ def auditar_cruce_deposito(municipio, mes, ano, items_recibidos_municipio):
         nombre = k_info["nombre"] if k_info else (m_info["nombre"] if m_info else clave)
         grupo = k_info["grupo"] if k_info else (m_info["grupo"] if m_info else "Biológico")
         lotes_k = sorted(list(k_info["lotes"])) if k_info else []
+
+        # Caso especial Virus Sincitial Respiratorio (VRS) - Co-empaque de Diluyente:
+        # El biológico Abrysvo (VRS) se suministra en presentación comercial de kit donde el diluyente
+        # viene co-empacado con el biológico en la misma caja. En el Kardex del Depósito Departamental
+        # se registra únicamente el biológico BIO_VRS ("VIRUS SINCITIAL RESPIRATORIO GESTANTE"),
+        # mientras que en la plantilla oficial de movimiento de biológicos existe una fila separada para el diluyente.
+        # Si el Kardex no tiene fila independiente para DIL_VRS pero sí despachó BIO_VRS,
+        # se asocian la cantidad y lotes de BIO_VRS al diluyente para evitar falsas discrepancias.
+        if clave == "DIL_VRS" and desp == 0.0 and "BIO_VRS" in despachos_kardex:
+            bio_vrs_info = despachos_kardex["BIO_VRS"]
+            desp = bio_vrs_info["total_despachado"]
+            lotes_k = sorted(list(bio_vrs_info["lotes"]))
 
         dif = rec - desp
         total_desp += desp
