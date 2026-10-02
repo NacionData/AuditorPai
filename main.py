@@ -18,7 +18,7 @@ from engine.validator_extranjeros import validar_extranjeros
 from engine.cruce_colombianos import auditar_cruce_colombianos
 from engine.cruce_deposito import auditar_cruce_deposito, obtener_info_kardex_actual, limpiar_cache_kardex
 from engine.ai_auditor import generar_dictamen_auditoria, test_gemini_connection
-from engine.consolidator import consolidar_departamento
+from engine.consolidator import consolidar_departamento, normalizar
 from engine.dictamen_reglas import generar_dictamen_reglas_detallado
 from engine.auth import autenticar_usuario, verificar_token, cerrar_sesion
 from engine.drive_sync import sincronizar_radicado_drive, sincronizar_consolidados_drive, obtener_estado_drive
@@ -623,15 +623,49 @@ def api_consolidar(mes: str, ano: str = "2026"):
                 if f_dosis or f_mov or f_ext:
                     fuentes[m_nom] = {"DOSIS": f_dosis, "MOVIMIENTO": f_mov, "EXTRANJEROS": f_ext}
 
-    # 2. Si es agosto y no hay suficientes radicados por web aún, usar las fuentes de NACIONALES como respaldo
-    if len(fuentes) < 5 and mes == "AGOSTO":
-        nac_dir = os.path.join(os.path.dirname(BASE_DIR), "AGOSTO_2026_MUNICIPALES", "AGOSTO_2026", "NACIONALES")
-        if os.path.exists(nac_dir):
-            for f in os.listdir(nac_dir):
-                if f.endswith(".xlsx"):
-                    m_nom = os.path.splitext(f)[0]
-                    if m_nom not in fuentes:
-                        fuentes[m_nom] = {"DOSIS": os.path.join(nac_dir, f)}
+    # 2. Si es agosto y no están todos los municipios radicados por web, usar las carpetas de AGOSTO_2026_MUNICIPALES
+    if len(fuentes) < 14 and mes == "AGOSTO":
+        muni_base_dir = os.path.join(os.path.dirname(BASE_DIR), "AGOSTO_2026_MUNICIPALES", "AGOSTO_2026")
+        if os.path.exists(muni_base_dir):
+            for fol in os.listdir(muni_base_dir):
+                fol_path = os.path.join(muni_base_dir, fol)
+                if not os.path.isdir(fol_path) or fol == "NACIONALES":
+                    continue
+                m_nom_match = None
+                for m in municipios:
+                    if normalizar(m["nombre"]) in normalizar(fol):
+                        m_nom_match = m["nombre"]
+                        break
+                if not m_nom_match:
+                    continue
+
+                if m_nom_match not in fuentes:
+                    fuentes[m_nom_match] = {"DOSIS": None, "MOVIMIENTO": None, "EXTRANJEROS": None}
+
+                for fn in os.listdir(fol_path):
+                    fpath = os.path.join(fol_path, fn)
+                    if not fn.endswith((".xlsx", ".xlsm")):
+                        continue
+                    fn_low = fn.lower()
+                    if not fuentes[m_nom_match].get("EXTRANJEROS") and ("extranjeros" in fn_low or "fronterizos" in fn_low):
+                        fuentes[m_nom_match]["EXTRANJEROS"] = fpath
+                    elif not fuentes[m_nom_match].get("MOVIMIENTO") and ("movimiento" in fn_low):
+                        fuentes[m_nom_match]["MOVIMIENTO"] = fpath
+                    elif not fuentes[m_nom_match].get("DOSIS") and ("dosis" in fn_low or "plantilla de reporte" in fn_low):
+                        fuentes[m_nom_match]["DOSIS"] = fpath
+
+            # Complementar DOSIS desde la carpeta NACIONALES si falta alguno
+            nac_dir = os.path.join(muni_base_dir, "NACIONALES")
+            if os.path.exists(nac_dir):
+                for f in os.listdir(nac_dir):
+                    if f.endswith(".xlsx"):
+                        m_nom_arch = os.path.splitext(f)[0]
+                        for m in municipios:
+                            if normalizar(m["nombre"]) == normalizar(m_nom_arch):
+                                if m["nombre"] not in fuentes:
+                                    fuentes[m["nombre"]] = {"DOSIS": None, "MOVIMIENTO": None, "EXTRANJEROS": None}
+                                if not fuentes[m["nombre"]].get("DOSIS"):
+                                    fuentes[m["nombre"]]["DOSIS"] = os.path.join(nac_dir, f)
 
     if not fuentes:
         raise HTTPException(status_code=400, detail=f"No hay informes radicados para consolidar en {mes} {ano}.")

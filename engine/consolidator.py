@@ -506,23 +506,29 @@ def consolidar_departamento(mes="AGOSTO", ano="2026", fuentes_municipios=None):
                         ws_dst = wb_out_ext[h_nombre]
                         grid_e = list(ws_src.iter_rows(min_row=1, max_row=150, min_col=1, max_col=480, values_only=True))
 
-                        # Buscar bloque del municipio o usar bloque inicial
-                        src_r_start = 9
-                        for row_idx, r_vals in enumerate(grid_e[:40]):
+                        # En el informe municipal los datos están organizados por mes (9 filas por mes):
+                        # Enero: 9, Febrero: 18, Marzo: 27, Abril: 36, Mayo: 45, Junio: 54, Julio: 63, Agosto: 72, etc.
+                        mes_norm = normalizar(mes)
+                        mes_idx = MESES_ORDEN.index(mes_norm) if mes_norm in MESES_ORDEN else 7
+                        src_r_start = 9 + (mes_idx * 9)
+
+                        # Buscar confirmación en columna 3 o 2 por si el orden de meses varía
+                        for row_idx, r_vals in enumerate(grid_e[:130]):
                             c3_val = r_vals[2] if len(r_vals) > 2 else None
-                            if c3_val and mun_norm in normalizar(c3_val):
+                            c2_val = r_vals[1] if len(r_vals) > 1 else None
+                            if (c3_val and mes_norm in normalizar(str(c3_val))) or (c2_val and mes_norm in normalizar(str(c2_val))):
                                 src_r_start = row_idx + 1
                                 break
 
-                        # Copiar 9 filas del municipio (omitiendo filas de totales 3 y 8)
+                        # Copiar las 7 filas de datos del municipio (omitiendo filas de fórmulas 3 y 8: TOTAL GÉNERO y TOTAL RÉGIMEN)
                         for r_offset in range(9):
-                            if r_offset in {2, 7}: # Total género y total régimen
+                            if r_offset in {3, 8}: # Preservar fórmulas oficiales del consolidado (=SUM(...))
                                 continue
                             s_row_i = src_r_start + r_offset
                             d_row_i = target_r_ext + r_offset
                             if s_row_i <= len(grid_e):
                                 row_vals = grid_e[s_row_i - 1]
-                                for c_idx in range(5, min(len(row_vals) + 1, 475)):
+                                for c_idx in range(5, min(len(row_vals) + 1, 476)):
                                     v = row_vals[c_idx - 1]
                                     if v is not None and isinstance(v, (int, float)) and v != 0:
                                         ws_dst.cell(row=d_row_i, column=c_idx).value = v
