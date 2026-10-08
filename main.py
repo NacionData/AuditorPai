@@ -642,14 +642,39 @@ def api_consolidar(mes: str, ano: str = "2026"):
             m_dir = os.path.join(radicados_mes_dir, m_nom)
             if os.path.exists(m_dir):
                 f_dosis, f_mov, f_ext = None, None, None
-                for file_name in os.listdir(m_dir):
-                    fpath = os.path.join(m_dir, file_name)
-                    if file_name.startswith("DOSIS_"):
+                rad_json = os.path.join(m_dir, "radicado.json")
+                if os.path.exists(rad_json):
+                    try:
+                        with open(rad_json, "r", encoding="utf-8") as rf:
+                            r_info = json.load(rf)
+                            archs = r_info.get("archivos", {})
+                            if archs.get("DOSIS"):
+                                cand = os.path.join(m_dir, os.path.basename(archs["DOSIS"]))
+                                if os.path.exists(cand): f_dosis = cand
+                            if archs.get("MOVIMIENTO"):
+                                cand = os.path.join(m_dir, os.path.basename(archs["MOVIMIENTO"]))
+                                if os.path.exists(cand): f_mov = cand
+                            if archs.get("EXTRANJEROS"):
+                                cand = os.path.join(m_dir, os.path.basename(archs["EXTRANJEROS"]))
+                                if os.path.exists(cand): f_ext = cand
+                    except Exception:
+                        pass
+
+                # Fallback ordenando por fecha de modificación más reciente
+                archivos_ordenados = sorted(
+                    [os.path.join(m_dir, fn) for fn in os.listdir(m_dir)],
+                    key=os.path.getmtime,
+                    reverse=True
+                )
+                for fpath in archivos_ordenados:
+                    fn = os.path.basename(fpath)
+                    if not f_dosis and fn.startswith("DOSIS_"):
                         f_dosis = fpath
-                    elif file_name.startswith("MOVIMIENTO_"):
+                    elif not f_mov and fn.startswith("MOVIMIENTO_"):
                         f_mov = fpath
-                    elif file_name.startswith("EXTRANJEROS_"):
+                    elif not f_ext and fn.startswith("EXTRANJEROS_"):
                         f_ext = fpath
+
                 if f_dosis or f_mov or f_ext:
                     fuentes[m_nom] = {"DOSIS": f_dosis, "MOVIMIENTO": f_mov, "EXTRANJEROS": f_ext}
 
@@ -988,6 +1013,12 @@ def api_admin_aprobar_informe(
 
     with open(receipt_file, "w", encoding="utf-8") as f:
         json.dump(recibo, f, indent=2, ensure_ascii=False)
+
+    # Sincronizar comprobante y archivos actualizados con Google Drive
+    try:
+        sincronizar_radicado_drive(municipio, mes, ano, recibo.get("archivos", {}), recibo)
+    except Exception as e_drv:
+        print(f"[Admin Aprobar] Error sincronizando con Drive: {e_drv}")
 
     return {
         "success": True,

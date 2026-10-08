@@ -425,10 +425,28 @@
     "laboratorio": "CHUMAKOV",
     "fuente": "Kardex 15 Septiembre 2026"
   },
+  "Y3H33": {
+    "insumo": "Antiamarílica",
+    "vencimiento": "2027-08-31",
+    "laboratorio": "Sanofi Pasteur",
+    "fuente": "Kardex 15 Septiembre 2026"
+  },
   "Y4X19": {
     "insumo": "Diluyente fiebre amarilla",
     "vencimiento": "2027-08-30",
     "laboratorio": "Sanofi Pasteur",
+    "fuente": "Kardex 15 Septiembre 2026"
+  },
+  "0373MA047-": {
+    "insumo": "BCG",
+    "vencimiento": "2025-11-30",
+    "laboratorio": "Serum",
+    "fuente": "Kardex 15 Septiembre 2026"
+  },
+  "0373MA047": {
+    "insumo": "BCG",
+    "vencimiento": "2025-11-30",
+    "laboratorio": "Serum",
     "fuente": "Kardex 15 Septiembre 2026"
   },
   "0373MA117": {
@@ -1125,12 +1143,6 @@
     "insumo": "BCG",
     "vencimiento": "2026-12-31",
     "laboratorio": "Serum",
-    "fuente": "Kardex 10 Julio 2025"
-  },
-  "Y3H33": {
-    "insumo": "Antiamarílica",
-    "vencimiento": "2027-08-31",
-    "laboratorio": "Sanofi Pasteur",
     "fuente": "Kardex 10 Julio 2025"
   },
   "2334L016E": {
@@ -3470,18 +3482,6 @@
   "0370MA022": {
     "insumo": "Inmunobiológico",
     "vencimiento": "2022-06-30",
-    "laboratorio": "Serum",
-    "fuente": "Lotes"
-  },
-  "0373MA047-": {
-    "insumo": "Inmunobiológico",
-    "vencimiento": "2025-11-30",
-    "laboratorio": "Serum",
-    "fuente": "Lotes"
-  },
-  "0373MA047": {
-    "insumo": "Inmunobiológico",
-    "vencimiento": "2025-11-30",
     "laboratorio": "Serum",
     "fuente": "Lotes"
   },

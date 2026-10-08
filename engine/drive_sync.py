@@ -30,16 +30,37 @@ CORREO_DESTINO = "risaraldapaiweb@gmail.com"
 
 os.makedirs(DRIVE_MIRROR_DIR, exist_ok=True)
 
+DRIVE_DESKTOP_DIRS = [
+    r"H:\Mi unidad\Informes PAI Risaralda 2026",
+    r"G:\Mi unidad\Informes PAI Risaralda 2026"
+]
+
 def obtener_estado_drive() -> dict:
     """Verifica si las credenciales de Google Drive están activas."""
     tiene_credenciales = os.path.exists(CREDENTIALS_FILE)
+    tiene_escritorio = any(os.path.exists(p) for p in DRIVE_DESKTOP_DIRS)
+    conectado = tiene_credenciales or tiene_escritorio
     return {
         "correo_asociado": CORREO_DESTINO,
-        "credenciales_configuradas": tiene_credenciales,
-        "ruta_credenciales": CREDENTIALS_FILE,
-        "estado": "CONECTADO_API" if tiene_credenciales else "MODO_ESPEJO_LOCAL_ACTIVO",
-        "mensaje": "Sincronización activa con Google Drive" if tiene_credenciales else f"Archivos organizados por mes en cola para {CORREO_DESTINO}"
+        "credenciales_configuradas": conectado,
+        "ruta_credenciales": CREDENTIALS_FILE if tiene_credenciales else "Google Drive para Escritorio",
+        "estado": "CONECTADO_DRIVE" if conectado else "MODO_ESPEJO_LOCAL_ACTIVO",
+        "mensaje": "Sincronización activa con Google Drive (Nube / Escritorio)" if conectado else f"Archivos organizados por mes en cola para {CORREO_DESTINO}"
     }
+
+def _sincronizar_carpeta_escritorio(rel_path: str, archivos: dict, recibo: dict = None):
+    """Copia los archivos a la unidad virtual de Google Drive si está presente."""
+    for root_dir in DRIVE_DESKTOP_DIRS:
+        if os.path.exists(root_dir):
+            target = os.path.join(root_dir, rel_path)
+            os.makedirs(target, exist_ok=True)
+            for clave, file_path in archivos.items():
+                if file_path and os.path.exists(file_path):
+                    dest = os.path.join(target, os.path.basename(file_path))
+                    shutil.copy2(file_path, dest)
+            if recibo:
+                with open(os.path.join(target, "radicado.json"), "w", encoding="utf-8") as f:
+                    json.dump(recibo, f, indent=2, ensure_ascii=False)
 
 def sincronizar_radicado_drive(municipio: str, mes: str, ano: str, archivos: dict, recibo: dict) -> dict:
     """
@@ -50,7 +71,8 @@ def sincronizar_radicado_drive(municipio: str, mes: str, ano: str, archivos: dic
     
     # 1. Crear estructura espejo de Google Drive localmente
     folder_mes = f"{mes}_{ano}"
-    target_drive_folder = os.path.join(DRIVE_MIRROR_DIR, f"PAI_RISARALDA_{ano}", folder_mes, municipio)
+    rel_folder = os.path.join(folder_mes, municipio)
+    target_drive_folder = os.path.join(DRIVE_MIRROR_DIR, f"PAI_RISARALDA_{ano}", rel_folder)
     os.makedirs(target_drive_folder, exist_ok=True)
     
     archivos_sincronizados = []
@@ -79,6 +101,9 @@ def sincronizar_radicado_drive(municipio: str, mes: str, ano: str, archivos: dic
         "ruta_drive": f"/{CORREO_DESTINO}/PAI_RISARALDA_{ano}/{folder_mes}/{municipio}/radicado.json",
         "tamano_bytes": os.path.getsize(recibo_file)
     })
+    
+    # Sincronización directa en Google Drive de Escritorio
+    _sincronizar_carpeta_escritorio(rel_folder, archivos, recibo)
     
     # Intentar conexión directa con Google Drive API si está configurada
     api_subida = _intentar_subida_api_google(target_drive_folder, f"PAI_RISARALDA_{ano}/{folder_mes}/{municipio}")
@@ -115,6 +140,9 @@ def sincronizar_consolidados_drive(mes: str, ano: str, archivos_consolidados: di
                 "ruta_drive": f"/{CORREO_DESTINO}/PAI_RISARALDA_{ano}/CONSOLIDADOS_MINSALUD/{folder_mes}/{nombre_archivo}"
             })
             
+    # Sincronización directa en Google Drive de Escritorio
+    _sincronizar_carpeta_escritorio(os.path.join("CONSOLIDADOS_MINSALUD", folder_mes), archivos_consolidados)
+    
     api_subida = _intentar_subida_api_google(target_drive_folder, f"PAI_RISARALDA_{ano}/CONSOLIDADOS_MINSALUD/{folder_mes}")
     
     return {

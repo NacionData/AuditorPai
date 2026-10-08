@@ -79,6 +79,7 @@ def normalizar(texto):
     t = str(texto).upper().strip()
     for a, b in [("Á", "A"), ("É", "E"), ("Í", "I"), ("Ó", "O"), ("Ú", "U"), ("Ñ", "N")]:
         t = t.replace(a, b)
+    t = t.replace("ATUMATICA", "AUTOMATICA")
     return re.sub(r'[^A-Z0-9\s]', ' ', t).strip()
 
 def safe_num(val):
@@ -303,24 +304,24 @@ def consolidar_departamento(mes="AGOSTO", ano="2026", fuentes_municipios=None):
                 grid_m = list(ws_m_src.iter_rows(min_row=1, max_row=400, min_col=1, max_col=45, values_only=True))
                 wb_m_src.close()
 
-                r = 1
-                while r <= len(grid_m):
-                    row = grid_m[r - 1]
+                # 1. Detectar todos los ítems válidos en el archivo municipal
+                items_mun_detectados = []
+                for r_idx, row in enumerate(grid_m, start=1):
                     c1 = row[0] if len(row) > 0 else None
                     c2 = row[1] if len(row) > 1 else None
+                    if c2 and str(c2).strip():
+                        c2_str = str(c2).strip()
+                        c2_u = c2_str.upper()
+                        if any(h in c2_u for h in ["INSUMOS", "OBSERVACIONES", "CONSOLIDADO", "TOTAL", "MUNICIPIO", "VACUNA COVID", "SALIDA POR", "INGRESO POR", "TOTAL DISPONIBLE"]):
+                            continue
+                        if c1 is not None:
+                            c1_s = str(c1).strip()
+                            if c1_s.isdigit() or c1_s.startswith("=") or isinstance(c1, (int, float)):
+                                items_mun_detectados.append((r_idx, c1, c2_str))
 
-                    es_item = False
-                    try:
-                        if c1 is not None and int(c1) > 0 and c2 and str(c2).strip():
-                            es_item = True
-                    except (ValueError, TypeError):
-                        es_item = False
-
-                    if not es_item:
-                        r += 1
-                        continue
-
-                    insumo_raw = str(c2).strip()
+                # 2. Agregar dosis, pérdidas y lotes de cada ítem
+                for i, (r_start, c1_val, insumo_raw) in enumerate(items_mun_detectados):
+                    r_end = items_mun_detectados[i + 1][0] if i + 1 < len(items_mun_detectados) else len(grid_m) + 1
                     insumo_norm = normalizar(insumo_raw)
 
                     if insumo_norm not in datos_consolidados_items:
@@ -334,29 +335,51 @@ def consolidar_departamento(mes="AGOSTO", ano="2026", fuentes_municipios=None):
 
                     item_acc = datos_consolidados_items[insumo_norm]
 
-                    # Dosis aplicadas
-                    d_col = safe_num(row[5]) if len(row) > 5 else 0 # Col F (6)
-                    d_ext = safe_num(row[6]) if len(row) > 6 else 0 # Col G (7)
-                    item_acc["dosis_col"] += d_col
-                    item_acc["dosis_ext"] += d_ext
+                    # Determinar cantidad de slots de lotes válidos según el tipo de ítem en el archivo municipal:
+                    # Biológicos (filas 5 a 221) y diluyentes (222 a 294): 5 slots (el slot 6 es control)
+                    # Jeringas (295 a 364): 6 slots (el slot 7 es control)
+                    # Carnets / papelería (365 a 376): 0 slots
+                    # Vacunas COVID (377 a 385): 4 slots (o 1 fila)
+                    if r_start < 295:
+                        max_slots_muni = 5
+                    elif r_start < 365:
+                        max_slots_muni = 6
+                    elif r_start < 377:
+                        max_slots_muni = 0
+                    else:
+                        max_slots_muni = 4
 
-                    # Causas de pérdidas
-                    for mun_c, dept_c in MAPA_COLS_PERDIDAS_MUN_TO_DEPT.items():
-                        val_p = safe_num(row[mun_c - 1]) if len(row) >= mun_c else 0
-                        item_acc["perdidas_cols"][dept_c] += val_p
+                    # Procesar filas de este ítem (excluyendo la fila de control)
+                    for slot_idx in range(max(1, max_slots_muni)):
+                        r_slot_idx = r_start + slot_idx
+                        if r_slot_idx >= r_end or r_slot_idx > len(grid_m):
+                            break
+                        r_slot = grid_m[r_slot_idx - 1]
 
-                    # Extraer lotes (slots de r a r+4)
-                    for slot in range(5):
-                        slot_r = r + slot
-                        if slot_r <= len(grid_m):
-                            r_slot = grid_m[slot_r - 1]
-                            d_lote = safe_num(r_slot[13]) if len(r_slot) > 13 else 0 # Col 14 (N)
-                            n_lote = str(r_slot[14]).strip().upper() if len(r_slot) > 14 and r_slot[14] else "" # Col 15 (O)
-                            lab_lote = str(r_slot[15]).strip() if len(r_slot) > 15 and r_slot[15] else "" # Col 16 (P)
-                            fv_lote = r_slot[16] if len(r_slot) > 16 else None # Col 17 (Q)
+                        # Dosis aplicadas
+                        d_col = safe_num(r_slot[5]) if len(r_slot) > 5 else 0  # Col F (6)
+                        d_ext = safe_num(r_slot[6]) if len(r_slot) > 6 else 0  # Col G (7)
+                        item_acc["dosis_col"] += d_col
+                        item_acc["dosis_ext"] += d_ext
+
+                        # Causas de pérdidas
+                        for mun_c, dept_c in MAPA_COLS_PERDIDAS_MUN_TO_DEPT.items():
+                            val_p = safe_num(r_slot[mun_c - 1]) if len(r_slot) >= mun_c else 0
+                            item_acc["perdidas_cols"][dept_c] += val_p
+
+                        # Extraer lotes (solo si este tipo de ítem maneja lotes)
+                        if max_slots_muni > 0:
+                            d_lote = safe_num(r_slot[13]) if len(r_slot) > 13 else 0  # Col 14 (N)
+                            n_lote = str(r_slot[14]).strip().upper() if len(r_slot) > 14 and r_slot[14] else ""  # Col 15 (O)
+                            lab_lote = str(r_slot[15]).strip() if len(r_slot) > 15 and r_slot[15] else ""  # Col 16 (P)
+                            fv_lote = r_slot[16] if len(r_slot) > 16 else None  # Col 17 (Q)
 
                             if n_lote and n_lote.endswith(".0"):
                                 n_lote = n_lote[:-2]
+
+                            # Ignorar si es texto de control de la plantilla
+                            if any(pal in n_lote for pal in ["VERDADERO", "FALSO", "INDICA", "COINCIDE", "SALDO"]):
+                                continue
 
                             if d_lote > 0 and n_lote:
                                 if n_lote not in item_acc["lotes"]:
@@ -371,7 +394,6 @@ def consolidar_departamento(mes="AGOSTO", ano="2026", fuentes_municipios=None):
                                 if fv_lote and not item_acc["lotes"][n_lote]["fv"]:
                                     item_acc["lotes"][n_lote]["fv"] = fv_lote
 
-                    r += 6
             except Exception as e:
                 print(f"Error procesando movimiento de {mun_nombre}: {e}")
 
@@ -388,22 +410,23 @@ def consolidar_departamento(mes="AGOSTO", ano="2026", fuentes_municipios=None):
             ws_m_out["E6"] = mes
             ws_m_out["I6"] = int(ano) if ano.isdigit() else ano
 
-            # Identificar ítems en la sección CONSOLIDADO MUNICIPIOS (Filas 411 en adelante)
-            for r_dept in range(411, min(ws_m_out.max_row + 1, 880)):
+            # Identificar todos los ítems en la sección CONSOLIDADO MUNICIPIOS (Filas 414 a 814)
+            items_dept_detectados = []
+            for r_dept in range(414, 815):
                 c1 = ws_m_out.cell(row=r_dept, column=1).value
                 c2 = ws_m_out.cell(row=r_dept, column=2).value
+                if c2 and str(c2).strip():
+                    c2_str = str(c2).strip()
+                    c2_u = c2_str.upper()
+                    if any(h in c2_u for h in ["INSUMOS", "OBSERVACIONES", "CONSOLIDADO", "TOTAL", "MUNICIPIO", "VACUNA COVID"]):
+                        continue
+                    if c1 is not None:
+                        c1_s = str(c1).strip()
+                        if c1_s.isdigit() or c1_s.startswith("=") or isinstance(c1, (int, float)):
+                            items_dept_detectados.append((r_dept, c1, c2_str))
 
-                es_item_dept = False
-                try:
-                    if c1 is not None and str(c1).strip().isdigit() and int(c1) > 0 and c2 and str(c2).strip():
-                        es_item_dept = True
-                except (ValueError, TypeError):
-                    es_item_dept = False
-
-                if not es_item_dept:
-                    continue
-
-                item_dept_norm = normalizar(c2)
+            for r_dept, c1_val, c2_dept in items_dept_detectados:
+                item_dept_norm = normalizar(c2_dept)
 
                 # Buscar coincidencia en los datos consolidados de los municipios
                 acc_data = None
@@ -427,40 +450,55 @@ def consolidar_departamento(mes="AGOSTO", ano="2026", fuentes_municipios=None):
                     set_cell_safe(ws_m_out, r_dept, 10, f"=+H{r_dept}+I{r_dept}")
                     set_cell_safe(ws_m_out, r_dept, 11, f"=+(D{r_dept}+E{r_dept})-(J{r_dept})")
 
+                    # Determinar cantidad de slots según el tipo de ítem
+                    if r_dept < 706:
+                        slot_count = 5  # Biológicos y diluyentes
+                    elif r_dept < 777:
+                        slot_count = 6  # Jeringas
+                    elif r_dept < 784:
+                        slot_count = 0  # Carnets / papelería
+                    elif r_dept < 815:
+                        slot_count = 4  # Covid
+                    else:
+                        slot_count = 0
+
                     # 2. Pérdidas por causas
                     for col_idx, suma_causa in acc_data["perdidas_cols"].items():
                         set_cell_safe(ws_m_out, r_dept, col_idx, suma_causa)
 
                     set_cell_safe(ws_m_out, r_dept, 28, f"=+Z{r_dept}+AA{r_dept}")
-                    set_cell_safe(ws_m_out, r_dept, 39, f"=SUM(AB{r_dept}:AL{r_dept+4})")
+                    end_loss_slot = r_dept + max(0, slot_count - 1) if slot_count > 0 else r_dept
+                    set_cell_safe(ws_m_out, r_dept, 39, f"=SUM(AB{r_dept}:AL{end_loss_slot})")
 
-                    # 3. Lotes agregados (Top 5 lotes sumados) para biológicos y diluyentes (r_dept < 706)
-                    if r_dept < 706:
+                    # 3. Lotes agregados
+                    if slot_count > 0:
                         lotes_ordenados = sorted(
                             acc_data["lotes"].items(),
                             key=lambda x: x[1]["dosis"],
                             reverse=True
                         )
 
-                        for slot in range(5):
+                        for slot in range(slot_count):
                             slot_r = r_dept + slot
                             if slot < len(lotes_ordenados):
                                 l_cod, l_info = lotes_ordenados[slot]
                                 set_cell_safe(ws_m_out, slot_r, 12, l_info["dosis"]) # Dosis lote
                                 set_cell_safe(ws_m_out, slot_r, 13, l_cod) # No. Lote
-                                if l_info["lab"]:
+                                if l_info.get("lab"):
                                     set_cell_safe(ws_m_out, slot_r, 14, l_info["lab"]) # Lab
-                                if l_info["fv"]:
+                                if l_info.get("fv"):
                                     set_cell_safe(ws_m_out, slot_r, 15, l_info["fv"]) # Vencimiento
                             else:
                                 # Limpiar slots vacíos
                                 set_cell_safe(ws_m_out, slot_r, 12, None)
                                 set_cell_safe(ws_m_out, slot_r, 13, None)
+                                set_cell_safe(ws_m_out, slot_r, 14, None)
+                                set_cell_safe(ws_m_out, slot_r, 15, None)
 
-                        # Fila de control en r_dept + 5
-                        chk_r = r_dept + 5
+                        # Fila de control
+                        chk_r = r_dept + slot_count
                         set_cell_safe(ws_m_out, chk_r, 11, f"=K{r_dept}=L{chk_r}")
-                        set_cell_safe(ws_m_out, chk_r, 12, f"=SUM(L{r_dept}:L{r_dept+4})")
+                        set_cell_safe(ws_m_out, chk_r, 12, f"=SUM(L{r_dept}:L{chk_r - 1})")
 
         wb_out_mov.save(out_mov)
         wb_out_mov.close()
