@@ -1,0 +1,1735 @@
+{
+  "numero_radicado": "RAD-RIS-2026-OCT-4BFE89",
+  "municipio": "SANTA ROSA DE CABAL",
+  "mes": "OCTUBRE",
+  "ano": "2026",
+  "fecha": "2026-11-06 08:51:09",
+  "estado": "APROBADO_OFICIAL",
+  "tiene_justificacion": false,
+  "justificacion": null,
+  "aprobado_departamental": {
+    "aprobado": true,
+    "fecha": "2026-11-06 08:59:10",
+    "observacion": "Informe revisado y aprobado oficialmente por la Secretaría de Salud Departamental de Risaralda."
+  },
+  "archivos": {
+    "DOSIS": "/app/storage/radicados/2026/OCTUBRE/SANTA ROSA DE CABAL/DOSIS_Santa RosaMUNICIPIOS Plantilla de reporte mensual PAI_AGOSTO_2026-SRC.xlsx",
+    "MOVIMIENTO": "/app/storage/radicados/2026/OCTUBRE/SANTA ROSA DE CABAL/MOVIMIENTO_Santa Rosa Movimiento de Biologico 2026 Ministerio (2).xlsx",
+    "EXTRANJEROS": "/app/storage/radicados/2026/OCTUBRE/SANTA ROSA DE CABAL/EXTRANJEROS_Santa Rosa Plantilla Vacunados Países Fronterizos y Otros.xlsx"
+  },
+  "metricas": {
+    "dosis_aplicadas_nacionales": 2240,
+    "dosis_movimiento_total": 4914,
+    "dosis_perdidas_total": 371,
+    "vacunados_extranjeros": 173
+  },
+  "dictamen": {
+    "estado": "APROBADO_CON_ADVERTENCIAS",
+    "aprobado": true,
+    "municipio": "SANTA ROSA DE CABAL",
+    "mes": "OCTUBRE",
+    "total_errores": 0,
+    "total_advertencias": 6,
+    "errores_detallados": [],
+    "advertencias_detalladas": [
+      "[Dosis] [Simultaneidad - Cohorte de 2 Meses] Pentavalente 1ª + Hexavalente 1ª (47), Antipolio VIP 1ª (47), Rotavirus 1ª (48), Neumococo 1ª (47). Desfase observado de 1 dosis entre biológicos. Se sugiere verificar oportunidades de vacunación o diferimientos clínicos (Informativo, no bloquea radicación).",
+      "[Dosis] [Simultaneidad - Cohorte de 4 Meses] Pentavalente 2ª + Hexavalente 2ª (31), Antipolio VIP 2ª (30), Rotavirus 2ª (30), Neumococo 2ª (31). Desfase observado de 1 dosis entre biológicos. Se sugiere verificar oportunidades de vacunación o diferimientos clínicos (Informativo, no bloquea radicación).",
+      "[Dosis] [Simultaneidad - Cohorte de 6 Meses] Pentavalente 3ª + Hexavalente 3ª (25), Antipolio VIP 3ª (25), Influenza Pediátrica 1ª (12). Desfase observado de 13 dosis entre biológicos. Se sugiere verificar oportunidades de vacunación o diferimientos clínicos (Informativo, no bloquea radicación).",
+      "[Dosis] [Simultaneidad - Cohorte de 5 Años] DPT 2º Refuerzo (56), Antipolio VIP 2º Refuerzo (56), Varicela Refuerzo (57). Desfase observado de 1 dosis entre biológicos. Se sugiere verificar oportunidades de vacunación o diferimientos clínicos (Informativo, no bloquea radicación).",
+      "[Movimiento] [Cruce Dosis vs Movimiento] En 'Doble Viral (SR)': Plantilla de Dosis reporta 167 dosis vs Movimiento (Colombianos) que reporta 168 dosis (Diferencia: -1 dosis).",
+      "[Movimiento] [Cruce Dosis vs Movimiento] En 'Antirrábica Humana': Plantilla de Dosis reporta 47 dosis vs Movimiento (Colombianos) que reporta 43 dosis (Diferencia: +4 dosis)."
+    ],
+    "dictamen_pedagogico": "# DICTAMEN OFICIAL DE AUDITORÍA MÉDICA PAI\n**Programa Ampliado de Inmunizaciones (PAI) — Secretaría de Salud Departamental de Risaralda**\n\n• **Para:** Coordinación de Vacunación, IPS y Equipo PAI – Municipio de SANTA ROSA DE CABAL\n• **De:** Coordinador Médico de Auditoría PAI Risaralda\n• **Periodo Evaluado:** OCTUBRE de 2026\n• **Informes Evaluados:** Dosis Aplicadas, Movimiento de Biológicos y Población Extranjera\n• **Estado de Radicación:** **APROBADO PARA RADICACIÓN OFICIAL (CON OBSERVACIONES INFORMATIVAS)**\n\n---\n\n### 1. Concepto General de Auditoría Médica\nEstimado equipo de salud del municipio de SANTA ROSA DE CABAL:\n\nTras procesar la información reportada a través del motor de validación de datos y coherencia biológica con base en los lineamientos del Ministerio de Salud y Protección Social (Actualización Julio 2026), nos complace informarles que **no se identificaron inconsistencias críticas que bloqueen la radicación**.\nSus tres informes oficiales correspondientes al mes de OCTUBRE de 2026 son **válidos, consistentes y se encuentran plenamente autorizados para su radicación oficial** ante la Secretaría de Salud Departamental de Risaralda.\n\n\n### 2. Oportunidades de Vacunación y Seguimiento Clínico (Informativo)\n*(Las siguientes observaciones son pedagógicas y preventivas para fortalecer el esquema en campo; **NO impiden ni bloquean la radicación**)*\n\n**Análisis de Oportunidades y Simultaneidad de Esquema:**\n• [Dosis] [Simultaneidad - Cohorte de 2 Meses] Pentavalente 1ª + Hexavalente 1ª (47), Antipolio VIP 1ª (47), Rotavirus 1ª (48), Neumococo 1ª (47). Desfase observado de 1 dosis entre biológicos. Se sugiere verificar oportunidades de vacunación o diferimientos clínicos (Informativo, no bloquea radicación).\n• [Dosis] [Simultaneidad - Cohorte de 4 Meses] Pentavalente 2ª + Hexavalente 2ª (31), Antipolio VIP 2ª (30), Rotavirus 2ª (30), Neumococo 2ª (31). Desfase observado de 1 dosis entre biológicos. Se sugiere verificar oportunidades de vacunación o diferimientos clínicos (Informativo, no bloquea radicación).\n• [Dosis] [Simultaneidad - Cohorte de 6 Meses] Pentavalente 3ª + Hexavalente 3ª (25), Antipolio VIP 3ª (25), Influenza Pediátrica 1ª (12). Desfase observado de 13 dosis entre biológicos. Se sugiere verificar oportunidades de vacunación o diferimientos clínicos (Informativo, no bloquea radicación).\n• [Dosis] [Simultaneidad - Cohorte de 5 Años] DPT 2º Refuerzo (56), Antipolio VIP 2º Refuerzo (56), Varicela Refuerzo (57). Desfase observado de 1 dosis entre biológicos. Se sugiere verificar oportunidades de vacunación o diferimientos clínicos (Informativo, no bloquea radicación).\n\n**Trazabilidad Preventiva de Lotes y Diluyentes:**\n• [Movimiento] [Cruce Dosis vs Movimiento] En 'Doble Viral (SR)': Plantilla de Dosis reporta 167 dosis vs Movimiento (Colombianos) que reporta 168 dosis (Diferencia: -1 dosis).\n• [Movimiento] [Cruce Dosis vs Movimiento] En 'Antirrábica Humana': Plantilla de Dosis reporta 47 dosis vs Movimiento (Colombianos) que reporta 43 dosis (Diferencia: +4 dosis).\n\n---\n\n### 3. Recomendaciones Institucionales Permanentes\n1. **Búsqueda Activa Comunitaria:** Priorizar el rastreo de susceptibles en cohortes con coberturas diferidas.\n2. **Cadena de Frío:** Mantener el registro continuo de temperatura y verificar lotes vigentes autorizados.\n3. **Radicación Oportuna:** Una vez verificado el dictamen, proceda con la radicación oficial para el consolidado departamental ante MinSalud.\n\nAtentamente,\n\n**COORDINACIÓN MÉDICA DE AUDITORÍA PAI**  \n*Programa Ampliado de Inmunizaciones (PAI)*  \n*Secretaría de Salud Departamental de Risaralda*",
+    "motor_ia": "Motor Pedagógico Departamental Risaralda",
+    "usando_gemini": false,
+    "metricas": {
+      "dosis_aplicadas_nacionales": 2240,
+      "dosis_movimiento_total": 4914,
+      "dosis_perdidas_total": 371,
+      "vacunados_extranjeros": 173
+    }
+  },
+  "cruce_colombianos": {
+    "tipo": "CRUCE_DOSIS_VS_MOVIMIENTO_COLOMBIANOS",
+    "total_dosis_plantilla": 2239,
+    "total_dosis_movimiento_colombianos": 2236,
+    "diferencia_total": 3,
+    "coincidencias_exactas": 19,
+    "discrepancias_observadas": 2,
+    "porcentaje_coincidencia": 90.5,
+    "bloquea_radicacion": false,
+    "tabla_comparativa": [
+      {
+        "biologico": "BCG",
+        "dosis_plantilla": 6,
+        "dosis_movimiento": 6,
+        "diferencia": 0,
+        "estado": "COINCIDENCIA_EXACTA",
+        "observacion": "Coincidencia 100% exacta."
+      },
+      {
+        "biologico": "Hepatitis B Pediátrica / Recién Nacido",
+        "dosis_plantilla": 5,
+        "dosis_movimiento": 5,
+        "diferencia": 0,
+        "estado": "COINCIDENCIA_EXACTA",
+        "observacion": "Coincidencia 100% exacta."
+      },
+      {
+        "biologico": "Hepatitis B Adultos",
+        "dosis_plantilla": 3,
+        "dosis_movimiento": 3,
+        "diferencia": 0,
+        "estado": "COINCIDENCIA_EXACTA",
+        "observacion": "Coincidencia 100% exacta."
+      },
+      {
+        "biologico": "Antipolio Inactivada (VIP)",
+        "dosis_plantilla": 197,
+        "dosis_movimiento": 197,
+        "diferencia": 0,
+        "estado": "COINCIDENCIA_EXACTA",
+        "observacion": "Coincidencia 100% exacta."
+      },
+      {
+        "biologico": "Pentavalente (DPT-HB-Hib)",
+        "dosis_plantilla": 138,
+        "dosis_movimiento": 138,
+        "diferencia": 0,
+        "estado": "COINCIDENCIA_EXACTA",
+        "observacion": "Coincidencia 100% exacta."
+      },
+      {
+        "biologico": "Hexavalente (DTaP-IPV-HepB-Hib)",
+        "dosis_plantilla": 1,
+        "dosis_movimiento": 1,
+        "diferencia": 0,
+        "estado": "COINCIDENCIA_EXACTA",
+        "observacion": "Coincidencia 100% exacta."
+      },
+      {
+        "biologico": "Rotavirus",
+        "dosis_plantilla": 78,
+        "dosis_movimiento": 78,
+        "diferencia": 0,
+        "estado": "COINCIDENCIA_EXACTA",
+        "observacion": "Coincidencia 100% exacta."
+      },
+      {
+        "biologico": "Neumococo Conjugada",
+        "dosis_plantilla": 119,
+        "dosis_movimiento": 119,
+        "diferencia": 0,
+        "estado": "COINCIDENCIA_EXACTA",
+        "observacion": "Coincidencia 100% exacta."
+      },
+      {
+        "biologico": "Triple Viral (SRP)",
+        "dosis_plantilla": 120,
+        "dosis_movimiento": 120,
+        "diferencia": 0,
+        "estado": "COINCIDENCIA_EXACTA",
+        "observacion": "Coincidencia 100% exacta."
+      },
+      {
+        "biologico": "Doble Viral (SR)",
+        "dosis_plantilla": 167,
+        "dosis_movimiento": 168,
+        "diferencia": -1,
+        "estado": "DIFERENCIA_OBSERVADA",
+        "observacion": "Movimiento Colombianos reporta +1 dosis más que Plantilla."
+      },
+      {
+        "biologico": "Fiebre Amarilla",
+        "dosis_plantilla": 149,
+        "dosis_movimiento": 149,
+        "diferencia": 0,
+        "estado": "COINCIDENCIA_EXACTA",
+        "observacion": "Coincidencia 100% exacta."
+      },
+      {
+        "biologico": "Hepatitis A Pediátrica",
+        "dosis_plantilla": 41,
+        "dosis_movimiento": 41,
+        "diferencia": 0,
+        "estado": "COINCIDENCIA_EXACTA",
+        "observacion": "Coincidencia 100% exacta."
+      },
+      {
+        "biologico": "Varicela",
+        "dosis_plantilla": 98,
+        "dosis_movimiento": 98,
+        "diferencia": 0,
+        "estado": "COINCIDENCIA_EXACTA",
+        "observacion": "Coincidencia 100% exacta."
+      },
+      {
+        "biologico": "DPT (Refuerzo 18m y 5a)",
+        "dosis_plantilla": 59,
+        "dosis_movimiento": 59,
+        "diferencia": 0,
+        "estado": "COINCIDENCIA_EXACTA",
+        "observacion": "Coincidencia 100% exacta."
+      },
+      {
+        "biologico": "Toxoide Tetánico-Diftérico (Td) Adulto",
+        "dosis_plantilla": 105,
+        "dosis_movimiento": 105,
+        "diferencia": 0,
+        "estado": "COINCIDENCIA_EXACTA",
+        "observacion": "Coincidencia 100% exacta."
+      },
+      {
+        "biologico": "Tdap Gestantes / Acelular",
+        "dosis_plantilla": 48,
+        "dosis_movimiento": 48,
+        "diferencia": 0,
+        "estado": "COINCIDENCIA_EXACTA",
+        "observacion": "Coincidencia 100% exacta."
+      },
+      {
+        "biologico": "Influenza Estacional (Pediátrica + Adultos)",
+        "dosis_plantilla": 645,
+        "dosis_movimiento": 645,
+        "diferencia": 0,
+        "estado": "COINCIDENCIA_EXACTA",
+        "observacion": "Coincidencia 100% exacta."
+      },
+      {
+        "biologico": "Virus Sincitial Respiratorio (VSR)",
+        "dosis_plantilla": 64,
+        "dosis_movimiento": 64,
+        "diferencia": 0,
+        "estado": "COINCIDENCIA_EXACTA",
+        "observacion": "Coincidencia 100% exacta."
+      },
+      {
+        "biologico": "Virus del Papiloma Humano (VPH)",
+        "dosis_plantilla": 129,
+        "dosis_movimiento": 129,
+        "diferencia": 0,
+        "estado": "COINCIDENCIA_EXACTA",
+        "observacion": "Coincidencia 100% exacta."
+      },
+      {
+        "biologico": "Antirrábica Humana",
+        "dosis_plantilla": 47,
+        "dosis_movimiento": 43,
+        "diferencia": 4,
+        "estado": "DIFERENCIA_OBSERVADA",
+        "observacion": "Plantilla reporta +4 dosis más que Movimiento Colombianos."
+      },
+      {
+        "biologico": "COVID-19",
+        "dosis_plantilla": 20,
+        "dosis_movimiento": 20,
+        "diferencia": 0,
+        "estado": "COINCIDENCIA_EXACTA",
+        "observacion": "Coincidencia 100% exacta."
+      }
+    ],
+    "alertas": [
+      {
+        "biologico": "Doble Viral (SR)",
+        "dosis_plantilla": 167,
+        "dosis_movimiento": 168,
+        "diferencia": -1,
+        "mensaje": "[Cruce Dosis vs Movimiento] En 'Doble Viral (SR)': Plantilla de Dosis reporta 167 dosis vs Movimiento (Colombianos) que reporta 168 dosis (Diferencia: -1 dosis)."
+      },
+      {
+        "biologico": "Antirrábica Humana",
+        "dosis_plantilla": 47,
+        "dosis_movimiento": 43,
+        "diferencia": 4,
+        "mensaje": "[Cruce Dosis vs Movimiento] En 'Antirrábica Humana': Plantilla de Dosis reporta 47 dosis vs Movimiento (Colombianos) que reporta 43 dosis (Diferencia: +4 dosis)."
+      }
+    ]
+  },
+  "cruce_deposito": {
+    "disponible": true,
+    "municipio": "SANTA ROSA DE CABAL",
+    "mes": "OCTUBRE",
+    "ano": "2026",
+    "resumen": {
+      "total_items": 31,
+      "total_coincidencias": 31,
+      "total_diferencias": 0,
+      "total_despachado": 17029.0,
+      "total_recibido": 17029.0,
+      "porcentaje_coincidencia": 100.0,
+      "biologicos_exactos": 19,
+      "biologicos_total": 19
+    },
+    "items": [
+      {
+        "clave": "BIO_BCG",
+        "insumo": "BCG (Tuberculosis)",
+        "grupo": "Biológico",
+        "despachado_deposito": 70.0,
+        "recibido_municipio": 70.0,
+        "diferencia": 0.0,
+        "lotes_despachados": [
+          "0374MA084"
+        ],
+        "estado": "COINCIDE_EXACTO",
+        "estado_texto": "Coincide exacto (100%)"
+      },
+      {
+        "clave": "BIO_HEP_B_PED",
+        "insumo": "Hepatitis B Pediátrica",
+        "grupo": "Biológico",
+        "despachado_deposito": 65.0,
+        "recibido_municipio": 65.0,
+        "diferencia": 0.0,
+        "lotes_despachados": [
+          "0325Q010C"
+        ],
+        "estado": "COINCIDE_EXACTO",
+        "estado_texto": "Coincide exacto (100%)"
+      },
+      {
+        "clave": "BIO_HEXAVALENTE",
+        "insumo": "Hexavalente (DTaP-IPV-HepB-Hib)",
+        "grupo": "Biológico",
+        "despachado_deposito": 31.0,
+        "recibido_municipio": 31.0,
+        "diferencia": 0.0,
+        "lotes_despachados": [
+          "Y3C49"
+        ],
+        "estado": "COINCIDE_EXACTO",
+        "estado_texto": "Coincide exacto (100%)"
+      },
+      {
+        "clave": "BIO_POLIO_VIP",
+        "insumo": "Polio Inactiva (VIP)",
+        "grupo": "Biológico",
+        "despachado_deposito": 125.0,
+        "recibido_municipio": 125.0,
+        "diferencia": 0.0,
+        "lotes_despachados": [
+          "MB202602002"
+        ],
+        "estado": "COINCIDE_EXACTO",
+        "estado_texto": "Coincide exacto (100%)"
+      },
+      {
+        "clave": "BIO_PENTAVALENTE",
+        "insumo": "Pentavalente PAI",
+        "grupo": "Biológico",
+        "despachado_deposito": 100.0,
+        "recibido_municipio": 100.0,
+        "diferencia": 0.0,
+        "lotes_despachados": [
+          "2855X008D"
+        ],
+        "estado": "COINCIDE_EXACTO",
+        "estado_texto": "Coincide exacto (100%)"
+      },
+      {
+        "clave": "BIO_DPT",
+        "insumo": "DPT Pediátrica",
+        "grupo": "Biológico",
+        "despachado_deposito": 170.0,
+        "recibido_municipio": 170.0,
+        "diferencia": 0.0,
+        "lotes_despachados": [
+          "2825X014A"
+        ],
+        "estado": "COINCIDE_EXACTO",
+        "estado_texto": "Coincide exacto (100%)"
+      },
+      {
+        "clave": "BIO_ROTAVIRUS",
+        "insumo": "Rotavirus Oral",
+        "grupo": "Biológico",
+        "despachado_deposito": 50.0,
+        "recibido_municipio": 50.0,
+        "diferencia": 0.0,
+        "lotes_despachados": [
+          "AROLE532AA"
+        ],
+        "estado": "COINCIDE_EXACTO",
+        "estado_texto": "Coincide exacto (100%)"
+      },
+      {
+        "clave": "BIO_SRP",
+        "insumo": "Triple Viral (SRP)",
+        "grupo": "Biológico",
+        "despachado_deposito": 128.0,
+        "recibido_municipio": 128.0,
+        "diferencia": 0.0,
+        "lotes_despachados": [
+          "0135AB117",
+          "0135AB118"
+        ],
+        "estado": "COINCIDE_EXACTO",
+        "estado_texto": "Coincide exacto (100%)"
+      },
+      {
+        "clave": "BIO_SR",
+        "insumo": "Doble Viral (SR)",
+        "grupo": "Biológico",
+        "despachado_deposito": 700.0,
+        "recibido_municipio": 700.0,
+        "diferencia": 0.0,
+        "lotes_despachados": [
+          "0096M005"
+        ],
+        "estado": "COINCIDE_EXACTO",
+        "estado_texto": "Coincide exacto (100%)"
+      },
+      {
+        "clave": "BIO_FA",
+        "insumo": "Fiebre Amarilla",
+        "grupo": "Biológico",
+        "despachado_deposito": 1320.0,
+        "recibido_municipio": 1320.0,
+        "diferencia": 0.0,
+        "lotes_despachados": [
+          "515.0",
+          "Y3D02",
+          "Y3D08"
+        ],
+        "estado": "COINCIDE_EXACTO",
+        "estado_texto": "Coincide exacto (100%)"
+      },
+      {
+        "clave": "BIO_HEP_A",
+        "insumo": "Hepatitis A Pediátrica",
+        "grupo": "Biológico",
+        "despachado_deposito": 23.0,
+        "recibido_municipio": 23.0,
+        "diferencia": 0.0,
+        "lotes_despachados": [
+          "AB202411048"
+        ],
+        "estado": "COINCIDE_EXACTO",
+        "estado_texto": "Coincide exacto (100%)"
+      },
+      {
+        "clave": "BIO_VARICELA",
+        "insumo": "Varicela",
+        "grupo": "Biológico",
+        "despachado_deposito": 330.0,
+        "recibido_municipio": 330.0,
+        "diferencia": 0.0,
+        "lotes_despachados": [
+          "VFAP2508A"
+        ],
+        "estado": "COINCIDE_EXACTO",
+        "estado_texto": "Coincide exacto (100%)"
+      },
+      {
+        "clave": "BIO_TD_ADU",
+        "insumo": "Td Adulto",
+        "grupo": "Biológico",
+        "despachado_deposito": 230.0,
+        "recibido_municipio": 230.0,
+        "diferencia": 0.0,
+        "lotes_despachados": [
+          "2335L030A"
+        ],
+        "estado": "COINCIDE_EXACTO",
+        "estado_texto": "Coincide exacto (100%)"
+      },
+      {
+        "clave": "BIO_TDAP_GES",
+        "insumo": "TdaP Gestante",
+        "grupo": "Biológico",
+        "despachado_deposito": 124.0,
+        "recibido_municipio": 124.0,
+        "diferencia": 0.0,
+        "lotes_despachados": [
+          "AC37B532AA",
+          "AC37B553AB"
+        ],
+        "estado": "COINCIDE_EXACTO",
+        "estado_texto": "Coincide exacto (100%)"
+      },
+      {
+        "clave": "BIO_VRS",
+        "insumo": "Virus Sincitial Respiratorio (VRS)",
+        "grupo": "Biológico",
+        "despachado_deposito": 160.0,
+        "recibido_municipio": 160.0,
+        "diferencia": 0.0,
+        "lotes_despachados": [
+          "NL0489"
+        ],
+        "estado": "COINCIDE_EXACTO",
+        "estado_texto": "Coincide exacto (100%)"
+      },
+      {
+        "clave": "BIO_VPH",
+        "insumo": "Virus Papiloma Humano (VPH)",
+        "grupo": "Biológico",
+        "despachado_deposito": 88.0,
+        "recibido_municipio": 88.0,
+        "diferencia": 0.0,
+        "lotes_despachados": [
+          "Z004516"
+        ],
+        "estado": "COINCIDE_EXACTO",
+        "estado_texto": "Coincide exacto (100%)"
+      },
+      {
+        "clave": "BIO_COVID_PFIZER",
+        "insumo": "Vacuna COVID-19 Pfizer (Adulto + Pediátrica)",
+        "grupo": "Biológico",
+        "despachado_deposito": 48.0,
+        "recibido_municipio": 48.0,
+        "diferencia": 0.0,
+        "lotes_despachados": [
+          "NC1908"
+        ],
+        "estado": "COINCIDE_EXACTO",
+        "estado_texto": "Coincide exacto (100%)"
+      },
+      {
+        "clave": "BIO_ANTIRRABICA",
+        "insumo": "Antirrábica Humana",
+        "grupo": "Biológico",
+        "despachado_deposito": 70.0,
+        "recibido_municipio": 70.0,
+        "diferencia": 0.0,
+        "lotes_despachados": [
+          "1485O040"
+        ],
+        "estado": "COINCIDE_EXACTO",
+        "estado_texto": "Coincide exacto (100%)"
+      },
+      {
+        "clave": "BIO_IG_ANTIRRABICA",
+        "insumo": "Inmunoglobulina Antirrábica",
+        "grupo": "Biológico",
+        "despachado_deposito": 5.0,
+        "recibido_municipio": 5.0,
+        "diferencia": 0.0,
+        "lotes_despachados": [
+          "P100819448"
+        ],
+        "estado": "COINCIDE_EXACTO",
+        "estado_texto": "Coincide exacto (100%)"
+      },
+      {
+        "clave": "DIL_BCG",
+        "insumo": "Diluyente BCG",
+        "grupo": "Diluyente",
+        "despachado_deposito": 70.0,
+        "recibido_municipio": 70.0,
+        "diferencia": 0.0,
+        "lotes_despachados": [
+          "0704S4013"
+        ],
+        "estado": "COINCIDE_EXACTO",
+        "estado_texto": "Coincide exacto (100%)"
+      },
+      {
+        "clave": "DIL_SRP",
+        "insumo": "Diluyente Triple Viral (SRP)",
+        "grupo": "Diluyente",
+        "despachado_deposito": 128.0,
+        "recibido_municipio": 128.0,
+        "diferencia": 0.0,
+        "lotes_despachados": [
+          "0644S4017"
+        ],
+        "estado": "COINCIDE_EXACTO",
+        "estado_texto": "Coincide exacto (100%)"
+      },
+      {
+        "clave": "DIL_SR",
+        "insumo": "Diluyente Doble Viral (SR)",
+        "grupo": "Diluyente",
+        "despachado_deposito": 700.0,
+        "recibido_municipio": 700.0,
+        "diferencia": 0.0,
+        "lotes_despachados": [
+          "0644S4023"
+        ],
+        "estado": "COINCIDE_EXACTO",
+        "estado_texto": "Coincide exacto (100%)"
+      },
+      {
+        "clave": "DIL_FA",
+        "insumo": "Diluyente Fiebre Amarilla",
+        "grupo": "Diluyente",
+        "despachado_deposito": 1320.0,
+        "recibido_municipio": 1320.0,
+        "diferencia": 0.0,
+        "lotes_despachados": [
+          "262.0",
+          "Y4X19"
+        ],
+        "estado": "COINCIDE_EXACTO",
+        "estado_texto": "Coincide exacto (100%)"
+      },
+      {
+        "clave": "DIL_VARICELA",
+        "insumo": "Diluyente Varicela",
+        "grupo": "Diluyente",
+        "despachado_deposito": 330.0,
+        "recibido_municipio": 330.0,
+        "diferencia": 0.0,
+        "lotes_despachados": [
+          "VFDP2514A"
+        ],
+        "estado": "COINCIDE_EXACTO",
+        "estado_texto": "Coincide exacto (100%)"
+      },
+      {
+        "clave": "DIL_ANTIRRABICA",
+        "insumo": "Diluyente Antirrábica",
+        "grupo": "Diluyente",
+        "despachado_deposito": 70.0,
+        "recibido_municipio": 70.0,
+        "diferencia": 0.0,
+        "lotes_despachados": [
+          "0655S4009"
+        ],
+        "estado": "COINCIDE_EXACTO",
+        "estado_texto": "Coincide exacto (100%)"
+      },
+      {
+        "clave": "INS_JERINGA_25G",
+        "insumo": "Jeringa 25G x 5/8 Auto Descartable (0.5 ml)",
+        "grupo": "Insumo",
+        "despachado_deposito": 3000.0,
+        "recibido_municipio": 3000.0,
+        "diferencia": 0.0,
+        "lotes_despachados": [
+          "23FA1"
+        ],
+        "estado": "COINCIDE_EXACTO",
+        "estado_texto": "Coincide exacto (100%)"
+      },
+      {
+        "clave": "INS_JERINGA_23G",
+        "insumo": "Jeringa 23G x 1 Auto Descartable / Convencional",
+        "grupo": "Insumo",
+        "despachado_deposito": 4500.0,
+        "recibido_municipio": 4500.0,
+        "diferencia": 0.0,
+        "lotes_despachados": [
+          "25GA2"
+        ],
+        "estado": "COINCIDE_EXACTO",
+        "estado_texto": "Coincide exacto (100%)"
+      },
+      {
+        "clave": "INS_JERINGA_22G",
+        "insumo": "Jeringa 22G x 1 1/2 Auto Descartable / Convencional",
+        "grupo": "Insumo",
+        "despachado_deposito": 1200.0,
+        "recibido_municipio": 1200.0,
+        "diferencia": 0.0,
+        "lotes_despachados": [
+          "2408007.0"
+        ],
+        "estado": "COINCIDE_EXACTO",
+        "estado_texto": "Coincide exacto (100%)"
+      },
+      {
+        "clave": "INS_CARNE_FA",
+        "insumo": "Carné Internacional Fiebre Amarilla",
+        "grupo": "Insumo",
+        "despachado_deposito": 302.0,
+        "recibido_municipio": 302.0,
+        "diferencia": 0.0,
+        "lotes_despachados": [
+          "PAPELERIA"
+        ],
+        "estado": "COINCIDE_EXACTO",
+        "estado_texto": "Coincide exacto (100%)"
+      },
+      {
+        "clave": "INS_CARNET_INFANTIL",
+        "insumo": "Carné de Vacunación Infantil",
+        "grupo": "Insumo",
+        "despachado_deposito": 72.0,
+        "recibido_municipio": 72.0,
+        "diferencia": 0.0,
+        "lotes_despachados": [
+          "NOAPLICA"
+        ],
+        "estado": "COINCIDE_EXACTO",
+        "estado_texto": "Coincide exacto (100%)"
+      },
+      {
+        "clave": "INS_CARNET_ADULTOS",
+        "insumo": "Carné de Vacunación Adultos",
+        "grupo": "Insumo",
+        "despachado_deposito": 1500.0,
+        "recibido_municipio": 1500.0,
+        "diferencia": 0.0,
+        "lotes_despachados": [
+          "PAPELERIA"
+        ],
+        "estado": "COINCIDE_EXACTO",
+        "estado_texto": "Coincide exacto (100%)"
+      }
+    ],
+    "alertas": []
+  },
+  "simultaneidad": [
+    {
+      "cohorte": "Cohorte de 2 Meses",
+      "estado": "OPORTUNIDAD_OBSERVADA",
+      "biologicos": [
+        {
+          "nombre": "Pentavalente 1ª + Hexavalente 1ª",
+          "dosis": 47
+        },
+        {
+          "nombre": "Antipolio VIP 1ª",
+          "dosis": 47
+        },
+        {
+          "nombre": "Rotavirus 1ª",
+          "dosis": 48
+        },
+        {
+          "nombre": "Neumococo 1ª",
+          "dosis": 47
+        }
+      ],
+      "resumen": "Desfase observado: Pentavalente 1ª + Hexavalente 1ª (47), Antipolio VIP 1ª (47), Rotavirus 1ª (48), Neumococo 1ª (47) (diferencia de 1 dosis entre biológicos)."
+    },
+    {
+      "cohorte": "Cohorte de 4 Meses",
+      "estado": "OPORTUNIDAD_OBSERVADA",
+      "biologicos": [
+        {
+          "nombre": "Pentavalente 2ª + Hexavalente 2ª",
+          "dosis": 31
+        },
+        {
+          "nombre": "Antipolio VIP 2ª",
+          "dosis": 30
+        },
+        {
+          "nombre": "Rotavirus 2ª",
+          "dosis": 30
+        },
+        {
+          "nombre": "Neumococo 2ª",
+          "dosis": 31
+        }
+      ],
+      "resumen": "Desfase observado: Pentavalente 2ª + Hexavalente 2ª (31), Antipolio VIP 2ª (30), Rotavirus 2ª (30), Neumococo 2ª (31) (diferencia de 1 dosis entre biológicos)."
+    },
+    {
+      "cohorte": "Cohorte de 6 Meses",
+      "estado": "OPORTUNIDAD_OBSERVADA",
+      "biologicos": [
+        {
+          "nombre": "Pentavalente 3ª + Hexavalente 3ª",
+          "dosis": 25
+        },
+        {
+          "nombre": "Antipolio VIP 3ª",
+          "dosis": 25
+        },
+        {
+          "nombre": "Influenza Pediátrica 1ª",
+          "dosis": 12
+        }
+      ],
+      "resumen": "Desfase observado: Pentavalente 3ª + Hexavalente 3ª (25), Antipolio VIP 3ª (25), Influenza Pediátrica 1ª (12) (diferencia de 13 dosis entre biológicos)."
+    },
+    {
+      "cohorte": "Cohorte de 12 Meses (1 Año)",
+      "estado": "OPTIMO",
+      "biologicos": [
+        {
+          "nombre": "Triple Viral (SRP) 1ª",
+          "dosis": 41
+        },
+        {
+          "nombre": "Varicela 1ª",
+          "dosis": 41
+        },
+        {
+          "nombre": "Neumococo Refuerzo",
+          "dosis": 41
+        },
+        {
+          "nombre": "Hepatitis A Única",
+          "dosis": 41
+        }
+      ],
+      "resumen": "Simultaneidad 100% óptima: Triple Viral (SRP) 1ª (41), Varicela 1ª (41), Neumococo Refuerzo (41), Hepatitis A Única (41)."
+    },
+    {
+      "cohorte": "Cohorte de 18 Meses (1 Año y Medio)",
+      "estado": "OPTIMO",
+      "biologicos": [
+        {
+          "nombre": "Pentavalente 1er Refuerzo",
+          "dosis": 36
+        },
+        {
+          "nombre": "Antipolio VIP 1er Refuerzo",
+          "dosis": 36
+        },
+        {
+          "nombre": "Triple Viral (SRP) 2ª",
+          "dosis": 36
+        }
+      ],
+      "resumen": "Simultaneidad 100% óptima: Pentavalente 1er Refuerzo (36), Antipolio VIP 1er Refuerzo (36), Triple Viral (SRP) 2ª (36)."
+    },
+    {
+      "cohorte": "Cohorte de 5 Años",
+      "estado": "OPORTUNIDAD_OBSERVADA",
+      "biologicos": [
+        {
+          "nombre": "DPT 2º Refuerzo",
+          "dosis": 56
+        },
+        {
+          "nombre": "Antipolio VIP 2º Refuerzo",
+          "dosis": 56
+        },
+        {
+          "nombre": "Varicela Refuerzo",
+          "dosis": 57
+        }
+      ],
+      "resumen": "Desfase observado: DPT 2º Refuerzo (56), Antipolio VIP 2º Refuerzo (56), Varicela Refuerzo (57) (diferencia de 1 dosis entre biológicos)."
+    }
+  ],
+  "dictamen_reglas": {
+    "municipio": "SANTA ROSA DE CABAL",
+    "mes": "OCTUBRE",
+    "ano": "2026",
+    "total_reglas": 11,
+    "reglas_cumplidas": 10,
+    "porcentaje_cumplimiento": 90.9,
+    "reglas": [
+      {
+        "id": "regla_oro",
+        "codigo": "REG-01",
+        "nombre": "Regla de Oro Demográfica PAI (541 Columnas)",
+        "archivo": "Dosis Aplicadas",
+        "cumple": true,
+        "estado": "CUMPLE",
+        "resumen": "Suma(Género) == Suma(Régimen) == Suma(Pertenencia Étnica)",
+        "metricas": {
+          "total_dosis_aplicadas": 2240,
+          "genero_vs_regimen": "Coincide (100%)",
+          "genero_vs_etnia": "Coincide (100%)"
+        },
+        "hallazgos": [
+          "Coherencia demográfica del 100% verificada en todas las celdas."
+        ]
+      },
+      {
+        "id": "anti_adulteracion",
+        "codigo": "REG-02",
+        "nombre": "Recálculo Anti-Adulteración de Fórmulas",
+        "archivo": "Dosis Aplicadas",
+        "cumple": true,
+        "estado": "CUMPLE",
+        "resumen": "Verificación independiente sin confiar en celdas de total sobreescritas",
+        "metricas": {
+          "formulas_adulteradas": 0,
+          "integridad_formulas": "100% Íntegras"
+        },
+        "hallazgos": [
+          "Todas las fórmulas oficiales de sumatoria se mantienen sin adulteración."
+        ]
+      },
+      {
+        "id": "regla_1_continuidad",
+        "codigo": "REG-03",
+        "nombre": "Continuidad Intermensual de Saldos (Regla 1)",
+        "archivo": "Movimiento de Biológicos",
+        "cumple": true,
+        "estado": "CUMPLE",
+        "resumen": "Saldo Anterior mes actual == Saldo Siguiente mes anterior oficial",
+        "metricas": {
+          "continuidad": "100% Cuadrada",
+          "biologicos_con_error": 0
+        },
+        "hallazgos": [
+          "El saldo inicial de cada biológico coincide con el cierre oficial previo archivado."
+        ]
+      },
+      {
+        "id": "regla_2_lotes_vs_saldo",
+        "codigo": "REG-04",
+        "nombre": "Coherencia de 5 Lotes vs Saldo Siguiente (Regla 2)",
+        "archivo": "Movimiento de Biológicos",
+        "cumple": true,
+        "estado": "CUMPLE",
+        "resumen": "Suma de 5 celdas de lotes == Saldo Siguiente y Celda de Control VERDADERO",
+        "metricas": {
+          "coherencia_lotes": "100% Cuadrada",
+          "inconsistencias": 0
+        },
+        "hallazgos": [
+          "La suma de lotes coincide exactamente con el saldo disponible al cierre."
+        ]
+      },
+      {
+        "id": "regla_3_cruce_deposito",
+        "codigo": "REG-05",
+        "nombre": "Cruce Entregas Depósito Departamental (Regla 3)",
+        "archivo": "Movimiento vs Kardex",
+        "cumple": true,
+        "estado": "CUMPLE",
+        "resumen": "Dosis recibidas (Columna 5) vs Kardex de despachos del Depósito Departamental",
+        "metricas": {
+          "total_despachado_kardex": 17029.0,
+          "total_recibido_municipio": 17029.0,
+          "biologicos_exactos": "19/19 (100.0%)",
+          "diferencias_detectadas": 0
+        },
+        "hallazgos": [
+          "Conciliación del 100% con los despachos oficiales del Depósito Departamental."
+        ]
+      },
+      {
+        "id": "regla_4_catalogo_lotes",
+        "codigo": "REG-06",
+        "nombre": "Catálogo Maestro Dinámico de Lotes Oficiales (Regla 4)",
+        "archivo": "Movimiento de Biológicos",
+        "cumple": true,
+        "estado": "CUMPLE",
+        "resumen": "Validación de lotes reportados contra el catálogo maestro dinámico del Depósito",
+        "metricas": {
+          "lotes_autorizados": "100% Verificados",
+          "lotes_invalidos_o_blancos": 0
+        },
+        "hallazgos": [
+          "Todos los lotes digitados figuran en el catálogo maestro departamental."
+        ]
+      },
+      {
+        "id": "regla_5_causas_perdida",
+        "codigo": "REG-07",
+        "nombre": "Racionalidad de 11 Causas de Pérdida (Regla 5)",
+        "archivo": "Movimiento de Biológicos",
+        "cumple": true,
+        "estado": "CUMPLE",
+        "resumen": "Suma de 11 causas == Total Pérdidas reportadas (Vómito Franco solo en vacunas orales)",
+        "metricas": {
+          "total_dosis_perdidas": 371,
+          "coherencia_causas": "100% Coherente"
+        },
+        "hallazgos": [
+          "Distribución matemática y epidemiológica de pérdidas cuadradas al 100%."
+        ]
+      },
+      {
+        "id": "regla_6_diluyentes",
+        "codigo": "REG-08",
+        "nombre": "Diluyentes en Vacunas Liofilizadas (Regla 6)",
+        "archivo": "Movimiento de Biológicos",
+        "cumple": true,
+        "estado": "CUMPLE",
+        "resumen": "Diluyentes utilizados >= Vacunas reconstituidas utilizadas (Excluye VRS que no requiere diluyente)",
+        "metricas": {
+          "balance_diluyentes": "Suficiente y Trazable",
+          "observaciones": 0
+        },
+        "hallazgos": [
+          "Consumo de diluyentes compatible con los biológicos reconstituidos."
+        ]
+      },
+      {
+        "id": "extranjeros_matricial",
+        "codigo": "REG-09",
+        "nombre": "Coherencia Matricial en Vacunados Extranjeros",
+        "archivo": "Vacunados Extranjeros",
+        "cumple": true,
+        "estado": "CUMPLE",
+        "resumen": "Total Género == Total Régimen en las 6 hojas de países migrantes",
+        "metricas": {
+          "total_extranjeros_vacunados": 173,
+          "coherencia_hojas_paises": "100% Coincidente"
+        },
+        "hallazgos": [
+          "Cruce demográfico y por nacionalidad validado en las 6 hojas de países."
+        ]
+      },
+      {
+        "id": "cruce_dosis_vs_movimiento",
+        "codigo": "REG-10",
+        "nombre": "Cruce Comparativo Dosis Nacionales vs Movimiento",
+        "archivo": "Dosis vs Movimiento",
+        "cumple": true,
+        "estado": "COINCIDENCIA EXACTA",
+        "resumen": "Dosis aplicadas a colombianos en plantilla Dosis vs dosis colombianas en Movimiento",
+        "metricas": {
+          "total_dosis_plantilla": 2239,
+          "total_movimiento_colombianos": 0,
+          "biologicos_con_diferencia": 0
+        },
+        "hallazgos": [
+          "Coincidencia plena entre dosis aplicadas a colombianos y el movimiento de biológicos."
+        ]
+      },
+      {
+        "id": "simultaneidad_esquema",
+        "codigo": "REG-11",
+        "nombre": "Auditoría Clínica de Simultaneidad del Esquema Nacional",
+        "archivo": "Dosis Aplicadas",
+        "cumple": false,
+        "estado": "DESFASE OBSERVADO",
+        "resumen": "Evaluación de oportunidad clínica simultánea en las 6 cohortes (2m, 4m, 6m, 12m, 18m, 5a)",
+        "metricas": {
+          "cohortes_optimas": "2/6",
+          "oportunidad_clinica": "4 cohortes con desfase"
+        },
+        "hallazgos": [
+          "Cohorte de 2 Meses: Desfase observado: Pentavalente 1ª + Hexavalente 1ª (47), Antipolio VIP 1ª (47), Rotavirus 1ª (48), Neumococo 1ª (47) (diferencia de 1 dosis entre biológicos).",
+          "Cohorte de 4 Meses: Desfase observado: Pentavalente 2ª + Hexavalente 2ª (31), Antipolio VIP 2ª (30), Rotavirus 2ª (30), Neumococo 2ª (31) (diferencia de 1 dosis entre biológicos).",
+          "Cohorte de 6 Meses: Desfase observado: Pentavalente 3ª + Hexavalente 3ª (25), Antipolio VIP 3ª (25), Influenza Pediátrica 1ª (12) (diferencia de 13 dosis entre biológicos).",
+          "Cohorte de 5 Años: Desfase observado: DPT 2º Refuerzo (56), Antipolio VIP 2º Refuerzo (56), Varicela Refuerzo (57) (diferencia de 1 dosis entre biológicos)."
+        ]
+      }
+    ]
+  },
+  "detalle_auditoria": {
+    "dosis": {
+      "valido": true,
+      "tipo": "DOSIS_APLICADAS",
+      "mes": "OCTUBRE",
+      "municipio": "SANTA ROSA DE CABAL",
+      "total_dosis_mes": 2240,
+      "total_vacunas_con_datos": 114,
+      "errores": [],
+      "advertencias": [
+        {
+          "tipo": "SIMULTANEIDAD_INFORMATIVA",
+          "cohorte": "Cohorte de 2 Meses",
+          "mensaje": "[Simultaneidad - Cohorte de 2 Meses] Pentavalente 1ª + Hexavalente 1ª (47), Antipolio VIP 1ª (47), Rotavirus 1ª (48), Neumococo 1ª (47). Desfase observado de 1 dosis entre biológicos. Se sugiere verificar oportunidades de vacunación o diferimientos clínicos (Informativo, no bloquea radicación)."
+        },
+        {
+          "tipo": "SIMULTANEIDAD_INFORMATIVA",
+          "cohorte": "Cohorte de 4 Meses",
+          "mensaje": "[Simultaneidad - Cohorte de 4 Meses] Pentavalente 2ª + Hexavalente 2ª (31), Antipolio VIP 2ª (30), Rotavirus 2ª (30), Neumococo 2ª (31). Desfase observado de 1 dosis entre biológicos. Se sugiere verificar oportunidades de vacunación o diferimientos clínicos (Informativo, no bloquea radicación)."
+        },
+        {
+          "tipo": "SIMULTANEIDAD_INFORMATIVA",
+          "cohorte": "Cohorte de 6 Meses",
+          "mensaje": "[Simultaneidad - Cohorte de 6 Meses] Pentavalente 3ª + Hexavalente 3ª (25), Antipolio VIP 3ª (25), Influenza Pediátrica 1ª (12). Desfase observado de 13 dosis entre biológicos. Se sugiere verificar oportunidades de vacunación o diferimientos clínicos (Informativo, no bloquea radicación)."
+        },
+        {
+          "tipo": "SIMULTANEIDAD_INFORMATIVA",
+          "cohorte": "Cohorte de 5 Años",
+          "mensaje": "[Simultaneidad - Cohorte de 5 Años] DPT 2º Refuerzo (56), Antipolio VIP 2º Refuerzo (56), Varicela Refuerzo (57). Desfase observado de 1 dosis entre biológicos. Se sugiere verificar oportunidades de vacunación o diferimientos clínicos (Informativo, no bloquea radicación)."
+        }
+      ],
+      "resumen_coherencia": {
+        "columnas_evaluadas": 114,
+        "columnas_con_errores": 0,
+        "coincidencia_genero_regimen": true,
+        "coincidencia_genero_etnico": true,
+        "formulas_adulteradas": 0,
+        "informe_simultaneidad": [
+          {
+            "cohorte": "Cohorte de 2 Meses",
+            "estado": "OPORTUNIDAD_OBSERVADA",
+            "biologicos": [
+              {
+                "nombre": "Pentavalente 1ª + Hexavalente 1ª",
+                "dosis": 47
+              },
+              {
+                "nombre": "Antipolio VIP 1ª",
+                "dosis": 47
+              },
+              {
+                "nombre": "Rotavirus 1ª",
+                "dosis": 48
+              },
+              {
+                "nombre": "Neumococo 1ª",
+                "dosis": 47
+              }
+            ],
+            "resumen": "Desfase observado: Pentavalente 1ª + Hexavalente 1ª (47), Antipolio VIP 1ª (47), Rotavirus 1ª (48), Neumococo 1ª (47) (diferencia de 1 dosis entre biológicos)."
+          },
+          {
+            "cohorte": "Cohorte de 4 Meses",
+            "estado": "OPORTUNIDAD_OBSERVADA",
+            "biologicos": [
+              {
+                "nombre": "Pentavalente 2ª + Hexavalente 2ª",
+                "dosis": 31
+              },
+              {
+                "nombre": "Antipolio VIP 2ª",
+                "dosis": 30
+              },
+              {
+                "nombre": "Rotavirus 2ª",
+                "dosis": 30
+              },
+              {
+                "nombre": "Neumococo 2ª",
+                "dosis": 31
+              }
+            ],
+            "resumen": "Desfase observado: Pentavalente 2ª + Hexavalente 2ª (31), Antipolio VIP 2ª (30), Rotavirus 2ª (30), Neumococo 2ª (31) (diferencia de 1 dosis entre biológicos)."
+          },
+          {
+            "cohorte": "Cohorte de 6 Meses",
+            "estado": "OPORTUNIDAD_OBSERVADA",
+            "biologicos": [
+              {
+                "nombre": "Pentavalente 3ª + Hexavalente 3ª",
+                "dosis": 25
+              },
+              {
+                "nombre": "Antipolio VIP 3ª",
+                "dosis": 25
+              },
+              {
+                "nombre": "Influenza Pediátrica 1ª",
+                "dosis": 12
+              }
+            ],
+            "resumen": "Desfase observado: Pentavalente 3ª + Hexavalente 3ª (25), Antipolio VIP 3ª (25), Influenza Pediátrica 1ª (12) (diferencia de 13 dosis entre biológicos)."
+          },
+          {
+            "cohorte": "Cohorte de 12 Meses (1 Año)",
+            "estado": "OPTIMO",
+            "biologicos": [
+              {
+                "nombre": "Triple Viral (SRP) 1ª",
+                "dosis": 41
+              },
+              {
+                "nombre": "Varicela 1ª",
+                "dosis": 41
+              },
+              {
+                "nombre": "Neumococo Refuerzo",
+                "dosis": 41
+              },
+              {
+                "nombre": "Hepatitis A Única",
+                "dosis": 41
+              }
+            ],
+            "resumen": "Simultaneidad 100% óptima: Triple Viral (SRP) 1ª (41), Varicela 1ª (41), Neumococo Refuerzo (41), Hepatitis A Única (41)."
+          },
+          {
+            "cohorte": "Cohorte de 18 Meses (1 Año y Medio)",
+            "estado": "OPTIMO",
+            "biologicos": [
+              {
+                "nombre": "Pentavalente 1er Refuerzo",
+                "dosis": 36
+              },
+              {
+                "nombre": "Antipolio VIP 1er Refuerzo",
+                "dosis": 36
+              },
+              {
+                "nombre": "Triple Viral (SRP) 2ª",
+                "dosis": 36
+              }
+            ],
+            "resumen": "Simultaneidad 100% óptima: Pentavalente 1er Refuerzo (36), Antipolio VIP 1er Refuerzo (36), Triple Viral (SRP) 2ª (36)."
+          },
+          {
+            "cohorte": "Cohorte de 5 Años",
+            "estado": "OPORTUNIDAD_OBSERVADA",
+            "biologicos": [
+              {
+                "nombre": "DPT 2º Refuerzo",
+                "dosis": 56
+              },
+              {
+                "nombre": "Antipolio VIP 2º Refuerzo",
+                "dosis": 56
+              },
+              {
+                "nombre": "Varicela Refuerzo",
+                "dosis": 57
+              }
+            ],
+            "resumen": "Desfase observado: DPT 2º Refuerzo (56), Antipolio VIP 2º Refuerzo (56), Varicela Refuerzo (57) (diferencia de 1 dosis entre biológicos)."
+          }
+        ]
+      },
+      "dosis_agrupadas_vacuna": {
+        "BCG": 6,
+        "HEPATITIS B PEDIATRICA": 5,
+        "HEPATITIS B ADULTOS": 3,
+        "ANTIPOLIO INACTIVADA (VIP)": 197,
+        "HEXAVALENTE  \n(DPTa-HB-Hib-VIP)": 1,
+        "PENTAVALENTE\nDPT - HB - Hib": 138,
+        "DPT": 59,
+        "ROTAVIRUS": 78,
+        "NEUMOCOCO CONJUGADA TRECEVALENTE": 119,
+        "SRP (TRIPLE VIRAL)": 80,
+        "SR (DOBLE VIRAL)": 167,
+        "FIEBRE AMARILLA DOSIS UNICA": 149,
+        "HEPATITIS A  (Cohorte de nacidos a partir de 1 de enero de 2012)": 41,
+        "VARICELA\n(Cohorte de nacidos a partir de 1 de julio de 2014)": 98,
+        "TOXOIDE TETANICO-DIFTERICO DE ADULTOS (Td)": 105,
+        "Tdap ACELULAR \n(Se debe garantizar una dosis por cada embarazo y se aplica a partir de las semana 20 incluye zona urbana y rural   de dificil acceso o captación)": 48,
+        "VIRUS SINCITIAL RESPIRATORIO (VSR)": 64,
+        "INFLUENZA": 645,
+        "V  P  H": 129,
+        "ANTIRRABICA HUMANA \nPRE/POST-EXPOSICION": 47,
+        "COVID 19": 20,
+        "SRP DOSIS CERO": 40,
+        "Guía operativa para la vacunación contra Sarampión Rubeola 2026": 1
+      },
+      "dosis_hep_b_pediatrica": 5,
+      "dosis_hep_b_adultos": 3
+    },
+    "movimiento": {
+      "valido": true,
+      "tipo": "MOVIMIENTO_BIOLOGICOS",
+      "mes": "OCTUBRE",
+      "municipio": "SANTA ROSA DE CABAL",
+      "total_biologicos_evaluados": 70,
+      "total_dosis_aplicadas": 4914,
+      "total_dosis_perdidas": 371,
+      "errores": [],
+      "advertencias": [
+        {
+          "biologico": "Doble Viral (SR)",
+          "dosis_plantilla": 167,
+          "dosis_movimiento": 168,
+          "diferencia": -1,
+          "mensaje": "[Cruce Dosis vs Movimiento] En 'Doble Viral (SR)': Plantilla de Dosis reporta 167 dosis vs Movimiento (Colombianos) que reporta 168 dosis (Diferencia: -1 dosis)."
+        },
+        {
+          "biologico": "Antirrábica Humana",
+          "dosis_plantilla": 47,
+          "dosis_movimiento": 43,
+          "diferencia": 4,
+          "mensaje": "[Cruce Dosis vs Movimiento] En 'Antirrábica Humana': Plantilla de Dosis reporta 47 dosis vs Movimiento (Colombianos) que reporta 43 dosis (Diferencia: +4 dosis)."
+        }
+      ],
+      "metricas_reglas": {
+        "regla1_continuidad_saldos": true,
+        "regla2_flag_verdadero": true,
+        "regla3_cruce_deposito": true,
+        "regla4_lotes_oficiales": true,
+        "regla5_racionalidad_perdidas": true
+      },
+      "cruce_deposito": {
+        "disponible": true,
+        "municipio": "SANTA ROSA DE CABAL",
+        "mes": "OCTUBRE",
+        "ano": "2026",
+        "resumen": {
+          "total_items": 31,
+          "total_coincidencias": 31,
+          "total_diferencias": 0,
+          "total_despachado": 17029.0,
+          "total_recibido": 17029.0,
+          "porcentaje_coincidencia": 100.0,
+          "biologicos_exactos": 19,
+          "biologicos_total": 19
+        },
+        "items": [
+          {
+            "clave": "BIO_BCG",
+            "insumo": "BCG (Tuberculosis)",
+            "grupo": "Biológico",
+            "despachado_deposito": 70.0,
+            "recibido_municipio": 70.0,
+            "diferencia": 0.0,
+            "lotes_despachados": [
+              "0374MA084"
+            ],
+            "estado": "COINCIDE_EXACTO",
+            "estado_texto": "Coincide exacto (100%)"
+          },
+          {
+            "clave": "BIO_HEP_B_PED",
+            "insumo": "Hepatitis B Pediátrica",
+            "grupo": "Biológico",
+            "despachado_deposito": 65.0,
+            "recibido_municipio": 65.0,
+            "diferencia": 0.0,
+            "lotes_despachados": [
+              "0325Q010C"
+            ],
+            "estado": "COINCIDE_EXACTO",
+            "estado_texto": "Coincide exacto (100%)"
+          },
+          {
+            "clave": "BIO_HEXAVALENTE",
+            "insumo": "Hexavalente (DTaP-IPV-HepB-Hib)",
+            "grupo": "Biológico",
+            "despachado_deposito": 31.0,
+            "recibido_municipio": 31.0,
+            "diferencia": 0.0,
+            "lotes_despachados": [
+              "Y3C49"
+            ],
+            "estado": "COINCIDE_EXACTO",
+            "estado_texto": "Coincide exacto (100%)"
+          },
+          {
+            "clave": "BIO_POLIO_VIP",
+            "insumo": "Polio Inactiva (VIP)",
+            "grupo": "Biológico",
+            "despachado_deposito": 125.0,
+            "recibido_municipio": 125.0,
+            "diferencia": 0.0,
+            "lotes_despachados": [
+              "MB202602002"
+            ],
+            "estado": "COINCIDE_EXACTO",
+            "estado_texto": "Coincide exacto (100%)"
+          },
+          {
+            "clave": "BIO_PENTAVALENTE",
+            "insumo": "Pentavalente PAI",
+            "grupo": "Biológico",
+            "despachado_deposito": 100.0,
+            "recibido_municipio": 100.0,
+            "diferencia": 0.0,
+            "lotes_despachados": [
+              "2855X008D"
+            ],
+            "estado": "COINCIDE_EXACTO",
+            "estado_texto": "Coincide exacto (100%)"
+          },
+          {
+            "clave": "BIO_DPT",
+            "insumo": "DPT Pediátrica",
+            "grupo": "Biológico",
+            "despachado_deposito": 170.0,
+            "recibido_municipio": 170.0,
+            "diferencia": 0.0,
+            "lotes_despachados": [
+              "2825X014A"
+            ],
+            "estado": "COINCIDE_EXACTO",
+            "estado_texto": "Coincide exacto (100%)"
+          },
+          {
+            "clave": "BIO_ROTAVIRUS",
+            "insumo": "Rotavirus Oral",
+            "grupo": "Biológico",
+            "despachado_deposito": 50.0,
+            "recibido_municipio": 50.0,
+            "diferencia": 0.0,
+            "lotes_despachados": [
+              "AROLE532AA"
+            ],
+            "estado": "COINCIDE_EXACTO",
+            "estado_texto": "Coincide exacto (100%)"
+          },
+          {
+            "clave": "BIO_SRP",
+            "insumo": "Triple Viral (SRP)",
+            "grupo": "Biológico",
+            "despachado_deposito": 128.0,
+            "recibido_municipio": 128.0,
+            "diferencia": 0.0,
+            "lotes_despachados": [
+              "0135AB117",
+              "0135AB118"
+            ],
+            "estado": "COINCIDE_EXACTO",
+            "estado_texto": "Coincide exacto (100%)"
+          },
+          {
+            "clave": "BIO_SR",
+            "insumo": "Doble Viral (SR)",
+            "grupo": "Biológico",
+            "despachado_deposito": 700.0,
+            "recibido_municipio": 700.0,
+            "diferencia": 0.0,
+            "lotes_despachados": [
+              "0096M005"
+            ],
+            "estado": "COINCIDE_EXACTO",
+            "estado_texto": "Coincide exacto (100%)"
+          },
+          {
+            "clave": "BIO_FA",
+            "insumo": "Fiebre Amarilla",
+            "grupo": "Biológico",
+            "despachado_deposito": 1320.0,
+            "recibido_municipio": 1320.0,
+            "diferencia": 0.0,
+            "lotes_despachados": [
+              "515.0",
+              "Y3D02",
+              "Y3D08"
+            ],
+            "estado": "COINCIDE_EXACTO",
+            "estado_texto": "Coincide exacto (100%)"
+          },
+          {
+            "clave": "BIO_HEP_A",
+            "insumo": "Hepatitis A Pediátrica",
+            "grupo": "Biológico",
+            "despachado_deposito": 23.0,
+            "recibido_municipio": 23.0,
+            "diferencia": 0.0,
+            "lotes_despachados": [
+              "AB202411048"
+            ],
+            "estado": "COINCIDE_EXACTO",
+            "estado_texto": "Coincide exacto (100%)"
+          },
+          {
+            "clave": "BIO_VARICELA",
+            "insumo": "Varicela",
+            "grupo": "Biológico",
+            "despachado_deposito": 330.0,
+            "recibido_municipio": 330.0,
+            "diferencia": 0.0,
+            "lotes_despachados": [
+              "VFAP2508A"
+            ],
+            "estado": "COINCIDE_EXACTO",
+            "estado_texto": "Coincide exacto (100%)"
+          },
+          {
+            "clave": "BIO_TD_ADU",
+            "insumo": "Td Adulto",
+            "grupo": "Biológico",
+            "despachado_deposito": 230.0,
+            "recibido_municipio": 230.0,
+            "diferencia": 0.0,
+            "lotes_despachados": [
+              "2335L030A"
+            ],
+            "estado": "COINCIDE_EXACTO",
+            "estado_texto": "Coincide exacto (100%)"
+          },
+          {
+            "clave": "BIO_TDAP_GES",
+            "insumo": "TdaP Gestante",
+            "grupo": "Biológico",
+            "despachado_deposito": 124.0,
+            "recibido_municipio": 124.0,
+            "diferencia": 0.0,
+            "lotes_despachados": [
+              "AC37B532AA",
+              "AC37B553AB"
+            ],
+            "estado": "COINCIDE_EXACTO",
+            "estado_texto": "Coincide exacto (100%)"
+          },
+          {
+            "clave": "BIO_VRS",
+            "insumo": "Virus Sincitial Respiratorio (VRS)",
+            "grupo": "Biológico",
+            "despachado_deposito": 160.0,
+            "recibido_municipio": 160.0,
+            "diferencia": 0.0,
+            "lotes_despachados": [
+              "NL0489"
+            ],
+            "estado": "COINCIDE_EXACTO",
+            "estado_texto": "Coincide exacto (100%)"
+          },
+          {
+            "clave": "BIO_VPH",
+            "insumo": "Virus Papiloma Humano (VPH)",
+            "grupo": "Biológico",
+            "despachado_deposito": 88.0,
+            "recibido_municipio": 88.0,
+            "diferencia": 0.0,
+            "lotes_despachados": [
+              "Z004516"
+            ],
+            "estado": "COINCIDE_EXACTO",
+            "estado_texto": "Coincide exacto (100%)"
+          },
+          {
+            "clave": "BIO_COVID_PFIZER",
+            "insumo": "Vacuna COVID-19 Pfizer (Adulto + Pediátrica)",
+            "grupo": "Biológico",
+            "despachado_deposito": 48.0,
+            "recibido_municipio": 48.0,
+            "diferencia": 0.0,
+            "lotes_despachados": [
+              "NC1908"
+            ],
+            "estado": "COINCIDE_EXACTO",
+            "estado_texto": "Coincide exacto (100%)"
+          },
+          {
+            "clave": "BIO_ANTIRRABICA",
+            "insumo": "Antirrábica Humana",
+            "grupo": "Biológico",
+            "despachado_deposito": 70.0,
+            "recibido_municipio": 70.0,
+            "diferencia": 0.0,
+            "lotes_despachados": [
+              "1485O040"
+            ],
+            "estado": "COINCIDE_EXACTO",
+            "estado_texto": "Coincide exacto (100%)"
+          },
+          {
+            "clave": "BIO_IG_ANTIRRABICA",
+            "insumo": "Inmunoglobulina Antirrábica",
+            "grupo": "Biológico",
+            "despachado_deposito": 5.0,
+            "recibido_municipio": 5.0,
+            "diferencia": 0.0,
+            "lotes_despachados": [
+              "P100819448"
+            ],
+            "estado": "COINCIDE_EXACTO",
+            "estado_texto": "Coincide exacto (100%)"
+          },
+          {
+            "clave": "DIL_BCG",
+            "insumo": "Diluyente BCG",
+            "grupo": "Diluyente",
+            "despachado_deposito": 70.0,
+            "recibido_municipio": 70.0,
+            "diferencia": 0.0,
+            "lotes_despachados": [
+              "0704S4013"
+            ],
+            "estado": "COINCIDE_EXACTO",
+            "estado_texto": "Coincide exacto (100%)"
+          },
+          {
+            "clave": "DIL_SRP",
+            "insumo": "Diluyente Triple Viral (SRP)",
+            "grupo": "Diluyente",
+            "despachado_deposito": 128.0,
+            "recibido_municipio": 128.0,
+            "diferencia": 0.0,
+            "lotes_despachados": [
+              "0644S4017"
+            ],
+            "estado": "COINCIDE_EXACTO",
+            "estado_texto": "Coincide exacto (100%)"
+          },
+          {
+            "clave": "DIL_SR",
+            "insumo": "Diluyente Doble Viral (SR)",
+            "grupo": "Diluyente",
+            "despachado_deposito": 700.0,
+            "recibido_municipio": 700.0,
+            "diferencia": 0.0,
+            "lotes_despachados": [
+              "0644S4023"
+            ],
+            "estado": "COINCIDE_EXACTO",
+            "estado_texto": "Coincide exacto (100%)"
+          },
+          {
+            "clave": "DIL_FA",
+            "insumo": "Diluyente Fiebre Amarilla",
+            "grupo": "Diluyente",
+            "despachado_deposito": 1320.0,
+            "recibido_municipio": 1320.0,
+            "diferencia": 0.0,
+            "lotes_despachados": [
+              "262.0",
+              "Y4X19"
+            ],
+            "estado": "COINCIDE_EXACTO",
+            "estado_texto": "Coincide exacto (100%)"
+          },
+          {
+            "clave": "DIL_VARICELA",
+            "insumo": "Diluyente Varicela",
+            "grupo": "Diluyente",
+            "despachado_deposito": 330.0,
+            "recibido_municipio": 330.0,
+            "diferencia": 0.0,
+            "lotes_despachados": [
+              "VFDP2514A"
+            ],
+            "estado": "COINCIDE_EXACTO",
+            "estado_texto": "Coincide exacto (100%)"
+          },
+          {
+            "clave": "DIL_ANTIRRABICA",
+            "insumo": "Diluyente Antirrábica",
+            "grupo": "Diluyente",
+            "despachado_deposito": 70.0,
+            "recibido_municipio": 70.0,
+            "diferencia": 0.0,
+            "lotes_despachados": [
+              "0655S4009"
+            ],
+            "estado": "COINCIDE_EXACTO",
+            "estado_texto": "Coincide exacto (100%)"
+          },
+          {
+            "clave": "INS_JERINGA_25G",
+            "insumo": "Jeringa 25G x 5/8 Auto Descartable (0.5 ml)",
+            "grupo": "Insumo",
+            "despachado_deposito": 3000.0,
+            "recibido_municipio": 3000.0,
+            "diferencia": 0.0,
+            "lotes_despachados": [
+              "23FA1"
+            ],
+            "estado": "COINCIDE_EXACTO",
+            "estado_texto": "Coincide exacto (100%)"
+          },
+          {
+            "clave": "INS_JERINGA_23G",
+            "insumo": "Jeringa 23G x 1 Auto Descartable / Convencional",
+            "grupo": "Insumo",
+            "despachado_deposito": 4500.0,
+            "recibido_municipio": 4500.0,
+            "diferencia": 0.0,
+            "lotes_despachados": [
+              "25GA2"
+            ],
+            "estado": "COINCIDE_EXACTO",
+            "estado_texto": "Coincide exacto (100%)"
+          },
+          {
+            "clave": "INS_JERINGA_22G",
+            "insumo": "Jeringa 22G x 1 1/2 Auto Descartable / Convencional",
+            "grupo": "Insumo",
+            "despachado_deposito": 1200.0,
+            "recibido_municipio": 1200.0,
+            "diferencia": 0.0,
+            "lotes_despachados": [
+              "2408007.0"
+            ],
+            "estado": "COINCIDE_EXACTO",
+            "estado_texto": "Coincide exacto (100%)"
+          },
+          {
+            "clave": "INS_CARNE_FA",
+            "insumo": "Carné Internacional Fiebre Amarilla",
+            "grupo": "Insumo",
+            "despachado_deposito": 302.0,
+            "recibido_municipio": 302.0,
+            "diferencia": 0.0,
+            "lotes_despachados": [
+              "PAPELERIA"
+            ],
+            "estado": "COINCIDE_EXACTO",
+            "estado_texto": "Coincide exacto (100%)"
+          },
+          {
+            "clave": "INS_CARNET_INFANTIL",
+            "insumo": "Carné de Vacunación Infantil",
+            "grupo": "Insumo",
+            "despachado_deposito": 72.0,
+            "recibido_municipio": 72.0,
+            "diferencia": 0.0,
+            "lotes_despachados": [
+              "NOAPLICA"
+            ],
+            "estado": "COINCIDE_EXACTO",
+            "estado_texto": "Coincide exacto (100%)"
+          },
+          {
+            "clave": "INS_CARNET_ADULTOS",
+            "insumo": "Carné de Vacunación Adultos",
+            "grupo": "Insumo",
+            "despachado_deposito": 1500.0,
+            "recibido_municipio": 1500.0,
+            "diferencia": 0.0,
+            "lotes_despachados": [
+              "PAPELERIA"
+            ],
+            "estado": "COINCIDE_EXACTO",
+            "estado_texto": "Coincide exacto (100%)"
+          }
+        ],
+        "alertas": []
+      },
+      "dosis_colombianos_por_vacuna": {
+        "Vacuna de BCG (Bacilo de Calmette y Guérin) Liofilizada": 6,
+        "Vacuna de Hepatitis B Recombinante Pediátrica - Liquida": 5,
+        "Vacuna de Hepatitis B Recombinante Adultos - Liquida": 3,
+        "Vacuna de Poliovirus Inactiva IPV - Liquida": 197,
+        "Vacuna de Difteria - Tos ferina (Celula completa) - Tétanos - Hepatitis B - Haemophilus influenzae tipo B (DTwP-HepB-Hib) PENTAVALENTE PEDIÁTRICA - Liquida": 138,
+        "Vacuna de Difteria - Tétanos - Tos ferina acelular - Poliovirus inactivado - Hepatitis B - Haemophilus influenzae tipo B (DTaP-IPV-HepB-Hib (HEXAVALENTE ACELULAR) - Liquida": 1,
+        "Vacuna de Difteria - Tos ferina (celula completa)- Tétanos - Hepatitis B - Haemophilus influenzae tipo B - Poliovirus inactivado (DTwP-HepB-Hib-IPV) - HEXAVALENTE DE CÉLULAS COMPLETAS - Liquida": 0,
+        "Vacuna de Difteria, Tétano y Tosferina (DPT)- Liquida": 59,
+        "Vacuna de Difteria-Tétanos-Tos ferina acelular Pertussis (DTaP) Pediátrica - Liquida": 0,
+        "Vacuna de Rotavirus Liquida (administración oral)": 78,
+        "Vacuna Antineumocócica Conjugada (13-valente) PCV13 - Liquida": 119,
+        "Vacuna Antineumocócica Conjugada (20-valente) PCV20 - Liquida": 0,
+        "Vacuna de Sarampión, Rubeola y Paperas (SRP) (Cepa Leningrado-Zagreb) Liofilizado - Vial x 01 dosis - TRIPLE VIRAL": 120,
+        "Vacuna de Sarampión, Rubeola y Paperas (SRP) (Cepa Leningrado-Zagreb) Liofilizado - Vial x 05 dosis - TRIPLE VIRAL": 0,
+        "Vacuna de Sarampión, Rubeola y Paperas (SRP) (Cepa Leningrado-Zagreb) Liofilizado - Vial x 10 dosis - TRIPLE VIRAL": 0,
+        "Vacuna de Sarampión Rubeola (SR) Liofilizada - Vial x 01 dosis -DOBLE VIRAL": 17,
+        "Vacuna de Sarampión Rubeola (SR) Liofilizada - Vial x 10 dosis - DOBLE VIRAL": 151,
+        "Vacuna contra el Dengue Cuadrivalente - Liofilizada": 0,
+        "Vacuna de Fiebre Amarilla (Antiamarilica) Liofilizada": 149,
+        "Vacuna de Hepatitis A Pediátrica - Liquida": 41,
+        "Vacuna de Varicela Cepa OKA Liofilizada - Liquida": 98,
+        "Vacuna Contra la Viruela y la Viruela del Mono (Mpox) Liquida": 0,
+        "Vacuna de Tétanos y difteria (Td) Adulto (Toxoide Diftérico) - Liquida": 105,
+        "Vacuna de Toxoide Difterico, Toxoide Tétanos y Tos Ferina Acelular (Dtap) (Bordetella pertussis) Adolescente/Adultos/Gesta - Liquida": 48,
+        "Vacuna de Influenza estacional - Trivalente - Hemisferio Sur 2025 - Pediátrica (Desde los 6 meses a 35 meses) - Liquida - Dosis de 0,25mL": 75,
+        "Vacuna de Influenza estacional - Trivalente - Hemisferio Sur 2025 - Adultos (>=03 Años) - Liquida - Dosis de 0,5mL": 570,
+        "Virus Sincitial Respiratorio (VRS) - Liofilizada": 64,
+        "Vacuna contra el virus del papiloma humano - VPH4 (Cuadrivalente)": 129,
+        "Vacuna contra el virus del papiloma humano - VPH9 (Nonavalente)": 0,
+        "Vacuna Antirrábica Humana de Células Vero (vacuna IM)": 43,
+        "Inmunoglobulina Antirrábica de origen Humana (IGRH - Suero) - Homologa - 2 ml x 300 IU": 0,
+        "Inmunoglobulina Antirrábica de origen Equino (IGR-E) Liquida x 200UI/mL - Vial de 1.000UI/5mL (Heteróloga)": 13,
+        "Inmunoglobulina Humana Antihepatitis B (IGHB) 1 ml x 200 IU - Liquida": 0,
+        "Inmunoglobulina Humana Antitetánica (IGTH) 1 ml x 250 IU - Liquida": 0,
+        "Vacunas de Antitoxina Diftérica (1.000 UI/mL) x 10 mL (1.000 UI/mL) x 10 mL - Liquida": 0,
+        "Vacuna de Meningococo ACYW -135 (Conjugado) - Liofilizada - Vial x 01 dosis": 0,
+        "Carne/certificado internacional de vacunación": 32,
+        "Tarjetas unificadas de vacunacion -tuv adultos": 0,
+        "Tarjetas unificadas de vacunacion -tuv niños": 0,
+        "Memofichas de vacunación": 0,
+        "MODERNA ADULTO": 0,
+        "MODERNA PEDIÁTRICA": 0,
+        "PFIZER ADULTO": 20,
+        "PFIZER PEDIÁTRICA": 0,
+        "COVID-19": 0
+      },
+      "total_dosis_colombianos_biologicos": 2281
+    },
+    "extranjeros": {
+      "valido": true,
+      "tipo": "VACUNADOS_EXTRANJEROS",
+      "mes": "OCTUBRE",
+      "municipio": "SANTA ROSA DE CABAL",
+      "total_extranjeros_vacunados": 173,
+      "hojas_evaluadas": [
+        "1_BRASIL",
+        "2_ECUADOR",
+        "3_PANAMA",
+        "4_PERU",
+        "5_OTROS",
+        "6_VENEZOLANOS"
+      ],
+      "errores": [],
+      "advertencias": [],
+      "total_acumulado_ano": 1017,
+      "desglose_mensual": {
+        "ENERO": 60,
+        "FEBRERO": 48,
+        "MARZO": 104,
+        "ABRIL": 164,
+        "MAYO": 48,
+        "JUNIO": 98,
+        "JULIO": 152,
+        "AGOSTO": 72,
+        "SEPTIEMBRE": 98,
+        "OCTUBRE": 173
+      }
+    }
+  },
+  "google_drive": {
+    "correo": "risaraldapaiweb@gmail.com",
+    "carpeta": "PAI_RISARALDA_2026/OCTUBRE_2026/SANTA ROSA DE CABAL",
+    "total_archivos": 4,
+    "fecha": "2026-11-06 08:51:09"
+  }
+}
