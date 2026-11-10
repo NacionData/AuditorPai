@@ -535,6 +535,20 @@ def api_admin_restablecer_plantilla_base(tipo: str, mes: str, ano: str = "2026")
         "mensaje": f"Plantilla de {tipo.capitalize()} restablecida a la oficial por defecto para {mes} {ano}."
     }
 
+@app.get("/api/admin/descargar-plantilla-base/{tipo}/{mes}")
+def api_admin_descargar_plantilla_base(tipo: str, mes: str, ano: str = "2026"):
+    tipo = tipo.lower()
+    mes = mes.upper()
+    custom_dir = os.path.join(TEMPLATES_MES_DIR, ano, mes)
+    exts = [".xlsm", ".xlsx"] if tipo == "movimiento" else [".xlsx"]
+    if os.path.exists(custom_dir):
+        prefijo = f"BASE_{tipo.upper()}_{mes}_{ano}"
+        for f in os.listdir(custom_dir):
+            if f.upper().startswith(prefijo) and any(f.lower().endswith(e.lower()) for e in exts):
+                fpath = os.path.join(custom_dir, f)
+                return FileResponse(fpath, filename=f)
+    raise HTTPException(status_code=404, detail=f"No se encontró plantilla base personalizada de {tipo} para {mes} {ano}.")
+
 @app.get("/api/admin/info-kardex")
 def api_admin_info_kardex():
     """Retorna información técnica y estado del archivo oficial de Kardex Departamental."""

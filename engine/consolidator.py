@@ -115,13 +115,13 @@ def obtener_plantilla_base_mes(tipo, mes, ano, templates_dir, custom_dir):
         # 1. Buscar coincidencia exacta por prefijo
         prefijo = f"BASE_{tipo.upper()}_{mes}_{ano}"
         for f in os.listdir(custom_dir):
-            if f.upper().startswith(prefijo) and any(f.endswith(e) for e in exts):
+            if f.upper().startswith(prefijo) and any(f.lower().endswith(e.lower()) for e in exts):
                 return os.path.join(custom_dir, f), True
         
         # 2. Buscar por nombre genérico en la carpeta del mes
         for f in os.listdir(custom_dir):
             f_norm = f.upper()
-            if tipo in f_norm.lower() and any(f.endswith(e) for e in exts):
+            if tipo in f_norm.lower() and any(f.lower().endswith(e.lower()) for e in exts):
                 return os.path.join(custom_dir, f), True
 
     # Fallback a plantilla base por defecto
