@@ -167,15 +167,20 @@ def consolidar_departamento(mes="AGOSTO", ano="2026", fuentes_municipios=None):
 
     wb_out_dosis = openpyxl.load_workbook(out_dosis)
     ws_dosis = wb_out_dosis["1_PLANTILLA_MENSUAL"]
+    ws_privado = wb_out_dosis["2_MERCADO_PRIVADO"] if "2_MERCADO_PRIVADO" in wb_out_dosis.sheetnames else None
     ws_regimen = wb_out_dosis["3_CONSOLIDADO REGIMEN"] if "3_CONSOLIDADO REGIMEN" in wb_out_dosis.sheetnames else None
 
     # Actualizar mes en cabecera
     ws_dosis["D5"] = mes
-    ws_dosis["D4"] = int(ano) if ano.isdigit() else ano
+    ws_dosis["D4"] = int(ano) if str(ano).isdigit() else ano
+    if ws_privado:
+        ws_privado["D5"] = mes
+        ws_privado["D4"] = int(ano) if str(ano).isdigit() else ano
 
     mes_idx = MESES_ORDEN.index(mes) if mes in MESES_ORDEN else 7
     src_row_start_teorica = 9 + (mes_idx * 19)
     max_c = 541
+    max_c_priv = 584
 
     for mun_nombre, f_dict in fuentes_municipios.items():
         mun_norm = normalizar(mun_nombre)
@@ -194,6 +199,8 @@ def consolidar_departamento(mes="AGOSTO", ano="2026", fuentes_municipios=None):
 
         try:
             wb_src = openpyxl.load_workbook(dosis_path, data_only=True, read_only=True)
+            
+            # 1.1 Consolidar 1_PLANTILLA_MENSUAL
             if "1_PLANTILLA_MENSUAL" in wb_src.sheetnames:
                 ws_src = wb_src["1_PLANTILLA_MENSUAL"]
                 grid_src = list(ws_src.iter_rows(min_row=1, max_row=260, min_col=1, max_col=max_c, values_only=True))
@@ -225,8 +232,35 @@ def consolidar_departamento(mes="AGOSTO", ano="2026", fuentes_municipios=None):
                             if v is not None and isinstance(v, (int, float)) and v != 0:
                                 ws_dosis.cell(dst_r, c_i).value = v
 
-                if mun_nombre not in archivos_generados["municipios_incluidos"]:
-                    archivos_generados["municipios_incluidos"].append(mun_nombre)
+            # 1.2 Consolidar 2_MERCADO_PRIVADO
+            if ws_privado and "2_MERCADO_PRIVADO" in wb_src.sheetnames:
+                ws_src_priv = wb_src["2_MERCADO_PRIVADO"]
+                grid_src_priv = list(ws_src_priv.iter_rows(min_row=1, max_row=260, min_col=1, max_col=max_c_priv, values_only=True))
+                
+                src_start_priv = src_row_start_teorica
+                val_c3_p = grid_src_priv[src_start_priv - 1][2] if src_start_priv <= len(grid_src_priv) else None
+                if not (val_c3_p and mes in normalizar(val_c3_p)):
+                    for r_i in range(8, len(grid_src_priv) + 1):
+                        cell_v = grid_src_priv[r_i - 1][2]
+                        if cell_v and mes in normalizar(cell_v):
+                            src_start_priv = r_i
+                            break
+
+                filas_totales_offset = {3, 8, 15}
+                for r_offset in range(19):
+                    if r_offset in filas_totales_offset:
+                        continue
+                    src_r = src_start_priv + r_offset
+                    dst_r = target_row_start + r_offset
+                    if src_r <= len(grid_src_priv):
+                        row_vals_p = grid_src_priv[src_r - 1]
+                        for c_i in range(5, max_c_priv + 1):
+                            v = row_vals_p[c_i - 1] if c_i <= len(row_vals_p) else None
+                            if v is not None and isinstance(v, (int, float)) and v != 0:
+                                ws_privado.cell(dst_r, c_i).value = v
+
+            if mun_nombre not in archivos_generados["municipios_incluidos"]:
+                archivos_generados["municipios_incluidos"].append(mun_nombre)
             wb_src.close()
         except Exception as e:
             print(f"Error consolidando dosis de {mun_nombre}: {e}")
